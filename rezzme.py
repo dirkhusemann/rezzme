@@ -135,7 +135,6 @@ def ConnectToGrid(app, uri):
     else:
         return
 
-    launcher.destroy()
     launcher = None
     
     if not uri.Avatar or not uri.Password:
