@@ -1,0 +1,11 @@
+[Protocol]
+exec=/usr/bin/rezzme.py '%u'
+protocol=rezzme
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

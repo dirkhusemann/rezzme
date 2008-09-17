@@ -1,0 +1,5 @@
+include ez_setup.py
+include rezzme.cfg
+include RezzMe/ui/*.ui
+include rezzme.protocol rezzmes.protocol
+prune deploy.py
