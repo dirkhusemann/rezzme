@@ -11,10 +11,9 @@ client). it currently tries to obtain:
 * `welcome` for the `-loginpage` parameter
 * `economy` for the `-helperuri` parameter
 
-the IBM version of the rezzme launcher in addition requires 
+in addition the launcher will check for the 'authenticator' key:
 
-* `authenticator`
+* `authenticator` 
 
-to be present and will obtain the avatar name and avatar password via
-the authenticator URI after authenticating via Lotus3D collaboration
-layer.
+if it is present, rezzme will obtain the avatar name and avatar
+password via the authenticator URI.
