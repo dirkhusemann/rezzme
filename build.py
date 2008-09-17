@@ -9,6 +9,25 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
+if not os.path.exists('rezzme.cfg'):
+    print '''
+oops...you need to create rezzme.cfg first!'
+
+copy rezzme.cfg.example to rezzme.cfg and adapt it to your needs,
+and run me again.
+'''
+    sys.exit(1)
+
+try:
+    import PyQt4.QtCore
+except:
+    print '''
+oops...you need to install PyQt4 first otherwise rezzme will not
+work at all.
+'''
+    sys.exit(2)
+
+
 if onWindows: import _winreg
 
 # required for windows :-(
