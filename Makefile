@@ -21,7 +21,7 @@ build: resources rezzme.ico
 deploy:
 	python ./deploy.py
 
-about.html : about.raw.html
+about.html : about.raw.html rezzme.cfg
 	${EXPAND} $< $@
 
 resources: rezzme.png about.html rezzme.qrc 
