@@ -96,8 +96,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             if 'authpasswordtooltip' in gridInfo:
                 tooltips['password'] = gridInfo['authpasswordtooltip']
 
-            userIDToolTip = unicode(self.lineEditUserID.toolTip())
-            userPasswordToolTip = unicode(self.lineEditUserPassword.toolTip())
+            userIDToolTip = unicode(self.lineEditUserID.toolTip()) % tooltips
+            userPasswordToolTip = unicode(self.lineEditUserPassword.toolTip()) % tooltips
             self.lineEditUserID.setToolTip(userIDToolTip)
             self.lineEditUserPassword.setToolTip(userPasswordToolTip)
         else:
