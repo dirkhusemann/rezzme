@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
+import ConfigParser
 import os
 import sys
-from ConfigParser import ConfigParser
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -53,7 +53,7 @@ def system(cmd):
     os.system('%s %s' % (cmd, args))
 
 # read in configuration
-config = ConfigParser()
+config = ConfigParser.RawConfigParser()
 config.readfp(open('rezzme.cfg'))
 
 version = config.get('package', 'version')

@@ -3,6 +3,8 @@ PYRCC	= pyrcc4
 
 .PHONY: clean build deploy all
 
+-include Makefile.local
+
 all: build deploy
 
 clean:
@@ -18,9 +20,5 @@ build: resources rezzme.ico
 deploy:
 	python ./deploy.py
 
-
-# %.ico : %.png
-# 	${CONVERT} $< $@
-
-resources: rezzme.png rezzme.qrc
+resources: rezzme.png about.html rezzme.qrc 
 	${PYRCC} -o RezzMe/resources.py rezzme.qrc

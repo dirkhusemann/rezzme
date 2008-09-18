@@ -2,5 +2,6 @@
 <RCC version="1.0">
   <qresource>
     <file alias="rezzme.png">rezzme.png</file>
+    <file alias="about.html">about.html</file>
   </qresource>
 </RCC>

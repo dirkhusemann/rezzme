@@ -74,9 +74,32 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
 
         # load GUI
+        versionToolTip = unicode(self.labelVersion.toolTip()) % cfg['package']
+        self.labelVersion.setToolTip(versionToolTip)
+
         if 'authenticator' in gridInfo:
             self.pushButtonOverride.setEnabled(True)
             self._authenticator = gridInfo['authenticator']
+
+            # fix up tooltips for bound part
+            tooltips = {}
+
+            if 'authgridname' in gridInfo:
+                tooltips['userid'] = 'enter your %s user ID here' % gridInfo['authgridname']
+                tooltips['password'] = 'enter your %s password here' % gridInfo['authgridname']
+            else:
+                tooltips['userid'] = 'enter your %s user ID here' % gridInfo['gridname']
+                tooltips['password'] = 'enter your %s password here' % gridInfo['gridname']
+
+            if 'authuseridtooltip' in gridInfo:
+                tooltips['userid'] = gridInfo['authuseridtooltip']
+            if 'authpasswordtooltip' in gridInfo:
+                tooltips['password'] = gridInfo['authpasswordtooltip']
+
+            userIDToolTip = unicode(self.lineEditUserID.toolTip())
+            userPasswordToolTip = unicode(self.lineEditUserPassword.toolTip())
+            self.lineEditUserID.setToolTip(userIDToolTip)
+            self.lineEditUserPassword.setToolTip(userPasswordToolTip)
         else:
             self.pushButtonOverride.setEnabled(False)
             self._authenticator = None

@@ -35,11 +35,25 @@ import PyQt4.QtGui
 import RezzMe.bookmarks
 import RezzMe.parse
 import RezzMe.ui.edit
+import RezzMe.ui.about
 import RezzMe.resources
 
 from PyQt4.QtCore import SIGNAL
 
 onMacOSX = hasattr(PyQt4.QtGui, "qt_mac_set_native_menubar")
+
+class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
+
+    def __init__(self, parent = None):
+        super(RezzMeTrayAbout, self).__init__(parent)
+        self.setupUi(self)
+
+        self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
+        self.textBrowser.setOpenExternalLinks(True)
+
+        self.setAttribute(PyQt4.QtCore.Qt.WA_DeleteOnClose)
+        self.show()
+
 
 class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
@@ -300,6 +314,7 @@ class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
             if menu: self._menu.addSeparator()
 
         self._menu.addAction('edit or add rezzme:// bookmarks', self._editBookmarks)
+        self._menu.addAction('about...', self._about)
         self._menu.addAction('quit', self._quit)
 
         self.setContextMenu(self._menu)
@@ -315,7 +330,8 @@ class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
         self._reloadMenu()
 
     def _about(self):
-        print 'rezzmetray: about'
+        rezzMeAbout = RezzMeTrayAbout()
+        rezzMeAbout.exec_()
 
     def _quit(self):
         self._done = True
