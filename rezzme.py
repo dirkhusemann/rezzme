@@ -105,8 +105,8 @@ def ConnectToGrid(app, uri):
     # collection of bookmarks...
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.Bookmark(uri = uri)
-    if bookmark: 
-        uri = bookmark
+    if all(bookmark.Credentials): 
+        uri.Credentials = bookmark.Credentials
 
     launcher = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg)
     launcher.exec_()
