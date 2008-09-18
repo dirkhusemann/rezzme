@@ -289,10 +289,6 @@ class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
                                           (len(self._bookmarks.Bookmarks), len(self._defaultBookmarks.Bookmarks)))
             return True
 
-#         if event.type() == RezzMeEventUrlType:
-#             self._rezzMeService(event.Uri, self._app)
-#             return True
-
         return False
 
     def _reloadMenu(self):
