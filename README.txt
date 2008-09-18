@@ -1,5 +1,5 @@
-rezzme launcher (IBM version)
-=============================
+rezzme launcher
+===============
 
 the rezzme launcher is a protocol handler that knows how to interpret
 rezzme:// style URIs. the rezzme launcher tries to obtain sufficient
