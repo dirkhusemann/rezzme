@@ -35,7 +35,6 @@ import xml.etree.ElementTree as ET
 
 import PyQt4.QtCore
 import PyQt4.QtGui
-import RezzMe.bookmarks
 import RezzMe.credentials
 import RezzMe.parse
 import RezzMe.ui.rezzme
@@ -210,19 +209,24 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return True
 
     # properties
-    def _mode(self):
+    def _gMode(self):
         return self._mode
-    Mode = property(fget = _mode)
+    Mode = property(fget = _gMode)
 
 
-    def _uri(self):
+    def _gUri(self):
         return self._uri
-    Uri = property(fget = _uri)
+    Uri = property(fget = _gUri)
 
 
-    def _ok(self):
+    def _gOk(self):
         return self._ok
-    OK = property(fget = _ok)
+    OK = property(fget = _gOk)
+
+    
+    def _gBookmark(self):
+        return self._bookmark
+    Bookmark = property(fget = _gBookmark)
 
     # auto bindings
     @PyQt4.QtCore.pyqtSignature('')

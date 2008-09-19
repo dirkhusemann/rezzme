@@ -100,12 +100,12 @@ def ConnectToGrid(app, uri):
     # get grid info from OpenSim server (todo: move into launcher.py)
     gridInfo = RezzMe.gridinfo.GetGridInfo(uri)
 
-    # unless we already have avatar and password from the URI check
+    # unless we already have avatar and password from the URI, check
     # whether we can get credentials for uri via our extensive
     # collection of bookmarks...
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.Bookmark(uri = uri)
-    if all(bookmark.Credentials): 
+    if bookmark and any(bookmark.Credentials): 
         uri.Credentials = bookmark.Credentials
 
     launcher = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg)
@@ -113,7 +113,7 @@ def ConnectToGrid(app, uri):
                 
     if launcher.OK:
         uri = launcher.Uri
-        if launcher.Mode == 'bound':
+        if launcher.Mode == 'bound' and launcher.Bookmark:
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
             password = uri.Password
@@ -128,7 +128,7 @@ def ConnectToGrid(app, uri):
             uri.Avatar = avatar
             uri.Password = password
             
-        elif launcher.Mode == 'free':
+        elif launcher.Mode == 'free' and launcher.Bookmark:
             bookmarks.Add(uri)
             bookmarks.Save()
 

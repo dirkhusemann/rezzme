@@ -273,9 +273,9 @@ class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
         self.connect(self, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._activated)
         self.show()
 
-    def _getDone(self):
+    def _gDone(self):
         return self._done
-    Done = property(fget = _getDone)
+    Done = property(fget = _gDone)
 
     def _activated(self, reason):
         self._reloadMenu()
