@@ -1,10 +1,16 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
+from ConfigParser import RawConfigParser
 import os
 import sys
-from ConfigParser import RawConfigParser
+
 import RezzMe.config.builder
+
+onMacOSX = sys.platform == 'darwin'
+onLinux = sys.platform == 'linux2'
+onWindows = sys.platform == 'win32'
+
 
 cfg = RezzMe.config.builder.buildCfg('rezzme')
 
@@ -23,7 +29,7 @@ distributable = 'dist/%s' % source
 
 # sanity checks
 if not os.path.exists(distributable):
-    print 'distributable %s not (yet) existing. see later...' % distributable
+    print 'distributable %s not (yet) existing. see you later...' % distributable
     sys.exit(1)
 
 print '- deploying %s installer %s to %s' % (sys.platform, distributable, remote)
