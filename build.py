@@ -55,6 +55,7 @@ def system(cmd):
 # read in configuration
 config = ConfigParser.RawConfigParser()
 config.readfp(open('rezzme.cfg'))
+config.read(['rezzme-site.cfg'])
 
 version = config.get('package', 'version')
 name = config.get('package', 'name')

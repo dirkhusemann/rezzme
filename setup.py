@@ -35,6 +35,7 @@ work at all.
 # basic setup driven by rezzme.cfg
 config = RawConfigParser()
 config.readfp(open('rezzme.cfg'))
+config.read(['rezzme-site.cfg'])
 
 
 # convert rezzme.cfg to RezzMe/config/config.py
