@@ -4,6 +4,7 @@
 import ConfigParser
 import os
 import sys
+import RezzMe.config.builder
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -53,14 +54,12 @@ def system(cmd):
     os.system('%s %s' % (cmd, args))
 
 # read in configuration
-config = ConfigParser.RawConfigParser()
-config.readfp(open('rezzme.cfg'))
-config.read(['rezzme-site.cfg'])
+cfg = RezzMe.config.builder.buildCfg('rezzme')
 
-version = config.get('package', 'version')
-name = config.get('package', 'name')
+version = cfg['package']['version']
+name = cfg['package']['name']
 
-command = config.get(sys.platform, 'build')
+command = cfg[sys.platform]['build']
 
 # use platform independent system(), this needs to run on all platforms
 system('python setup.py %s' % command)
@@ -91,11 +90,11 @@ if onWindows:
     # build dict with package parameters
     pkg = {
         'source': os.getcwd(),
-        'name': config.get('package', 'name'),
-        'version': config.get('package', 'version'),
-        'publisher': config.get('package', 'publisher'),
-        'url': config.get('package', 'url'),
-        'protocol': config.get('package', 'protocol'),
+        'name': cfg['package']['name'],
+        'version': cfg['package']['version'],
+        'publisher': cfg['package']['publisher'],
+        'url': cfg['package']['url'],
+        'protocol': cfg['package']['protocol'],
         }
     
     issRaw = open('setup.iss', 'r')

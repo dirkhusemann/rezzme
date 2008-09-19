@@ -3,22 +3,20 @@
 
 import os
 import sys
-
 from ConfigParser import RawConfigParser
+import RezzMe.config.builder
 
-config = RawConfigParser()
-config.readfp(open('rezzme.cfg'))
-config.read(['rezzme-site.cfg'])
+cfg = RezzMe.config.builder.buildCfg('rezzme')
 
-if not config.has_option('deploy', 'remote'):
+if not 'remote' in cfg['deploy']:
     print "could not find a [deploy] section with 'remote' variable. giving up."
     sys.exit(1)
 
-version = config.get('package', 'version')
-target = config.get(sys.platform, 'target')
+version = cfg['package']['version']
+target = cfg[sys.platform]['target']
 
-source = config.get(sys.platform, 'source') % {'version': version }
-remote = config.get('deploy', 'remote') % {'target': target}
+source = cfg[sys.platform]['source'] % {'version': version }
+remote = cfg['deploy']['remote'] % {'target': target}
 
 distributable = 'dist/%s' % source
 

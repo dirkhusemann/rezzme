@@ -9,6 +9,7 @@ import sys
 from setuptools import setup
 from ConfigParser import RawConfigParser
 import pprint
+import RezzMe.config.builder
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -39,11 +40,9 @@ config.read(['rezzme-site.cfg'])
 
 
 # convert rezzme.cfg to RezzMe/config/config.py
-cfg = {}
-for section in config.sections():
-    cfg[section] = {}
-    for option in config.options(section):
-        cfg[section][option] = config.get(section, option)
+# using the following presets
+cfg = RezzMe.config.builder.buildCfg('rezzme')
+
 try:
     py = open('RezzMe/config/config.py', 'w')
     py.write('''

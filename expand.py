@@ -7,6 +7,8 @@ import ConfigParser
 import os
 import sys
 
+import RezzMe.config.builder
+
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
@@ -26,15 +28,7 @@ if len(sys.argv) != 3:
     sys.exit(2)
 
 # read in configuration
-config = ConfigParser.RawConfigParser()
-config.readfp(open('rezzme.cfg'))
-
-# convert rezzme.cfg to RezzMe/config/config.py
-cfg = {}
-for section in config.sections():
-    cfg[section] = {}
-    for option in config.options(section):
-        cfg[section][option] = config.get(section, option)
+cfg = RezzMe.config.builder.buildCfg('rezzme')
 
 with open(sys.argv[1], 'r') as infile:
     infile = infile.read()
