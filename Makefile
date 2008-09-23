@@ -12,10 +12,12 @@ clean:
 	rm -rf dist build dist_win32
 	rm -rf rezzme*.dmg
 	rm -rf RezzMe/resources.py
+	rm -rf RezzMe/config/config.py
 	make -C RezzMe/ui clean
 
-build: resources rezzme.ico
+build: resources rezzme.ico 
 	make -C RezzMe/ui all
+	python ./config.py RezzMe/config/config.py
 	python ./build.py
 
 deploy:

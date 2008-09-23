@@ -5,10 +5,10 @@ import ez_setup
 ez_setup.use_setuptools()
 
 import os
+import pprint
 import sys
 from setuptools import setup
-from ConfigParser import RawConfigParser
-import pprint
+
 import RezzMe.config.builder
 
 onMacOSX = sys.platform == 'darwin'
@@ -33,33 +33,9 @@ work at all.
 '''
     sys.exit(2)
 
-# basic setup driven by rezzme.cfg
-config = RawConfigParser()
-config.readfp(open('rezzme.cfg'))
-config.read(['rezzme-site.cfg'])
+# basic setup driven by rezzme.cfg and rezzme-site.cfg
 
-
-# convert rezzme.cfg to RezzMe/config/config.py
-# using the following presets
 cfg = RezzMe.config.builder.buildCfg('rezzme')
-
-try:
-    py = open('RezzMe/config/config.py', 'w')
-    py.write('''
-#!/usr/bin/python
-# -*- encoding: utf-8 -*-
-
-# AUTOMATICALLY GENERATED, CHANGES HERE WILL BE LOST FOREVER
-def config():
-    return %s
-
-# done
-''' % str(cfg))
-    py.close()
-except IOError, (errno, strerror):
-    print 'failed to create RezzMe/config/config.py (%s)' % strerror
-    sys.exit(0)
-
 
 application  = 'rezzme.py'
 packages     = ['RezzMe', 
