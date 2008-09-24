@@ -143,8 +143,6 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         else:
             self._freeMode()
 
-        self.setAttribute(PyQt4.QtCore.Qt.WA_DeleteOnClose)
-
         self.show()
         self.raise_()
 

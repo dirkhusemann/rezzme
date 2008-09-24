@@ -51,7 +51,6 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
         self.textBrowser.setOpenExternalLinks(True)
 
-        self.setAttribute(PyQt4.QtCore.Qt.WA_DeleteOnClose)
         self.show()
 
 
@@ -77,8 +76,6 @@ class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
         if self._defaultBookmarks: 
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
-
-        self.setAttribute(PyQt4.QtCore.Qt.WA_DeleteOnClose)
 
         self.show()
         self.raise_()
