@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import logging
 import os
 import RezzMe.exceptions
 import RezzMe.parse
@@ -40,7 +41,7 @@ class Credentials(object):
     def __init__(self, path = None):
         '''instantiate a Credentials object.
            '''
-
+        logging.debug('RezzMe.credentials.Credentials: instantiating object, path %s', path)
         self._path = path
         self._credentials = {}
         self.__load()
@@ -50,8 +51,13 @@ class Credentials(object):
         self._credentials = None
 
     def __load(self):
-        if not self._path: return
-        if not os.path.exists(self._path): return
+        if not self._path: 
+            logging.debug('RezzMe.credentials.Credentials.__load: empty path %s', self._path)
+            return
+
+        if not os.path.exists(self._path): 
+            logging.debug('RezzMe.credentials.Credentials.__load: path "%s" does not exist', self._path)
+            return
         
         try:
             creds = open(self._path, 'r')
@@ -59,36 +65,45 @@ class Credentials(object):
                 if not ' ' in cred: continue
 
                 (uri, userID) = cred.split(None, 1)
-                self._credentials[uri] = userID.rstrip()
+                userID = userID.rstrip()
+                self._credentials[uri] = userID
+                logging.debug('RezzMe.credentials.Credentials.__load: found userID %s for uri %s', userID, uri)
 
             creds.close()
 
-        except IOError:
-            print 'failed to load credentials from "%s"' % self._path
+        except IOError, e:
+            logging.debug('RezzMe.credentials.Credentials.__load: failed to load credentials from "%s": %s', self._path, e)
 
 
     def Credential(self, uri):
         if uri.BaseUri in self._credentials:
+            logging.debug('RezzMe.credentials.Credentials.Credential: found credential for uri %s', uri)
             return self._credentials[uri.BaseUri]
         else:
+            logging.debug('RezzMe.credentials.Credentials.Credential: found no credential for uri %s', uri)
             return None
 
     def Add(self, uri, userID):
+        logging.debug('RezzMe.credentials.Credentials.Add: adding userID %s for uri %s', userID, uri)
         self._credentials[uri.BaseUri] = userID
 
     def Save(self):
-        if not self._path: return
+        if not self._path: 
+            logging.debug('RezzMe.credentials.Credentials.Save: path "%s" empty', self._path)
+            return
 
         try:
             if os.path.exists(self._path):
                 bak = '%s.bak' % self._path
                 if os.path.exists(bak): os.unlink(bak)
                 os.rename(self._path, bak)
+                logging.debug('RezzMe.credentials.Credentials.Save: path "%s" exist, backing up to "%s"', self._path, bak)
             creds = open(self._path, 'w')
             for cred in self._credentials:
                 creds.write('%s %s\n' % (cred, self._credentials[cred]))
             creds.close()
 
-        except IOError:
-            print 'failed to save credentials to "%s"' % self._path
+        except IOError, e:
+            logging.error('RezzMe.credentials.Credentials.Save: failed to save credentials to "%s": %s', 
+                          self._path, e, exc_info = True)
 

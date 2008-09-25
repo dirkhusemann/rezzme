@@ -27,10 +27,11 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import RezzMe.exceptions
+import logging
 import os
 import urllib
 import _winreg
+import RezzMe.exceptions
 
 def Launch(avatar, password, gridInfo, location):
     clientArgs = [ ]
@@ -52,7 +53,13 @@ def Launch(avatar, password, gridInfo, location):
 
     # all systems go: start client
     clientArgs = [ 'secondlife' ] + clientArgs
+    logging.debug('RezzMe.launchers.win32.Launch: client args %s', ' '.join(clientArgs))
+    
     slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
-    if not slk: raise RezzMe.exceptions.RezzMeException('cannot find path for secondlife client')
+    logging.debug('RezzMe.launchers.win32.Launch: secondlife registry key: %s', slk)
+    if not slk: 
+        logging.debug('RezzMe.launchers.win32.Launch: cannot find secondlife registry key')
+        raise RezzMe.exceptions.RezzMeException('cannot find path for secondlife client')
     slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
+    logging.debug('RezzMe.launchers.win32.Launch: secondlife path %s', slp)
     os.execv(slp, clientArgs)

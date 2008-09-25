@@ -44,6 +44,7 @@ and, it also understands avatar names and passwords:
 
 '''
 
+import logging
 import urllib
 import os
 import socket
@@ -91,13 +92,16 @@ class RezzMeQApplication(PyQt4.QtGui.QApplication):
 
 
 def ConnectToGrid(app, uri):
+    logging.debug('ConnectToGrid: uri %s', uri)
     uri = RezzMe.uri.Uri(uri = uri)
+    logging.debug('ConnectToGrid: uri resolved to %s', uri)
 
     # sanity check: rezzme: or opensim: scheme?
     if uri.Scheme != 'rezzme' and uri.Scheme != 'rezzmes':
         raise RezzMe.exceptions.RezzMeException('Oops: URI "%s" contains unknown scheme "%s"' % (uri, uri.Scheme))
 
     # get grid info from OpenSim server (todo: move into launcher.py)
+    logging.debug('ConnectToGrid: try to get grid info from %s', uri)
     gridInfo = RezzMe.gridinfo.GetGridInfo(uri)
 
     # unless we already have avatar and password from the URI, check
@@ -106,14 +110,18 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.Bookmark(uri = uri)
     if bookmark and any(bookmark.Credentials): 
+        logging.debug('ConnectToGrid: obtained credentials')
         uri.Credentials = bookmark.Credentials
 
+    logging.debug('ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg)
     launcher.exec_()
-                
+
+    logging.debug('ConnectToGrid: launcher returned %s', launcher.OK)
     if launcher.OK:
         uri = launcher.Uri
         if launcher.Mode == 'bound' and launcher.Bookmark:
+            logging.debug('ConnectToGrid: bound mode')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
             password = uri.Password
@@ -129,19 +137,19 @@ def ConnectToGrid(app, uri):
             uri.Password = password
             
         elif launcher.Mode == 'free' and launcher.Bookmark:
+            logging.debug('ConnectToGrid: free mode')
             bookmarks.Add(uri)
             bookmarks.Save()
 
     else:
         return
 
-    launcher = None
-    
     if not uri.Avatar or not uri.Password:
         raise RezzMe.exceptions.RezzMeException('Oops: could not obtain avatar name and password from grid "%s"' % 
                                                 gridInfo['gridname'])
 
     # ok, got everything, now construct the command line
+    logging.debug('ConnectToGrid: starting client for %s', uri)
     RezzMe.launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Location)
 
 
@@ -157,12 +165,16 @@ def RezzMeUri(app, args):
     uri = None
     for uri in args:
         uriLower = uri.lower()
+        logging.debug('RezzMeUri: looking at %s', uriLower)
         if uriLower.startswith('rezzme://') or uriLower.startswith('rezzmes://'): 
+            logging.debug('RezzMeUri: %s is proper rezzme:// URI', uriLower)
             ConnectToGrid(app, uri)
             if onMacOSX: 
+                logging.debug('RezzMeUri: expected return from ConnectToGrid (Mac OSX)')
                 return
             else:
-                sys.exit(0)
+                logging.info('RezzMeUri: ConnectToGrid was cancelled')
+                return
 
     raise RezzMe.exceptions.RezzMeException("hmm...couldn't find a rezzme(s):// URI in %s" % ' '.join(sys.argv))
 
@@ -173,6 +185,7 @@ class MacOSXAppleEventHandler(PyQt4.QtCore.QObject):
         def _urlHandler(uri):
             self.emit(SIGNAL('rezzme'), uri)
 
+        logging.debug('MacOSXAppleEventHandler: installed event handler for "GURLGURL"')
         AE.installeventhandler(_urlHandler, 'GURLGURL', ('----', 'uri', AE.kAE.typeUnicodeText))
         
 
@@ -184,31 +197,61 @@ if __name__ == '__main__':
     # need an QApplication context to signal errors
     app = RezzMeQApplication(sys.argv)
 
+    # set up logging support
+    if 'level' in cfg['debug']:
+        level = eval('logging.%s' % cfg['debug']['level'])
+    else:
+        level = logging.CRITICAL
+
+    if 'logfile' in cfg['debug']:
+        logfile = cfg['debug']['logfile']
+    else:
+        logfile = '~/.rezzme.log'
+
+    logging.basicConfig(level    = level,
+                        format   = '%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt  = '%a, %d %b %Y %H:%M:%S',
+                        filename = os.path.expanduser(logfile),
+                        filemode = 'w')
+
     args = sys.argv[1:]
     tray = None
     try:
         
         if onMacOSX:
+            logging.debug('main: onMacOSX: installing MacOS AppleEvent handler')
             aeHandler = MacOSXAppleEventHandler()
+            logging.debug('main: onMacOSX: instantiating rezzme system tray')
             tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
 
             def rezzMe(uri, app = app):
                 RezzMeUri(app = app, args = [uri])
 
             tray.connect(aeHandler, SIGNAL('rezzme'), rezzMe)
+            logging.debug('main: onMacOSX: starting rezzme system tray')
             app.exec_()
 
         else:
             if not args:
+                logging.debug('main: invoked without command line arguments, starting rezzme system tray')
                 tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
+                logging.debug('main: invoked with command line arguments: %s', ' '.join(args))
+                logging.debug('main: starting launcher GUI')
                 RezzMeUri(app = app, args = args)
-                app.exec_()
+#                app.exec_()
 
     except RezzMe.exceptions.RezzMeException, e:
+        logging.critical('main: caught rezzme exception: %s', e.Message, exc_info = True)
         oops = PyQt4.QtGui.QMessageBox.critical(None, 'Virtual World Launcher Wizard', e.Message)
+        logging.critical('main: exiting with retval 1')
         sys.exit(1)
+    except BaseException, e:
+        logging.critical('main: caught base exception: %s', str(e), exc_info = True)
+        sys.exit(2)
+        
 
+    logging.debug('main: exiting normally with retval 0')
     sys.exit(0)
 

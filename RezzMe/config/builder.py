@@ -53,6 +53,7 @@ def buildCfg(name):
         'win32'  : {},
         'darwin' : {},
         'deploy' : {},
+        'debug'  : {},
         }
 
     for section in config.sections():

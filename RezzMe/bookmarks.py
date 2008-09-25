@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import logging
 import os
 import RezzMe.exceptions
 import RezzMe.parse
@@ -50,6 +51,7 @@ class Bookmarks(object):
            path: if not None, path to bookmarks file
            '''
 
+        logging.debug('RezzMe.bookmarks.Bookmarks: instantiating object: path %s', path)
         self._path = path
         self._bookmarks = []
         self._load()
@@ -63,8 +65,12 @@ class Bookmarks(object):
         self._bookmarks = None
         
     def _load(self):
-        if not self._path: return
-        if not os.path.exists(self._path): return
+        if not self._path: 
+            logging.debug('RezzMe.bookmarks.Bookmarks._load: path is empty')
+            return
+        if not os.path.exists(self._path): 
+            logging.debug('RezzMe.bookmarks.Bookmarks._load: file "%s" does not exist', self._path)
+            return
         
         try:
             bookmarks = open(self._path, 'r')
@@ -77,8 +83,10 @@ class Bookmarks(object):
                     bookmark = bookmarkline.strip()
                     bookmark = bookmark.strip()
                     tag = None
-                
-                self.Add(RezzMe.uri.Uri(uri = bookmark, tag = tag))
+
+                uri = RezzMe.uri.Uri(uri = bookmark, tag = tag)
+                self.Add(uri)
+                logging.debug('RezzMe.bookmarks.Bookmarks._load: adding uri %s', uri.SafeUri)
 
             bookmarks.close()
 
@@ -87,35 +95,44 @@ class Bookmarks(object):
 
 
     def Reload(self):
+        logging.debug('RezzMe.bookmarks.Bookmarks.Reloading: reloading bookmarks')
         self._bookmarks = []
         self._load()
 
     def Save(self):
-        if not self._path: return
+        if not self._path: 
+            logging.debug('RezzMe.bookmarks.Bookmarks.Save: path is empty')
+            return
 
         try:
             if os.path.exists(self._path):
                 bak = '%s.bak' % self._path
+                logging.debug('RezzMe.bookmarks.Bookmarks.Save: "%s" exists, baking up to "%s"', self._path, bak)
                 if os.path.exists(bak): os.unlink(bak)
                 os.rename(self._path, bak)
             bookmarks = open(self._path, 'w')
             for bookmark in self._bookmarks:
                 bookmarks.write('%s\n' % bookmark.BookmarkAndTag)
             bookmarks.close()
-        except IOError:
-            print 'failed to save bookmarks to "%s"' % self._path
+        except IOError, e:
+            logging.error('RezzMe.bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
 
 
     def Delete(self, bookmark):
+        logging.debug('RezzMe.bookmarks.Bookmarks.Delete: uri %s', bookmark.SafeUri)
         if bookmark in self._bookmarks: 
+            logging.debug('RezzMe.bookmarks.Bookmarks.Delete: deleting uri %s', bookmark.SafeUri)
             del self._bookmarks[self._bookmarks.index(bookmark)]
 
     def Change(self, old, new):
+        logging.debug('RezzMe.bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
         self.Delete(old)
         self.Add(new)
 
     def Add(self, bookmark):
+        logging.debug('RezzMe.bookmarks.Bookmarks.Add: new uri %s', bookmark.SafeUri)
         if bookmark in self._bookmarks:
+            logging.debug('RezzMe.bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', bookmark.SafeUri)
             del self._bookmarks[self._bookmarks.index(bookmark)]
         self._bookmarks += [bookmark]
 
@@ -123,6 +140,7 @@ class Bookmarks(object):
         if uri: 
             if not isinstance(uri, RezzMe.uri.Uri):
                 uri = RezzMe.uri.Uri(uri)
+            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: uri %s', uri.SafeUri)
 
             best = None
             for bookmark in self._bookmarks:
@@ -130,11 +148,15 @@ class Bookmarks(object):
                     if all(bookmark.Credentials): return bookmark
                     if bookmark.Avatar: best = bookmark
                     if not best: best = bookmark
+            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: best match %s', best)
             return best
 
         elif display:
+            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: display %s', display)
             for bookmark in self._bookmarks:
-                if display == bookmark.Display: return bookmark
+                if display == bookmark.Display: 
+                    logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: %s matches %s', display, bookmark.SafeUri)
+                    return bookmark
 
         return None
 

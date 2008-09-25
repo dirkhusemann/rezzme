@@ -27,16 +27,18 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import RezzMe.exceptions
+import logging
 import sys
+import RezzMe.exceptions
 
 try:
     exec 'import RezzMe.launchers.%s as PlatformLauncher' % sys.platform
 except:
-     raise RezzMe.exceptions.RezzMeException('no launcher available for this platform (%s)' % sys.platform)
+    raise RezzMe.exceptions.RezzMeException('no launcher available for this platform (%s)' % sys.platform)
 
 def Launch(avatar, password, gridInfo, location = None):
     '''launch platform specific virtual world client.
        '''
+    logging.debug('RezzMe.launchers.Launch: launching client %s', sys.platform)
     PlatformLauncher.Launch(avatar, password, gridInfo, location)
     

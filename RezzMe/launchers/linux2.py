@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import logging
 import os
 import urllib
 
@@ -51,6 +52,7 @@ def Launch(avatar, password, gridInfo, location):
 
     # all systems go: start client
     clientArgs = [ client ] + clientArgs
+    logging.debug('RezzMe.launchers.linux2.Launch: client %s args %s', client, ' '.join(clientArgs))
     os.execvp(client, clientArgs)
 
 

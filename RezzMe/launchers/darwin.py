@@ -28,6 +28,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+import logging
 import os
 import urllib
 
@@ -55,5 +56,6 @@ def Launch(avatar, password, gridInfo, location):
     # need to invoke via shell as SecondLife client on MacOS does
     # funny things when invoked via os.exec*
     cmdLine = '%s %s' % (client, ' '.join(clientArgs))
-    print 'rezzme.launchers.darwin: %s' % cmdLine
+    logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', cmdLine)
     os.system(cmdLine)
+    logging.debug('RezzMe.launchers.darwin.Launch: done')
