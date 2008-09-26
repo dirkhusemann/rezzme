@@ -31,7 +31,9 @@ import logging
 import os
 import urllib
 import _winreg
+
 import RezzMe.exceptions
+import RezzMe.launchers.hippo
 
 def Launch(avatar, password, gridInfo, location):
     clientArgs = [ ]
@@ -48,18 +50,40 @@ def Launch(avatar, password, gridInfo, location):
         clientArgs += urllib.unquote(avatar).split()
         clientArgs += [password]
 
-    if location:
-        clientArgs += [location]
+    # try for hippo opensim viewer first
+    hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, '\\SOFTWARE\\OpenSim\\Hippo OpenSim Viewer')
+    logging.debug('RezzMe.launchers.win32: hippo opensim viewer registry key: %s', hovk)
+    if hovk:
+        hovp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
+        logging.debug('RezzMe.launchers.win32: hippo openviwer path %s', hovp)
 
-    # all systems go: start client
-    clientArgs = [ 'secondlife' ] + clientArgs
-    logging.debug('RezzMe.launchers.win32.Launch: client args %s', ' '.join(clientArgs))
-    
+        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
+        clientArgs += ['-grid', gridnick]
+
+        if location:
+            clientArgs += [location]
+
+        # all systems go: start client
+        clientArgs = [ 'hippo_opensim_viwer' ] + clientArgs
+        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
+        os.execv(hovp, clientArgs)
+
+
+    # fallback to secondlife client
+    logging.debug('RezzMe.launchers.win32: no hippo viewer found, trying secondlife client fallback')
+
     slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
-    logging.debug('RezzMe.launchers.win32.Launch: secondlife registry key: %s', slk)
+    logging.debug('RezzMe.launchers.win32: secondlife registry key: %s', slk)
     if not slk: 
-        logging.debug('RezzMe.launchers.win32.Launch: cannot find secondlife registry key')
+        logging.debug('RezzMe.launchers.win32: cannot find secondlife registry key')
         raise RezzMe.exceptions.RezzMeException('cannot find path for secondlife client')
     slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
-    logging.debug('RezzMe.launchers.win32.Launch: secondlife path %s', slp)
+    logging.debug('RezzMe.launchers.win32: secondlife path %s', slp)
+
+    if location:
+        clientArgs += [location]
+        
+    # all systems go: start client
+    clientArgs = [ 'secondlife' ] + clientArgs
+    logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
     os.execv(slp, clientArgs)
