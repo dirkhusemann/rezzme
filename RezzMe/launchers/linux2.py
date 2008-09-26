@@ -63,9 +63,6 @@ def Launch(avatar, password, gridInfo, location):
         clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
         clientArgs += [password]
 
-    if location:
-        clientArgs += [location]
-
     # locate client:
     client = FindClient(clients)
     if not client: 
@@ -77,6 +74,10 @@ def Launch(avatar, password, gridInfo, location):
     if 'hippo' in client:
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
         clientArgs += ['-grid', gridnick]
+
+    # has to come last
+    if location:
+        clientArgs += [location]
 
     # all systems go: start client
     clientArgs = [ client ] + clientArgs
