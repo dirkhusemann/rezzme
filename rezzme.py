@@ -208,11 +208,16 @@ if __name__ == '__main__':
     else:
         logfile = '~/.rezzme.log'
 
-    logging.basicConfig(level    = level,
-                        format   = '%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt  = '%a, %d %b %Y %H:%M:%S',
-                        filename = os.path.expanduser(logfile),
-                        filemode = 'w')
+    if logfile:
+        logging.basicConfig(level    = level,
+                            format   = '%(asctime)s %(levelname)-8s %(message)s',
+                            datefmt  = '%a, %d %b %Y %H:%M:%S',
+                            filename = os.path.expanduser(logfile),
+                            filemode = 'w')
+    else:
+        logging.basicConfig(level    = level,
+                            format   = '%(asctime)s %(levelname)-8s %(message)s',
+                            datefmt  = '%a, %d %b %Y %H:%M:%S')
 
     args = sys.argv[1:]
     tray = None
