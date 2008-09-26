@@ -15,13 +15,15 @@ clean:
 	rm -rf RezzMe/config/config.py
 	make -C RezzMe/ui clean
 
-build: resources rezzme.ico 
+build: resources rezzme.ico RezzMe/config/config.py
 	make -C RezzMe/ui all
-	python ./config.py RezzMe/config/config.py
 	python ./build.py
 
 deploy:
 	python ./deploy.py
+
+RezzMe/config/config.py: rezzme.cfg rezzme-site.cfg
+	python ./config.py RezzMe/config/config.py
 
 about.html : about.raw.html rezzme.cfg
 	${EXPAND} $< $@
