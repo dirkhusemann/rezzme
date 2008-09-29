@@ -37,22 +37,25 @@ import lxml.etree as ET
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clients = { 'hippo'     : 'hippo_opensim_viewer', 
-            'secondlife': 'secondlife'}
+clients = ['hippo', 'secondlife']
+clientPaths = {'hippo'     : 'hippo_opensim_viewer',
+               'secondlife': 'secondlife'}
+
 for c in clients:
     found = False
     for bin in os.environ['PATH'].split(':'):
-        t = '%s/%s' % (bin, clients[c])
+        t = '%s/%s' % (bin, clientPaths[c])
         if os.path.exists(t):
-            clients[c] = t
+            clientPaths[c] = t
             found = True
             break
     if not found: 
         del clients[c]
+        del clientPaths[c]
 
 
 def Clients():
-    return clients
+    return (clients, clientPaths)
 
 def Launch(avatar, password, gridInfo, clientName, location):
     clientArgs = [ ]
@@ -69,7 +72,7 @@ def Launch(avatar, password, gridInfo, clientName, location):
         clientArgs += [password]
 
     # locate client:
-    client = clients[clientName]
+    client = clientPaths[clientName]
     if not client: 
         logging.critical('RezzMe.launchers.linux2: did not find %s on path %s', ' or '.join(clients), sys.environ['PATH'])
         raise RezzMe.exceptions.RezzMeException('cannot find suitable client! install hippo viewer or secondlife client and try again')

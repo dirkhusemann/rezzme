@@ -35,7 +35,8 @@ import _winreg
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clients = {}
+clients = []
+clientPaths = {}
 
 # try for hippo opensim viewer first
 hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
@@ -43,15 +44,21 @@ if hovk:
     hovp = _winreg.QueryValueEx(hovk, None)[0]
     hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
     hippoExe = '%s\\%s' % (hovp, hove)
-    clients['hippo'] = hippoExe
+
+    clients += ['hippo']
+    clientPaths['hippo'] = hippoExe
 
 slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
 if slk:
     slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
-    clients['secondlife'] = slp
+
+    clients += ['secondlife']
+    clientPaths['secondlife'] = slp
+
 
 def Clients():
-    return clients
+    return (clients, clientPaths)
+
 
 def Launch(avatar, password, gridInfo, clientName, location):
     clientArgs = [ ]
@@ -79,7 +86,7 @@ def Launch(avatar, password, gridInfo, clientName, location):
         # all systems go: start client
         clientArgs = [ 'hippo_opensim_viwer' ] + clientArgs
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
-        os.execv(clients[clientName], clientArgs)
+        os.execv(clientPaths[clientName], clientArgs)
 
     elif clientName == 'secondlife':
 
@@ -89,4 +96,4 @@ def Launch(avatar, password, gridInfo, clientName, location):
         # all systems go: start client
         clientArgs = [ 'secondlife' ] + clientArgs
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
-        os.execv(clients[clientName], clientArgs)
+        os.execv(clientPaths[clientName], clientArgs)

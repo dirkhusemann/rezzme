@@ -48,7 +48,7 @@ def Clients():
     '''Return choice of available clients'''
 
     logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
-    clients = PlatformLauncher.Clients()
+    (clients, paths) = PlatformLauncher.Clients()
     for c in clients:
-        logging.info('RezzMe.launcher.Clients: found %s client at %s', c, clients[c])
-    return clients
+        logging.info('RezzMe.launcher.Clients: found %s client at %s', c, paths[c])
+    return (clients, paths)

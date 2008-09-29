@@ -33,10 +33,11 @@ import os
 import urllib
 
 # default location of SecondLife client on MacOS
-clients = {'secondlife': '/Applications/Second\ Life.app/Contents/MacOS/Second\ Life'}
+clients = ['secondlife']
+clientPaths = {'secondlife': '/Applications/Second\ Life.app/Contents/MacOS/Second\ Life'}
 
 def Clients():
-    return clients
+    return (clients, clientPaths)
     
 def Launch(avatar, password, gridInfo, location, clientName):
     clientArgs = [ ]
@@ -58,7 +59,7 @@ def Launch(avatar, password, gridInfo, location, clientName):
     # all systems go: start client
     # need to invoke via shell as SecondLife client on MacOS does
     # funny things when invoked via os.exec*
-    cmdLine = '%s %s' % (clients[clientName], ' '.join(clientArgs))
+    cmdLine = '%s %s' % (clientPaths[clientName], ' '.join(clientArgs))
     logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', cmdLine)
     os.system(cmdLine)
     logging.debug('RezzMe.launchers.darwin.Launch: done')

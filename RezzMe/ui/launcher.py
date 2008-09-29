@@ -73,8 +73,13 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._credentials = RezzMe.credentials.Credentials(os.path.expanduser('~/.rezzme.credentials'))
         self._userID = self._credentials.Credential(uri)
         self._userPassword = None
-        self._clients = RezzMe.launcher.Clients()
-        logging.debug('RezzMe.ui.launcher: client selection %s', ' '.join(self._clients.keys()))
+
+        clients = RezzMe.launcher.Clients()[0]
+        self._client = clients[0]
+        self.comboBoxClients.clear()
+        self.comboBoxClients.addItems(clients)
+        
+        logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(clients))
 
         logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri)
 
@@ -246,7 +251,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     Bookmark = property(fget = _gBookmark)
 
     def _gClient(self):
-        return self._clients.keys()[0]
+        return self._client
     Client = property(fget = _gClient)
 
     # auto bindings
@@ -261,6 +266,12 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     @PyQt4.QtCore.pyqtSignature('bool')
     def on_checkBoxBookmark_toggled(self, checked):
         self._bookmark = checked
+
+
+    @PyQt4.QtCore.pyqtSignature('QString')
+    def on_comboBoxClients_activated(self, client):
+        logging.debug('RezzMe.ui.launcher.on_comboBoxClients_activated: %s', unicode(client))
+        self._client = unicode(client)
 
 
     # UserID and password

@@ -78,6 +78,7 @@ class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         self.comboBoxBookmarks.clear()
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
+
         if self._defaultBookmarks: 
             logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
