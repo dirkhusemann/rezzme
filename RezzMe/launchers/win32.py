@@ -51,11 +51,15 @@ def Launch(avatar, password, gridInfo, location):
         clientArgs += [password]
 
     # try for hippo opensim viewer first
-    hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, '\\SOFTWARE\\OpenSim\\Hippo OpenSim Viewer')
+    hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
     logging.debug('RezzMe.launchers.win32: hippo opensim viewer registry key: %s', hovk)
     if hovk:
-        hovp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
+        hovp = _winreg.QueryValueEx(hovk, None)[0]
         logging.debug('RezzMe.launchers.win32: hippo openviwer path %s', hovp)
+        hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
+        logging.debug('RezzMe.launchers.win32: hippo openviwer exe %s', hove)
+        hippoExe = '%s\\%s' % (hovp, hove)
+        logging.debug('RezzMe.launchers.win32: hippo openviwer exe path %s', hippoExe)
 
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
         clientArgs += ['-grid', gridnick]
@@ -66,7 +70,7 @@ def Launch(avatar, password, gridInfo, location):
         # all systems go: start client
         clientArgs = [ 'hippo_opensim_viwer' ] + clientArgs
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
-        os.execv(hovp, clientArgs)
+        os.execv(hippoExe, clientArgs)
 
 
     # fallback to secondlife client

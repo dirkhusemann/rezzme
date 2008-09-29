@@ -32,13 +32,25 @@ from __future__ import with_statement
 import logging
 import os
 import urllib
-import lxml.etree as ET
+import xml.etree.ElementTree as ET
 
 import RezzMe.exceptions
 
-def HippoGridInfoFix(gridInfo):
-    parser = ET.XMLParser(remove_blank_text = True)
+def LLSD2Dict(element):
+    d = {}
+    key = None
+    for e in element:
+        if e.tag == 'key':
+            key = e.text
+            continue
+        elif e.tag == 'string' and key is not None:
+            d[key] = e.text
+            key = None
+        else:
+            logging.warning('RezzMe.launchers.hippo.LLSD2Dict: unexpected tag/value %s/%s' % (e.tag, e.text))
+    return d
 
+def HippoGridInfoFix(gridInfo):
     hippoGridInfo = None
     hippoUserSettings = os.path.expanduser('~/.hippo_opensim_viewer/user_settings')
     hippoGridInfoXml = os.path.expanduser('~/.hippo_opensim_viewer/user_settings/grid_info.xml') 
@@ -51,21 +63,21 @@ def HippoGridInfoFix(gridInfo):
     if os.path.exists(hippoGridInfoXml):
         logging.debug('RezzMe.launchers.linux2: hippo: found %s', hippoGridInfoXml)
         with open(hippoGridInfoXml, 'r') as xml:
-            hippoGridInfo = ET.parse(xml, parser)
+            hippoGridInfo = ET.parse(xml)
     else:
         logging.debug('RezzMe.launchers.linux2: hippo: hippo grid info not found at %s, creating it', hippoGridInfoXml)
-        hippoGridInfo = ET.fromstring('<llsd><array></array></llsd>', parser)
+        hippoGridInfo = ET.fromstring('<llsd><array></array></llsd>')
             
     # check whether we are already in hippo's grid info
     gridnick = None
 
-    grid = hippoGridInfo.xpath('/llsd/array/map/string[string() = "%s"]' % gridInfo['login'])
-    if grid and grid[0].text == gridInfo['login']:
-        # LLSD "XML" sucks big time: it depends on the ordering of elements to work...
-        gridnick = grid[0].getparent().xpath('./key[string() = "gridnick"]')[0].getnext().text
-        logging.debug('RezzMe.launchers.linux2: hippo:  found gridnick %s for loginuri %s', 
-                      gridnick, gridInfo['login'])
-        return gridnick
+    # LLSD "XML" sucks big time: it depends on the ordering of elements to work...
+    for gmap in hippoGridInfo.findall('/array/map'):
+        grid = LLSD2Dict(gmap)
+        if 'loginuri' in grid and grid['loginuri'] == gridInfo['login']:
+            logging.debug('RezzMe.launchers.linux2: hippo:  found gridnick %s for loginuri %s', 
+                          grid['gridnick'], gridInfo['login'])
+            return grid['gridnick']
 
     # no, we are not in hippo's grid info: need add ourselves then
     logging.debug('RezzMe.launchers.linux2: hippo:  no existing gridnick for loginuri %s', gridInfo['login'])
@@ -82,14 +94,12 @@ def HippoGridInfoFix(gridInfo):
         else:
             gridXml += '<key>%s</key><string/>' % value
     gridXml += '</map>'
-    grid = ET.fromstring(gridXml, parser)
-    logging.debug('RezzMe.launchers.linux2: hippo: : adding XML sniplet %s to grid_info.xml', 
-                  ET.tostring(grid, pretty_print = True))
+    grid = ET.fromstring(gridXml)
+    logging.debug('RezzMe.launchers.linux2: hippo: : adding XML sniplet %s to grid_info.xml', ET.tostring(grid))
 
     # write out grid_info.xml again
-    hippoGridInfo.xpath('/llsd/array')[0].append(grid)
-    logging.debug('RezzMe.launchers.linux2: hippo: grid_info.xml: %s', 
-                  ET.tostring(hippoGridInfo, pretty_print = True))
+    hippoGridInfo.find('/array').append(grid)
+    logging.debug('RezzMe.launchers.linux2: hippo: grid_info.xml: %s', ET.tostring(hippoGridInfo.getroot()))
 
     if os.path.exists(hippoGridInfoXml):
         bak = '%s.bak' % hippoGridInfoXml
@@ -98,7 +108,7 @@ def HippoGridInfoFix(gridInfo):
         if os.path.exists(bak): os.unlink(bak)
         os.rename(hippoGridInfoXml, bak)
     with open(hippoGridInfoXml, 'w') as xml:
-        xml.write(ET.tostring(hippoGridInfo, pretty_print = True))
+        xml.write(ET.tostring(hippoGridInfo.getroot()))
     logging.info('RezzMe.launchers.linux2: hippo: updated grid_info.xml')
 
     return gridInfo['gridnick']
