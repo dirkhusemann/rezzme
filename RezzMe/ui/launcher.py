@@ -173,11 +173,15 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._mode = 'bound'
         self.stackedWidget.setCurrentWidget(self.bound)
         self._status('enter your user ID and password', color = green)
+        if unicode(self.lineEditUserPassword.text()):
+            self.pushButtonOK.setEnabled(True)
 
     def _freeMode(self):
         self._mode = 'free'
         self.stackedWidget.setCurrentWidget(self.free)
         self._status('enter your avatar name and password', color = green)
+        if unicode(self.lineEditAvatarPassword.text()):
+            self.pushButtonOK.setEnabled(True)
 
 
     def _authenticate(self):
@@ -286,7 +290,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_lineEditAvatarPassword_textEdited(self, text):
-        if text:
+        if unicode(self.lineEditAvatarPassword.text()):
             self.pushButtonOK.setEnabled(True)
         else:
             self.pushButtonOK.setEnabled(False)
