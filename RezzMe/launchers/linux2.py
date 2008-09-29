@@ -44,6 +44,7 @@ for c in clients:
     for bin in os.environ['PATH'].split(':'):
         t = '%s/%s' % (bin, clients[c])
         if os.path.exists(t):
+            clients[c] = t
             found = True
             break
     if not found: 
