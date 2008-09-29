@@ -37,19 +37,23 @@ import lxml.etree as ET
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clients = ['hippo_opensim_viewer', 'secondlife']
-
-
-def FindClient(clients):
+clients = { 'hippo'     : 'hippo_opensim_viewer', 
+            'secondlife': 'secondlife'}
+for c in clients:
+    found = False
     for bin in os.environ['PATH'].split(':'):
-        for c in clients:
-            c = '%s/%s' % (bin, c)
-            if os.path.exists(c):
-                return c
-    return None
+        t = '%s/%s' % (bin, clients[c])
+        if os.path.exists(t):
+            found = True
+            break
+    if not found: 
+        del clients[c]
 
 
-def Launch(avatar, password, gridInfo, location):
+def Clients():
+    return clients
+
+def Launch(avatar, password, gridInfo, clientName, location):
     clientArgs = [ ]
     clientArgs += ['-loginuri', gridInfo['login']]
     clientArgs += ['-multiple']
@@ -64,14 +68,14 @@ def Launch(avatar, password, gridInfo, location):
         clientArgs += [password]
 
     # locate client:
-    client = FindClient(clients)
+    client = clients[clientName]
     if not client: 
         logging.critical('RezzMe.launchers.linux2: did not find %s on path %s', ' or '.join(clients), sys.environ['PATH'])
         raise RezzMe.exceptions.RezzMeException('cannot find suitable client! install hippo viewer or secondlife client and try again')
 
     logging.debug('RezzMe.launchers.linux2: found client %s', client)
 
-    if 'hippo' in client:
+    if 'hippo' == clientName:
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
         clientArgs += ['-grid', gridnick]
 

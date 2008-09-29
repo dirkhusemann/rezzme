@@ -37,6 +37,7 @@ import xml.etree.ElementTree as ET
 import PyQt4.QtCore
 import PyQt4.QtGui
 import RezzMe.credentials
+import RezzMe.launcher
 import RezzMe.parse
 import RezzMe.ui.rezzme
 
@@ -72,6 +73,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._credentials = RezzMe.credentials.Credentials(os.path.expanduser('~/.rezzme.credentials'))
         self._userID = self._credentials.Credential(uri)
         self._userPassword = None
+        self._clients = RezzMe.launcher.Clients()
+        logging.debug('RezzMe.ui.launcher: client selection %s', ' '.join(self._clients.keys()))
 
         logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri)
 
@@ -241,6 +244,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     def _gBookmark(self):
         return self._bookmark
     Bookmark = property(fget = _gBookmark)
+
+    def _gClient(self):
+        return self._clients.keys()[0]
+    Client = property(fget = _gClient)
 
     # auto bindings
     @PyQt4.QtCore.pyqtSignature('')

@@ -33,12 +33,19 @@ import RezzMe.exceptions
 
 try:
     exec 'import RezzMe.launchers.%s as PlatformLauncher' % sys.platform
-except:
-    raise RezzMe.exceptions.RezzMeException('no launcher available for this platform (%s) [%s]' % (sys.platform, str(e)))
+except ImportError, e:
+    print 'no launcher available for this platform (%s) [%s]' % (sys.platform, str(e))
+    raise e
 
-def Launch(avatar, password, gridInfo, location = None):
+def Launch(avatar, password, gridInfo, client, location = None):
     '''launch platform specific virtual world client.
        '''
     logging.debug('RezzMe.launchers.Launch: launching client %s', sys.platform)
-    PlatformLauncher.Launch(avatar, password, gridInfo, location)
+    PlatformLauncher.Launch(avatar, password, gridInfo, client, location)
     
+
+def Clients():
+    '''Return choice of available clients'''
+
+    logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
+    return PlatformLauncher.Clients()

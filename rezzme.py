@@ -150,7 +150,7 @@ def ConnectToGrid(app, uri):
 
     # ok, got everything, now construct the command line
     logging.debug('ConnectToGrid: starting client for %s', uri)
-    RezzMe.launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Location)
+    RezzMe.launcher.Launch(uri.Avatar, uri.Password, gridInfo, launcher.Client, uri.Location)
 
 
 # def RezzMeSystemTray(app):
