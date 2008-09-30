@@ -41,8 +41,6 @@ clientPaths = {}
 # try for hippo opensim viewer first
 try:
     hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
-except:
-    pass
 
 if hovk:
     hovp = _winreg.QueryValueEx(hovk, None)[0]
@@ -51,6 +49,8 @@ if hovk:
 
     clients += ['hippo']
     clientPaths['hippo'] = hippoExe
+except:
+    pass
 
 slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
 if slk:
