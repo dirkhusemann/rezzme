@@ -66,10 +66,16 @@ def Launch(avatar, password, gridInfo, clientName, location):
     if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
     if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
+    # mirror clientArgs into logArgs to avoid capturing passwords into
+    # log files
+    logArgs = clientArgs[:]
     if avatar and password:
         clientArgs += ['-login']
         clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
+        logArgs = clientArgs[:]
+
         clientArgs += [password]
+        logArgs += ["'**********'"]
 
     # locate client:
     client = clientPaths[clientName]
@@ -82,14 +88,18 @@ def Launch(avatar, password, gridInfo, clientName, location):
     if 'hippo' == clientName:
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
         clientArgs += ['-grid', gridnick]
+        logArgs += ['-grid', gridnick]
 
     # has to come last
     if location:
         clientArgs += [location]
+        logArgs += [location]
 
     # all systems go: start client
     clientArgs = [ client ] + clientArgs
-    logging.debug('RezzMe.launchers.linux2: client %s args %s', client, ' '.join(clientArgs))
+    logArgs = [ client ] + logArgs
+
+    logging.debug('RezzMe.launchers.linux2: client %s args %s', client, ' '.join(logArgs))
     os.execvp(client, clientArgs)
 
 

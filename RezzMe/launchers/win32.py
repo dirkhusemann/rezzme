@@ -73,31 +73,45 @@ def Launch(avatar, password, gridInfo, clientName, location):
     if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
     if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
+    # need to mirror clientArgs into logArgs to avoid capturing
+    # password into log file
+    logArgs = clientArgs[:]
     if avatar and password:
         clientArgs += ['-login']
-        # on linux and windows we use os.exec*(), thus, no quote
+        # on windows we use os.exec*(), thus, no quote
         clientArgs += urllib.unquote(avatar).split()
+        logArgs = clientArgs[:]
+
         clientArgs += [password]
+        logArgs += ['**********']
+
 
     if clientName == 'hippo':
 
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
         clientArgs += ['-grid', gridnick]
+        logArgs += ['-grid', gridnick]
 
         if location:
             clientArgs += [location]
+            logArgs += [location]
 
         # all systems go: start client
         clientArgs = [ 'hippo_opensim_viwer' ] + clientArgs
-        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
+        logArgs = [ 'hippo_opensim_viwer' ] + logArgs
+
+        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
         os.execv(clientPaths[clientName], clientArgs)
 
     elif clientName == 'secondlife':
 
         if location:
             clientArgs += [location]
+            logArgs += [location]
         
         # all systems go: start client
         clientArgs = [ 'secondlife' ] + clientArgs
-        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(clientArgs))
+        logArgs = [ 'secondlife' ] + logArgs
+
+        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
         os.execv(clientPaths[clientName], clientArgs)

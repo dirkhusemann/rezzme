@@ -48,18 +48,25 @@ def Launch(avatar, password, gridInfo, location, clientName):
     if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
     if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
+    logArgs = clientArgs[:]
     if avatar and password:
         clientArgs += ['-login']
         clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
+        logArgs = clientArgs[:]
+
         clientArgs += [password]
+        logArgs += ['**********']
 
     if location:
         clientArgs += [location]
+        logArgs += [location]
 
     # all systems go: start client
     # need to invoke via shell as SecondLife client on MacOS does
     # funny things when invoked via os.exec*
     cmdLine = '%s %s' % (clientPaths[clientName], ' '.join(clientArgs))
-    logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', cmdLine)
+    logLine = '%s %s' % (clientPaths[clientName], ' '.join(logArgs))
+
+    logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', logLine)
     os.system(cmdLine)
     logging.debug('RezzMe.launchers.darwin.Launch: done')

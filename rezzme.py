@@ -188,7 +188,7 @@ def ConnectToGrid(app, uri):
                                                 gridInfo['gridname'])
 
     # ok, got everything, now construct the command line
-    logging.debug('ConnectToGrid: starting client for %s', uri)
+    logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
     RezzMe.launcher.Launch(uri.Avatar, uri.Password, gridInfo, launcher.Client, uri.Location)
 
 
