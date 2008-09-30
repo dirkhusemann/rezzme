@@ -39,7 +39,11 @@ clients = []
 clientPaths = {}
 
 # try for hippo opensim viewer first
-hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
+try:
+    hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
+except:
+    pass
+
 if hovk:
     hovp = _winreg.QueryValueEx(hovk, None)[0]
     hove = _winreg.QueryValueEx(hovk, 'Exe')[0]

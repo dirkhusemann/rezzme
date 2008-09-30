@@ -44,28 +44,67 @@ and, it also understands avatar names and passwords:
 
 '''
 
-import logging
-import urllib
+# early initialization: load config, setup logging
 import os
-import socket
 import sys
 
-import PyQt4.QtCore
-import PyQt4.QtGui
-from PyQt4.QtCore import SIGNAL
+try:
+    import logging
+    import RezzMe.config.config
 
-import RezzMe.bookmarks
-import RezzMe.config.config
-import RezzMe.exceptions
-import RezzMe.gridinfo
-import RezzMe.launcher
-import RezzMe.parse
-import RezzMe.ui.launcher
-import RezzMe.ui.tray
-import RezzMe.uri
+    cfg = RezzMe.config.config.config()
+    # set up logging support
+    if 'level' in cfg['debug']:
+        level = eval('logging.%s' % cfg['debug']['level'])
+    else:
+        level = logging.CRITICAL
+    
+    if 'logfile' in cfg['debug']:
+        logfile = cfg['debug']['logfile']
+    else:
+        logfile = '~/.rezzme.log'
+
+    if logfile:
+        logging.basicConfig(level    = level,
+                            format   = '%(asctime)s %(levelname)-8s %(message)s',
+                            datefmt  = '%a, %d %b %Y %H:%M:%S',
+                            filename = os.path.expanduser(logfile),
+                            filemode = 'w')
+    else:
+        logging.basicConfig(level    = level,
+                            format   = '%(asctime)s %(levelname)-8s %(message)s',
+                            datefmt  = '%a, %d %b %Y %H:%M:%S')
+except BaseException, e:
+    print >>sys.stderr, 'failed to do early-initialization: %s', str(e)
+    sys.exit(1)
+
+# late initialization: the rest
+try:
+    import urllib
+    import os
+    import socket
+    import sys
+    
+    import PyQt4.QtCore
+    import PyQt4.QtGui
+    from PyQt4.QtCore import SIGNAL
+    
+    import RezzMe.bookmarks
+    import RezzMe.exceptions
+    import RezzMe.gridinfo
+    import RezzMe.launcher
+    import RezzMe.parse
+    import RezzMe.ui.launcher
+    import RezzMe.ui.tray
+    import RezzMe.uri
+except ImportError, e:
+    logging.critical('rezzme: import error: %s', str(e))
+    sys.exit(1)
+except BaseException, e:
+    logging.critical('rezzme: the unexpected happened: %s', str(e))
+    sys.exit(1)
 
 timeout = 30
-cfg = RezzMe.config.config.config()
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -196,28 +235,6 @@ if __name__ == '__main__':
 
     # need an QApplication context to signal errors
     app = RezzMeQApplication(sys.argv)
-
-    # set up logging support
-    if 'level' in cfg['debug']:
-        level = eval('logging.%s' % cfg['debug']['level'])
-    else:
-        level = logging.CRITICAL
-
-    if 'logfile' in cfg['debug']:
-        logfile = cfg['debug']['logfile']
-    else:
-        logfile = '~/.rezzme.log'
-
-    if logfile:
-        logging.basicConfig(level    = level,
-                            format   = '%(asctime)s %(levelname)-8s %(message)s',
-                            datefmt  = '%a, %d %b %Y %H:%M:%S',
-                            filename = os.path.expanduser(logfile),
-                            filemode = 'w')
-    else:
-        logging.basicConfig(level    = level,
-                            format   = '%(asctime)s %(levelname)-8s %(message)s',
-                            datefmt  = '%a, %d %b %Y %H:%M:%S')
 
     args = sys.argv[1:]
     tray = None
