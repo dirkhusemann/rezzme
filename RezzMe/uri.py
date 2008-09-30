@@ -237,6 +237,8 @@ class Uri(object):
     def _location(self):
         if self.Region and all(self.XYZ):
             return 'secondlife://%s/%s' % (self.Region, '/'.join(map(lambda x: str(x), self.XYZ)))
+        elif self.Region:
+            return 'secondlife://%s/' % self.Region
     Location = property(fget = _location, doc = 'location with in the target grid as a secondlife:// slurl')
 
     def _path(self):
