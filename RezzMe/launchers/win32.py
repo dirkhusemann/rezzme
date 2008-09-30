@@ -42,13 +42,13 @@ clientPaths = {}
 try:
     hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
 
-if hovk:
-    hovp = _winreg.QueryValueEx(hovk, None)[0]
-    hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
-    hippoExe = '%s\\%s' % (hovp, hove)
+    if hovk:
+        hovp = _winreg.QueryValueEx(hovk, None)[0]
+        hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
+        hippoExe = '%s\\%s' % (hovp, hove)
 
-    clients += ['hippo']
-    clientPaths['hippo'] = hippoExe
+        clients += ['hippo']
+        clientPaths['hippo'] = hippoExe
 except:
     pass
 
