@@ -170,9 +170,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     def _status(self, msg, color = None):
         self.labelStatus.setText(msg)
         if color: 
-            self.labelStatus.setStyleSheet('QWidget { color: %s }' % color)
+            self.labelStatus.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % color)
         else:
-            self.labelStatus.setStyleSheet('QWidget { color: %s }' % black)
+            self.labelStatus.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % black)
         self._app.sendPostedEvents()
         self._app.processEvents()
 
