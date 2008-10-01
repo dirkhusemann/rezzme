@@ -90,7 +90,7 @@ def Launch(avatar, password, gridInfo, clientName, location):
         userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
         userGridXml = os.path.normcase(userGridXml)
 
-        defaultGridXml = os.path.join(os.path.dirname(clientPaths(clientName)), 'app_settings', 'default_grids.xml')
+        defaultGridXml = os.path.join(os.path.dirname(clientPaths[clientName]), 'app_settings', 'default_grids.xml')
 
         gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
         clientArgs += ['-grid', gridnick]
