@@ -87,8 +87,12 @@ def Launch(avatar, password, gridInfo, clientName, location):
 
 
     if clientName == 'hippo':
+        userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
+        userGridXml = os.path.normcase(userGridXml)
 
-        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
+        defaultGridXml = os.path.join(os.path.dirname(client), 'app_settings', 'default_grids.xml')
+
+        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
         clientArgs += ['-grid', gridnick]
         logArgs += ['-grid', gridnick]
 
@@ -97,8 +101,8 @@ def Launch(avatar, password, gridInfo, clientName, location):
             logArgs += [location]
 
         # all systems go: start client
-        clientArgs = [ 'hippo_opensim_viwer' ] + clientArgs
-        logArgs = [ 'hippo_opensim_viwer' ] + logArgs
+        clientArgs = [ 'hippo_opensim_viewer' ] + clientArgs
+        logArgs = [ 'hippo_opensim_viewer' ] + logArgs
 
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
         os.execv(clientPaths[clientName], clientArgs)

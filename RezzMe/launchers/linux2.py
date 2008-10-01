@@ -31,8 +31,8 @@ from __future__ import with_statement
 
 import logging
 import os
+import subprocess
 import urllib
-import lxml.etree as ET
 
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
@@ -56,6 +56,24 @@ for c in clients:
 
 def Clients():
     return (clients, clientPaths)
+
+def HippoDefaultGrids(path):
+    hippoHome = os.path.dirname(os.path.realpath(path))
+
+    defaultGrids = '%s/app_settings/default_grids.xml' % hippoHome
+    if os.path.exists(defaultGrids):
+        logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", defaultGrids)
+        return defaultGrids
+
+    logging.debug("RezzMe.launchers.linux2: trying to find hippo's default_grids.xml via locate...")
+    defaultGrids = subprocess.Popen(['locate', 'app_settings/default_grids.xml'], stdout = subprocess.PIPE).communicate()[0].rstrip()
+    if defaultGrids:
+        for p in defaultGrids.split():
+            if 'hippo' in p.lower(): 
+                logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", p)
+                return p
+    return None
+    
 
 def Launch(avatar, password, gridInfo, clientName, location):
     clientArgs = [ ]
@@ -85,8 +103,13 @@ def Launch(avatar, password, gridInfo, clientName, location):
 
     logging.debug('RezzMe.launchers.linux2: found client %s', client)
 
+    
+
     if 'hippo' == clientName:
-        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo)
+        userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/user_settings/grid_info.xml')
+        defaultGridXml = HippoDefaultGrids(client)
+
+        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
         clientArgs += ['-grid', gridnick]
         logArgs += ['-grid', gridnick]
 

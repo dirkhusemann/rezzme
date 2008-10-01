@@ -33,3 +33,6 @@
 class RezzMeException(Exception):
     def __init__(self, message):
         self.Message = message
+
+    def __str__(self):
+        return repr(self.Message)
