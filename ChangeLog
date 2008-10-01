@@ -1,0 +1,192 @@
+2008-09-30  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r50] rezzme.cfg: version 3.1.2
+
+	* [r49] RezzMe/uri.py: ~ fix: rezzme:// uri with location only (no
+	  X/Y/Z) would not work
+
+	* [r48] RezzMe/ui/launcher.py: ~ fix: font size of status field
+	  would shrink
+
+	* [r47] RezzMe/launchers/darwin.py, RezzMe/launchers/linux2.py,
+	  RezzMe/launchers/win32.py, rezzme.py: ~ fix: temp password finds
+	  its way into log file
+
+	* [r46] RezzMe/launchers/win32.py: ~ fix: indentation
+
+	* [r45] RezzMe/launchers/win32.py, rezzme.cfg: ~ fix: except
+	  statement in win32 launcher too early, sigh
+
+	* [r44] RezzMe/launchers/win32.py, rezzme.py: ~ fixing bug in win32
+	  launcher (assumed hippo viewer would be present)
+	  
+	  ~ better exception handling
+
+2008-09-29  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r43] RezzMe/launcher.py, RezzMe/launchers/darwin.py,
+	  RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/ui/launcher.py, RezzMe/ui/rezzme.ui, RezzMe/ui/tray.py,
+	  rezzme.cfg: allow user to select virtual world client
+
+	* [r42] RezzMe/launchers/linux2.py: explizit pathnames
+
+	* [r41] RezzMe/launcher.py: logging found clients
+
+	* [r40] RezzMe/launcher.py, RezzMe/launchers/darwin.py,
+	  RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/ui/launcher.py, rezzme.py: preparing code base to allow
+	  user selection of clients
+
+	* [r39] RezzMe/ui/launcher.py: fix UI problem with non-null
+	  password but disabled OK button
+
+	* [r38] RezzMe/launchers/hippo.py: using ElementTree.getroot() to
+	  make code symmetrical
+
+	* [r37] RezzMe/gridinfo.py: adding additional fake grid info
+	  element for linden lab grids
+
+	* [r36] RezzMe/launcher.py, RezzMe/launchers/hippo.py,
+	  RezzMe/launchers/win32.py: dropping use of lxml (windows exe
+	  doesn't seem to grok that, sigh),
+	  switching back to normal xml.etree.ElementTree
+	  
+	  fixing windows registry code for hippoviewer
+
+2008-09-26  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r35] RezzMe/launchers/win32.py: first stab at adding hippo
+	  support to windows launcher
+
+	* [r34] RezzMe/launchers/linux2.py: fix: slurl has to come last
+
+	* [r33] rezzme.cfg: version increase due to hippo support on linux
+
+	* [r32] RezzMe/launchers/hippo.py, RezzMe/launchers/linux2.py:
+	  refactored hippo grid info mutilation code out into
+	  RezzMe.launchers.hippo so that win32 can profit from it as well.
+
+	* [r31] rezzme.py: support for logging to sys.stderr
+
+	* [r30] RezzMe/launchers/linux2.py: support for locating and using
+	  hippo
+
+	* [r29] Makefile: refactor makefile slightly to facilitate
+	  debugging
+
+2008-09-25  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r28] rezzme.cfg: ~ version 3.0.5 to reflect logging support
+
+	* [r27] RezzMe/bookmarks.py, RezzMe/config/builder.py,
+	  RezzMe/credentials.py, RezzMe/gridinfo.py, RezzMe/launcher.py,
+	  RezzMe/launchers/darwin.py, RezzMe/launchers/linux2.py,
+	  RezzMe/launchers/win32.py, RezzMe/system.py,
+	  RezzMe/ui/launcher.py, RezzMe/ui/tray.py, rezzme.py: + adding
+	  generous logging support all over the place: activate by
+	  placing
+	  
+	  [debug]
+	  level = DEBUG
+	  
+	  in rezzme-site.cfg
+	  
+	  - dropped RezzMe.system as that is not used anymore
+
+2008-09-24  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r26] RezzMe/ui/launcher.py, RezzMe/ui/tray.py: ~ fix: removing
+	  auto-delete flags for pyqt objects
+
+2008-09-23  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r25] Makefile, config.py, rezzme.cfg, setup.py: ~ fix:
+	  rezzme.cfg and rezzme-site.cfg code was not surviving install
+	  on linux
+
+2008-09-19  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r24] ., deploy.py: + svn:ignore on deploy-winzip.py
+
+	* [r23] ., rezzme.cfg: - svn:ignore on rezzme.cfg
+	  + rezzme.cfg
+
+	* [r22] RezzMe/ui/launcher.py, RezzMe/ui/tray.py, rezzme.py: ~
+	  fixing various bookmark bugs
+
+	* [r21] RezzMe/config/builder.py, build.py, deploy.py, expand.py,
+	  setup.py: ~ adding presets to config
+
+	* [r20] rezzme.cfg.example: - dropping old rezzme.cfg.example
+
+	* [r19] .: ~ switching cfg file searching
+
+	* [r18] build.py, deploy.py, setup.py: ~ switching cfg file
+	  searching
+
+2008-09-18  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r17] Makefile: ~ fix: about depends on rezzme.cfg
+
+	* [r16] rezzme.py: ~ fix: obtaining credentials for known grid
+	  screws up location
+
+	* [r15] RezzMe/ui/tray.py: - dropping dead code
+
+	* [r14] RezzMe/ui/rezzme.ui: ~ fix: oops, forgot to apply tooltips
+	  hash
+
+	* [r13] RezzMe/ui/launcher.py: ~ fix: oops, forgot to apply
+	  tooltips hash
+
+	* [r12] README.txt: ~ hmph: another IBM-ism hiding
+
+	* [r11] ., about.html.raw.html, about.raw.html: ~ fix: expand about
+
+	* [r10] Makefile, about.html, about.html.raw.html: ~ changing build
+	  process
+
+	* [r9] ., Makefile, RezzMe/ui, RezzMe/ui/about.ui,
+	  RezzMe/ui/launcher.py, RezzMe/ui/rezzme.ui, RezzMe/ui/tray.py,
+	  about.html, build.py, expand.py, rezzme.ico, rezzme.png,
+	  rezzme.qrc: + about dialog
+
+2008-09-17  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r8] ., RezzMe, RezzMe/config, RezzMe/ui, build.py, setup.py: +
+	  ignore auto-generated files
+	  + testing for pre-reqs now
+
+	* [r7] RezzMe/config/config.py, RezzMe/resources.py,
+	  RezzMe/ui/edit.py, RezzMe/ui/rezzme.py: removing auto-generated
+	  files
+
+	* [r6] rezzme.cfg, rezzme.cfg.example: renaming rezzme.cfg to
+	  rezzme.cfg.example
+
+	* [r5] rezzme.py: ~ fix: launcher dialog is auto-destroyed
+
+	* [r4] rezzme.cfg: updated rezzme.cfg
+
+	* [r3] README.txt: updated README.
+
+	* [r2] ., LICENSE.txt, MANIFEST.in, Makefile, README.txt, RezzMe,
+	  RezzMe/__init__.py, RezzMe/bookmarks.py, RezzMe/config,
+	  RezzMe/config/__init__.py, RezzMe/config/config.py,
+	  RezzMe/credentials.py, RezzMe/exceptions.py, RezzMe/gridinfo.py,
+	  RezzMe/launcher.py, RezzMe/launchers,
+	  RezzMe/launchers/__init__.py, RezzMe/launchers/darwin.py,
+	  RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/parse.py, RezzMe/resources.py, RezzMe/system.py,
+	  RezzMe/ui, RezzMe/ui/Makefile, RezzMe/ui/__init__.py,
+	  RezzMe/ui/edit.py, RezzMe/ui/edit.ui, RezzMe/ui/launcher.py,
+	  RezzMe/ui/rezzme.py, RezzMe/ui/rezzme.ui, RezzMe/ui/tray.py,
+	  RezzMe/uri.py, build.py, deploy.py, ez_setup.py, rezzme.cfg,
+	  rezzme.ico, rezzme.png, rezzme.protocol, rezzme.py, rezzme.qrc,
+	  rezzmes.protocol, setup.iss, setup.py: initial check in
+
+2008-09-04  root
+
+	* [r1] .: Initial Repository Skeleton
+
