@@ -1,5 +1,17 @@
 2008-10-01  dr scofield aka dirk husemann (hud@zurich.ibm.com)
 
+	* [r58] rezzme.cfg: running on linux and windows (it seems)
+
+	* [r57] RezzMe/launchers/win32.py: fix: application data path was
+	  still wrong.
+
+	* [r56] RezzMe/launchers/win32.py: fix: win32 clientPaths: take2
+
+	* [r55] RezzMe/launchers/win32.py: fix: client not defined in
+	  win32.py
+
+	* [r54] ChangeLog: updated ChangeLog
+
 	* [r53] RezzMe/exceptions.py, RezzMe/launchers/hippo.py,
 	  RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py:
 	  RezzMeException: didn't have a __str__() method causing rather
