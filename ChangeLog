@@ -1,3 +1,8 @@
+2008-10-01  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r51] AUTHORS, ChangeLog, Makefile: adding ChangeLog and AUTHORS
+	  plus make target to update ChangeLog
+
 2008-09-30  dr scofield aka dirk husemann (hud@zurich.ibm.com)
 
 	* [r50] rezzme.cfg: version 3.1.2
