@@ -87,7 +87,7 @@ def Launch(avatar, password, gridInfo, clientName, location):
 
 
     if clientName == 'hippo':
-        userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
+        userGridXml = os.path.expanduser('~/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
         userGridXml = os.path.normcase(userGridXml)
 
         defaultGridXml = os.path.join(os.path.dirname(clientPaths[clientName]), 'app_settings', 'default_grids.xml')
