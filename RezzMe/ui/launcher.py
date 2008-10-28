@@ -67,12 +67,14 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         # init: attributes
         self._uri = uri
         self._gridInfo = gridInfo
+        self._cfg = cfg
         self._bookmark = False
         self._ok = False
 
         self._credentials = RezzMe.credentials.Credentials(os.path.expanduser('~/.rezzme.credentials'))
         self._userID = self._credentials.Credential(uri)
         self._userPassword = None
+        self._override = False
 
         clients = RezzMe.launcher.Clients()[0]
         self._client = clients[0]
@@ -80,117 +82,126 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self.comboBoxClients.addItems(clients)
         
         logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(clients))
-
         logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri)
 
 
-        # load GUI
+        # init: invariant GUI elements
         versionToolTip = unicode(self.labelVersion.toolTip()) % cfg['package']
         self.labelVersion.setToolTip(versionToolTip)
 
+        self._tooltips = {}
+        
         if 'authenticator' in gridInfo:
-            self.pushButtonOverride.setEnabled(True)
-            self._authenticator = gridInfo['authenticator']
-
-            logging.debug('RezzMe.ui.launcher: authenticator = %s', self._authenticator)
-
-            # fix up tooltips for bound part
-            tooltips = {}
-
             if 'authgridname' in gridInfo:
-                tooltips['userid'] = 'enter your %s user ID here' % gridInfo['authgridname']
-                tooltips['password'] = 'enter your %s password here' % gridInfo['authgridname']
+                self._tooltips['userid'] = 'enter your %s user ID here' % gridInfo['authgridname']
+                self._tooltips['password'] = 'enter your %s password here' % gridInfo['authgridname']
                 logging.debug('RezzMe.ui.launcher: authgridname = %s', gridInfo['authgridname'])
             else:
-                tooltips['userid'] = 'enter your %s user ID here' % gridInfo['gridname']
-                tooltips['password'] = 'enter your %s password here' % gridInfo['gridname']
+                self._tooltips['userid'] = 'enter your %s user ID here' % gridInfo['gridname']
+                self._tooltips['password'] = 'enter your %s password here' % gridInfo['gridname']
 
             if 'authuseridtooltip' in gridInfo:
-                tooltips['userid'] = gridInfo['authuseridtooltip']
+                self._tooltips['userid'] = gridInfo['authuseridtooltip']
             if 'authpasswordtooltip' in gridInfo:
-                tooltips['password'] = gridInfo['authpasswordtooltip']
+                self._tooltips['password'] = gridInfo['authpasswordtooltip']
 
-            userIDToolTip = unicode(self.lineEditUserID.toolTip()) % tooltips
-            userPasswordToolTip = unicode(self.lineEditUserPassword.toolTip()) % tooltips
-            self.lineEditUserID.setToolTip(userIDToolTip)
-            self.lineEditUserPassword.setToolTip(userPasswordToolTip)
+        
+        if 'authenticator' in gridInfo:
+            self._authenticator = gridInfo['authenticator']
         else:
-            self.pushButtonOverride.setEnabled(False)
-            logging.debug('RezzMe.ui.launcher: disabling fallback button')
             self._authenticator = None
 
-        self.labelUri.setText(uri.SafeUri)
-        self.labelGridName.setText(gridInfo['gridname'])
         
-        if uri.Region:
-            self.labelRegion.setText(urllib.unquote(uri.Region))
-            logging.debug('RezzMe.ui.launcher: region %s', urllib.unquote(uri.Region))
-        else:
-            self.labelRegion.clear()
-            logging.debug('RezzMe.ui.launcher: cleared region')
-
         if self._authenticator:
             # set title
             if 'authgridname' in gridInfo:
                 self.labelAuthenticationName.setText('<b>%s</b>' % gridInfo['authgridname'])
+                self.labelAuthenticationName2.setText('<b>%s</b>' % gridInfo['authgridname'])
             else:
                 self.labelAuthenticationName.setText('<b>%s credentials</b>' % gridInfo['gridname'])
+                self.labelAuthenticationName2.setText('<b>%s credentials</b>' % gridInfo['gridname'])
             # fill in user ID if known
             if self._userID:
-                self.lineEditUserID.setText(self._userID)
-                self.lineEditUserPassword.setFocus()
-
-        if uri.Avatar: 
-            self.lineEditAvatarName.setText(uri.Avatar)
-            logging.debug('RezzMe.ui.launcher: avatar %s', uri.Avatar)
+                self.lineEditUser.setText(self._userID)
+                self.lineEditUser2.setText(self._userID)
+                self.lineEditPassword.setFocus()
         else:
-            self.lineEditAvatarName.clear()
-            logging.debug('RezzMe.ui.launcher: cleared avatar')
+            self.lineEditUser.setText(uri.Avatar)
+            self.lineEditUser2.setText(uri.Avatar)
+            logging.debug('RezzMe.ui.launcher: avatar %s', uri.Avatar)
 
         if uri.Password:
-            self.lineEditAvatarPassword.setText(uri.Password)
+            self.lineEditPassword.setText(uri.Password)
+            self.lineEditPassword2.setText(uri.Password)
             self.pushButtonOK.setEnabled(True)
+            self.pushButtonOK2.setEnabled(True)
         else:
-            self.lineEditAvatarPassword.clear()
+            self.lineEditPassword.clear()
+            self.lineEditPassword.clear()
             self.pushButtonOK.setEnabled(False)
+            self.pushButtonOK2.setEnabled(False)
+
+        self._updateLabels()
+
+        if self._isAvatar:
+            self._status("please enter your avatar's name and password", green)
+        else:
+            self._status("please enter your user name and password", green)
 
         self.labelVersion.setText('%s/%s' % (cfg['package']['name'], 
                                              cfg['package']['version']))
 
-
-        if self._authenticator: 
-            self._boundMode()
-        else:
-            self._freeMode()
-
+        self.tabWidget.setCurrentIndex(0)
         self.show()
         self.raise_()
 
+    def _updateLabels(self):
+        if not self._authenticator or (self._authenticator and self._override):
+            self.labelUser.setText('&avatar name:')
+            self.lineEditUser.setToolTip('enter your avatar name here')
+            self.labelUser2.setText('&avatar name:')
+            self.lineEditUser2.setToolTip('enter your avatar name here')
+
+            self.labelPassword.setText('&password:')
+            self.lineEditPassword.setToolTip('enter your avatar password here')
+            self.labelPassword2.setText('&password:')
+            self.lineEditPassword2.setToolTip('enter your avatar password here')
+
+            if self._authenticator:
+                self.checkBoxOverride.setEnabled(True)
+            else:
+                self.checkBoxOverride.setEnabled(False)
+
+            self._isAvatar = True
+        else:
+            self.labelUser.setText('&user name:')
+            self.lineEditUser.setToolTip(self._tooltips['userid'])
+            self.labelUser2.setText('&user name:')
+            self.lineEditUser2.setToolTip(self._tooltips['userid'])
+
+            self.labelPassword.setText('&password:')
+            self.lineEditPassword.setToolTip(self._tooltips['password'])
+            self.labelPassword2.setText('&password:')
+            self.lineEditPassword2.setToolTip(self._tooltips['password'])
+
+            self.checkBoxOverride.setEnabled(True)
+
+            self._isAvatar = False
+
+        self.labelUri.setText(self._uri.SafeUri)
+        self.labelUri.setToolTip(unicode(self.labelUri.toolTip()) % self._gridInfo)
 
     def _status(self, msg, color = None):
         self.labelStatus.setText(msg)
+        self.labelStatus2.setText(msg)
         if color: 
             self.labelStatus.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % color)
+            self.labelStatus2.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % color)
         else:
             self.labelStatus.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % black)
+            self.labelStatus2.setStyleSheet('QWidget { color: %s; font-size:10pt; }' % black)
         self._app.sendPostedEvents()
         self._app.processEvents()
-
-
-    def _boundMode(self):
-        self._mode = 'bound'
-        self.stackedWidget.setCurrentWidget(self.bound)
-        self._status('enter your user ID and password', color = green)
-        if unicode(self.lineEditUserPassword.text()):
-            self.pushButtonOK.setEnabled(True)
-
-    def _freeMode(self):
-        self._mode = 'free'
-        self.stackedWidget.setCurrentWidget(self.free)
-        self._status('enter your avatar name and password', color = green)
-        if unicode(self.lineEditAvatarPassword.text()):
-            self.pushButtonOK.setEnabled(True)
-
 
     def _authenticate(self):
         keys = {}
@@ -231,9 +242,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return True
 
     # properties
-    def _gMode(self):
-        return self._mode
-    Mode = property(fget = _gMode)
+    def _gOverride(self):
+        return self._override
+    Override = property(fget = _gOverride)
 
 
     def _gUri(self):
@@ -254,15 +265,17 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return self._client
     Client = property(fget = _gClient)
 
-    # auto bindings
-    @PyQt4.QtCore.pyqtSignature('')
-    def on_pushButtonOverride_clicked(self):
-        self._boundMode()
-
-    @PyQt4.QtCore.pyqtSignature('')
-    def on_pushButtonOverrideProvided_clicked(self):
-        self._freeMode()
     
+    def _gIsAvatar(self):
+        return self._isAvatar
+    IsAvatar = property(fget = _gIsAvatar)
+
+    # auto bindings
+    @PyQt4.QtCore.pyqtSignature('bool')
+    def on_checkBoxOverride_toggled(self, checked):
+        self._override = checked
+        self._updateLabels()
+
     @PyQt4.QtCore.pyqtSignature('bool')
     def on_checkBoxBookmark_toggled(self, checked):
         self._bookmark = checked
@@ -276,51 +289,55 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     # UserID and password
     @PyQt4.QtCore.pyqtSignature('')
-    def on_lineEditUserID_editingFinished(self):
-        self._userID = unicode(self.lineEditUserID.text())
-        if self._userID:
-            self._credentials.Add(self._uri, self._userID)
-            self._credentials.Save()
+    def on_lineEditUser_editingFinished(self):
+        name = unicode(self.lineEditUser.text())
+        if self._isAvatar:
+            self._uri.Avatar = name
+        else:
+            self._userID = name
+            if self._userID:
+                self._credentials.Add(self._uri, self._userID)
+                self._credentials.Save()
+
 
     @PyQt4.QtCore.pyqtSignature('')
-    def on_lineEditUserPassword_editingFinished(self):
-        self._userPassword = unicode(self.lineEditUserPassword.text())
-        if self._userPassword:
+    def on_lineEditPassword_editingFinished(self):
+        password = unicode(self.lineEditPassword.text())
+        if self._isAvatar:
+            self._uri.Password = password
+        else:
+            self._userPassword = password
+
+        if password:
             self.pushButtonOK.setEnabled(True)
+            self.pushButtonOK2.setEnabled(True)
         else:
             self.pushButtonOK.setEnabled(False)
+            self.pushButtonOK2.setEnabled(False)
+
 
     @PyQt4.QtCore.pyqtSignature('QString')
-    def on_lineEditUserPassword_textEdited(self, text):
-        if text:
+    def on_lineEditPassword_textEdited(self, text):
+        if unicode(self.lineEditPassword.text()):
             self.pushButtonOK.setEnabled(True)
+            self.pushButtonOK2.setEnabled(True)
         else:
             self.pushButtonOK.setEnabled(False)
-
-    # Avatar name and password
-    @PyQt4.QtCore.pyqtSignature('')
-    def on_lineEditAvatarName_editingFinished(self):
-        self._uri.Avatar = unicode(self.lineEditAvatarName.text())
-
-    @PyQt4.QtCore.pyqtSignature('')
-    def on_lineEditAvatarPassword_editingFinished(self):
-        self._uri.Password = unicode(self.lineEditAvatarPassword.text())
-
-    @PyQt4.QtCore.pyqtSignature('QString')
-    def on_lineEditAvatarPassword_textEdited(self, text):
-        if unicode(self.lineEditAvatarPassword.text()):
-            self.pushButtonOK.setEnabled(True)
-        else:
-            self.pushButtonOK.setEnabled(False)
+            self.pushButtonOK2.setEnabled(False)
 
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonOK_clicked(self):
-        if self.Mode == 'bound':
-            if not self._authenticate():
+        if not self._isAvatar and not self._authenticate():
                 return None
 
         self.close()
 
         self._ok = True
         return self._uri
+
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_pushButtonOK2_clicked(self):
+        self.on_pushButtonOK_clicked()
+
+

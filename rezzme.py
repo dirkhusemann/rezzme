@@ -32,7 +32,7 @@ protocol. it expects the grid coordinates to be passed as a
 command line argument either as a "rezzme:" or as an "opensim:" style
 URI:
 
-	rezzme://osgrid.org:8002/
+        rezzme://osgrid.org:8002/
 
 you can also provide region/X/Y/Z coordinates:
 
@@ -98,10 +98,10 @@ try:
     import RezzMe.ui.tray
     import RezzMe.uri
 except ImportError, e:
-    logging.critical('rezzme: import error: %s', str(e))
+    logging.critical('rezzme: import error: %s', str(e), exc_info = True)
     sys.exit(1)
 except BaseException, e:
-    logging.critical('rezzme: the unexpected happened: %s', str(e))
+    logging.critical('rezzme: the unexpected happened: %s', str(e), exc_info = True)
     sys.exit(1)
 
 timeout = 30
@@ -159,7 +159,7 @@ def ConnectToGrid(app, uri):
     logging.debug('ConnectToGrid: launcher returned %s', launcher.OK)
     if launcher.OK:
         uri = launcher.Uri
-        if launcher.Mode == 'bound' and launcher.Bookmark:
+        if not launcher.IsAvatar and launcher.Bookmark:
             logging.debug('ConnectToGrid: bound mode')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
@@ -175,7 +175,7 @@ def ConnectToGrid(app, uri):
             uri.Avatar = avatar
             uri.Password = password
             
-        elif launcher.Mode == 'free' and launcher.Bookmark:
+        elif launcher.IsAvatar and launcher.Bookmark:
             logging.debug('ConnectToGrid: free mode')
             bookmarks.Add(uri)
             bookmarks.Save()
