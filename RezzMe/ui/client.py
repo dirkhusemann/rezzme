@@ -27,49 +27,51 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import PyQt4.QtCore
+import PyQt4.QtGui
+from PyQt4.QtCore import SIGNAL
 
-import logging
-import os
-import urllib
+import RezzMe.ui.clientselector
 
-# default location of SecondLife client on MacOS
-clients = ['secondlife']
-clientPaths = {'secondlife': '/Applications/Second\ Life.app/Contents/MacOS/Second\ Life'}
+class RezzMeClientSelector(PyQt4.QtGui.QDialog, RezzMe.ui.clientselector.Ui_ClientSelector):
 
-def Clients():
-    return (clients, clientPaths)
+    def __init__(self, parent = None):
 
-def ClientPattern():
-    return 'client executable (*)'
-    
-def Launch(avatar, password, gridInfo, location, clientName):
-    clientArgs = [ ]
-    clientArgs += ['-loginuri', gridInfo['login']]
-    clientArgs += ['-multiple']
+        # init: base and app
+        super(RezzMeClientSelector, self).__init__(parent)
+        self.setupUi(self)
 
-    keys = gridInfo.keys()
-    if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
-    if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
+        self._clientPath = None
+        self._clientTag = None
 
-    logArgs = clientArgs[:]
-    if avatar and password:
-        clientArgs += ['-login']
-        clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
-        logArgs = clientArgs[:]
+        self._ok = False
+        
+        self.show()
 
-        clientArgs += [password]
-        logArgs += ['**********']
+    def _gClient(self):
+        return (self._clientPath, self._clientTag)
+    Client = property(fget = _gClient)
 
-    if location:
-        clientArgs += [location]
-        logArgs += [location]
+    def _gOK(self):
+        return self._ok
+    OK = property(fget = _gOK)
 
-    # all systems go: start client
-    # need to invoke via shell as SecondLife client on MacOS does
-    # funny things when invoked via os.exec*
-    cmdLine = '%s %s' % (clientPaths[clientName], ' '.join(clientArgs))
-    logLine = '%s %s' % (clientPaths[clientName], ' '.join(logArgs))
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_pushButtonOK_clicked(self):
+        if not self._clientPath or not self._clientTag:
+            return None
 
-    logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', logLine)
-    os.system(cmdLine)
-    logging.debug('RezzMe.launchers.darwin.Launch: done')
+        self.close()
+        self._ok = True
+
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_pushButtonSelectClient_clicked(self):
+        self._clientPath = unicode(PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Select virtual world client', '.', 
+                                                                           RezzMe.launcher.ClientPattern()));
+        if self._clientPath:
+            self.labelClientPath.setText(self._clientPath)
+
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_lineEditClientTag_editingFinished(self):
+        self._clientTag = unicode(self.lineEditClientTag.text())
+

@@ -29,6 +29,7 @@
 
 from __future__ import with_statement
 
+import copy
 import logging
 import os
 import subprocess
@@ -37,92 +38,85 @@ import urllib
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clients = ['hippo', 'secondlife']
-clientPaths = {'hippo'     : 'hippo_opensim_viewer',
-               'secondlife': 'secondlife'}
+class PlatformLauncher(object):
 
-for c in clients:
-    found = False
-    for bin in os.environ['PATH'].split(':'):
-        t = '%s/%s' % (bin, clientPaths[c])
-        if os.path.exists(t):
-            clientPaths[c] = t
-            found = True
-            break
-    if not found: 
-        del clients[c]
-        del clientPaths[c]
+    def __init__(self):
+        self._clientsDefault = {'hippo'     : 'hippo_opensim_viewer',
+                                'secondlife': 'secondlife'}
+        self._clients = {}
+
+        for c in self._clientsDefault:
+            found = False
+            for bin in os.environ['PATH'].split(':'):
+                t = '%s/%s' % (bin, self._clientsDefault[c])
+                if os.path.exists(t):
+                    self._clients[c] = t
+                    break
+        
+    def _gClients(self):
+        return self._clients
+    Clients = property(fget = _gClients)
+
+    def _gClientPattern(self):
+        return 'client executable (*)'
+    ClientPattern = property(fget = _gClientPattern)
 
 
-def Clients():
-    return (clients, clientPaths)
+    def HippoDefaultGrids(self, path):
+        hippoHome = os.path.dirname(os.path.realpath(path))
 
-def HippoDefaultGrids(path):
-    hippoHome = os.path.dirname(os.path.realpath(path))
+        defaultGrids = '%s/app_settings/default_grids.xml' % hippoHome
+        if os.path.exists(defaultGrids):
+            logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", defaultGrids)
+            return defaultGrids
 
-    defaultGrids = '%s/app_settings/default_grids.xml' % hippoHome
-    if os.path.exists(defaultGrids):
-        logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", defaultGrids)
-        return defaultGrids
-
-    logging.debug("RezzMe.launchers.linux2: trying to find hippo's default_grids.xml via locate...")
-    defaultGrids = subprocess.Popen(['locate', 'app_settings/default_grids.xml'], stdout = subprocess.PIPE).communicate()[0].rstrip()
-    if defaultGrids:
-        for p in defaultGrids.split():
-            if 'hippo' in p.lower(): 
-                logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", p)
-                return p
-    return None
+        logging.debug("RezzMe.launchers.linux2: trying to find hippo's default_grids.xml via locate...")
+        defaultGrids = subprocess.Popen(['locate', 'app_settings/default_grids.xml'], stdout = subprocess.PIPE).communicate()[0].rstrip()
+        if defaultGrids:
+            for p in defaultGrids.split():
+                if 'hippo' in p.lower(): 
+                    logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", p)
+                    return p
+        return None
     
 
-def Launch(avatar, password, gridInfo, clientName, location):
-    clientArgs = [ ]
-    clientArgs += ['-loginuri', gridInfo['login']]
-    clientArgs += ['-multiple']
+    def Launch(self, avatar, password, gridInfo, clientName, client, location):
+        
+        clientArgs = [ ]
+        clientArgs += ['-loginuri', gridInfo['login']]
+        clientArgs += ['-multiple']
 
-    keys = gridInfo.keys()
-    if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
-    if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
+        keys = gridInfo.keys()
+        if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
+        if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
-    # mirror clientArgs into logArgs to avoid capturing passwords into
-    # log files
-    logArgs = clientArgs[:]
-    if avatar and password:
-        clientArgs += ['-login']
-        clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
+        # mirror clientArgs into logArgs to avoid capturing passwords into
+        # log files
         logArgs = clientArgs[:]
+        if avatar and password:
+            clientArgs += ['-login']
+            clientArgs += map(lambda x: "'%s'" % x, urllib.unquote(avatar).split())
+            logArgs = clientArgs[:]
+            
+            clientArgs += [password]
+            logArgs += ["'**********'"]
 
-        clientArgs += [password]
-        logArgs += ["'**********'"]
+        if 'hippo' == clientName:
+            userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/user_settings/grid_info.xml')
+            defaultGridXml = self.HippoDefaultGrids(client)
 
-    # locate client:
-    client = clientPaths[clientName]
-    if not client: 
-        logging.critical('RezzMe.launchers.linux2: did not find %s on path %s', ' or '.join(clients), sys.environ['PATH'])
-        raise RezzMe.exceptions.RezzMeException('cannot find suitable client! install hippo viewer or secondlife client and try again')
+            gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
+            clientArgs += ['-grid', gridnick]
+            logArgs += ['-grid', gridnick]
 
-    logging.debug('RezzMe.launchers.linux2: found client %s', client)
+        # has to come last
+        if location:
+            clientArgs += [location]
+            logArgs += [location]
 
-    
+        # all systems go: start client
+        clientArgs = [ client ] + clientArgs
+        logArgs = [ client ] + logArgs
 
-    if 'hippo' == clientName:
-        userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/user_settings/grid_info.xml')
-        defaultGridXml = HippoDefaultGrids(client)
-
-        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
-        clientArgs += ['-grid', gridnick]
-        logArgs += ['-grid', gridnick]
-
-    # has to come last
-    if location:
-        clientArgs += [location]
-        logArgs += [location]
-
-    # all systems go: start client
-    clientArgs = [ client ] + clientArgs
-    logArgs = [ client ] + logArgs
-
-    logging.debug('RezzMe.launchers.linux2: client %s args %s', client, ' '.join(logArgs))
-    os.execvp(client, clientArgs)
-
-
+        logging.debug('RezzMe.launchers.linux2: client %s args %s', client, ' '.join(logArgs))
+        os.execvp(client, clientArgs)

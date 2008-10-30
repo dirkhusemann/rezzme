@@ -27,7 +27,12 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from __future__ import with_statement
+
+import ConfigParser
 import logging
+import os
+import re
 import sys
 import RezzMe.exceptions
 
@@ -37,18 +42,64 @@ except ImportError, e:
     print 'no launcher available for this platform (%s) [%s]' % (sys.platform, str(e))
     raise e
 
-def Launch(avatar, password, gridInfo, client, location = None):
-    '''launch platform specific virtual world client.
-       '''
-    logging.debug('RezzMe.launchers.Launch: launching client %s', sys.platform)
-    PlatformLauncher.Launch(avatar, password, gridInfo, client, location)
-    
+class ClientLauncher(object):
 
-def Clients():
-    '''Return choice of available clients'''
+    def __init__(self):
+        self._clients = None
+        self._configFile = os.path.expanduser('~/.rezzme.clients')
 
-    logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
-    (clients, paths) = PlatformLauncher.Clients()
-    for c in clients:
-        logging.info('RezzMe.launcher.Clients: found %s client at %s', c, paths[c])
-    return (clients, paths)
+        logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
+        self._platformLauncher = PlatformLauncher.PlatformLauncher()
+        self._clients = self._platformLauncher.Clients
+        for c in self._clients:
+            logging.info('RezzMe.launcher.Clients: found %s client at %s', c,self._clients[c])
+
+        # add in user specified clients
+        self._loadUserClients()
+        for c in self._clients:
+            logging.info('RezzMe.launcher.Clients: %s client at %s', c, self._clients[c])
+
+    def _gClients(self):
+        return self._clients.keys()
+    ClientTags = property(fget = _gClients)
+
+    def Launch(self, avatar, password, gridInfo, clientTag, location = None):
+        '''launch platform specific virtual world client.
+           '''
+
+        if not clientTag in self._clients:
+            raise RezzMeException('RezzMe.launcher: no client for for %s' % clientTag)
+
+        self._platformLauncher.Launch(avatar, password, gridInfo, clientTag, self._clients[clientTag], location)
+        
+
+    def _loadUserClients(self):
+        if not self._configFile or not os.path.exists(self._configFile): return
+
+        config = ConfigParser.RawConfigParser()
+        with open(self._configFile, 'r') as clientConfig:
+            config.readfp(clientConfig)
+
+        for tag in config.sections():
+            if config.has_option(tag, 'path'):
+                self._clients[tag] = config.get(tag, 'path')
+
+    def AddClient(self, tag, path):
+        self._clients[tag] = path
+
+
+    def SaveClients(self):
+        # save to ~/.rezzme.clients
+        config = ConfigParser.RawConfigParser()
+        for c in self._clients:
+            if c not in config.sections():
+                config.add_section(c)
+            config.set(c, 'path', self._clients[c])
+
+        with open(self._configFile, 'w') as clientConfig:
+            config.write(clientConfig)
+
+
+    def _gClientPattern(self):
+        return self._platformLauncher.ClientPattern
+    ClientPattern = property(fget = _gClientPattern)

@@ -40,6 +40,7 @@ import RezzMe.credentials
 import RezzMe.launcher
 import RezzMe.parse
 import RezzMe.ui.rezzme
+import RezzMe.ui.client
 
 from PyQt4.QtCore import SIGNAL
 
@@ -50,9 +51,11 @@ red   = 'rgb(255, 0, 0)'
 green = 'rgb(0, 170, 0)'
 blue  = 'rgb(0, 0, 255)'
 
+addNewClient = '>add new client<'
+
 class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
-    def __init__(self, parent = None, app = None, cfg = None, uri = None, gridInfo = None):
+    def __init__(self, parent = None, app = None, cfg = None, uri = None, gridInfo = None, launcher = None):
 
         # sanity check
         if not uri: 
@@ -63,6 +66,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         super(RezzMeLauncher, self).__init__(parent)
         self._app = app
         self.setupUi(self)
+        self._launcher = launcher
         
         # init: attributes
         self._uri = uri
@@ -76,12 +80,13 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._userPassword = None
         self._override = False
 
-        clients = RezzMe.launcher.Clients()[0]
-        self._client = clients[0]
+        self._clients = self._launcher.ClientTags
+        self._client = self._clients[0]
         self.comboBoxClients.clear()
-        self.comboBoxClients.addItems(clients)
+        self.comboBoxClients.addItems(self._clients)
+        self.comboBoxClients.addItem(addNewClient)
         
-        logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(clients))
+        logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(self._clients))
         logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri)
 
 
@@ -241,6 +246,18 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         return True
 
+    def _addClient(self):
+        clientSelector = RezzMe.ui.client.RezzMeClientSelector()
+        clientSelector.exec_()
+        if not clientSelector.OK: return
+
+        (client, tag) = clientSelector.Client
+        if not tag in self._clients:
+            self._clients += [tag]
+        self._launcher.AddClient(tag, client)
+        logging.debug('RezzMe.launcher._addClient: %s', client)
+        
+
     # properties
     def _gOverride(self):
         return self._override
@@ -283,8 +300,11 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_comboBoxClients_activated(self, client):
-        logging.debug('RezzMe.ui.launcher.on_comboBoxClients_activated: %s', unicode(client))
-        self._client = unicode(client)
+        client = unicode(client)
+        if client == addNewClient:
+            self._addClient()
+        else:
+            self._client = client
 
 
     # UserID and password
@@ -318,6 +338,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_lineEditPassword_textEdited(self, text):
+        # cannot use parameter text, as that is according to the docs
+        # the text delta which could be empty, so take a look at the
+        # QLineEdit widget
         if unicode(self.lineEditPassword.text()):
             self.pushButtonOK.setEnabled(True)
             self.pushButtonOK2.setEnabled(True)

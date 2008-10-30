@@ -35,8 +35,8 @@ import _winreg
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clients = []
-clientPaths = {}
+clientsDefaults = []
+clientPathsDefaults = {}
 
 # try for hippo opensim viewer first
 try:
@@ -47,8 +47,8 @@ try:
         hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
         hippoExe = '%s\\%s' % (hovp, hove)
 
-        clients += ['hippo']
-        clientPaths['hippo'] = hippoExe
+        clientsDefaults += ['hippo']
+        clientPathsDefaults['hippo'] = hippoExe
 except:
     pass
 
@@ -56,12 +56,15 @@ slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\com
 if slk:
     slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
 
-    clients += ['secondlife']
-    clientPaths['secondlife'] = slp
+    clientsDefaults += ['secondlife']
+    clientPathsDefaults['secondlife'] = slp
 
 
 def Clients():
     return (clients, clientPaths)
+
+def ClientPattern():
+    return 'client executable (*.exe *.bat)'
 
 
 def Launch(avatar, password, gridInfo, clientName, location):
