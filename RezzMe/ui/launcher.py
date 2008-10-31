@@ -125,26 +125,6 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             else:
                 self.labelAuthenticationName.setText('<b>%s credentials</b>' % gridInfo['gridname'])
                 self.labelAuthenticationName2.setText('<b>%s credentials</b>' % gridInfo['gridname'])
-            # fill in user ID if known
-            if self._userID:
-                self.lineEditUser.setText(self._userID)
-                self.lineEditUser2.setText(self._userID)
-                self.lineEditPassword.setFocus()
-        else:
-            self.lineEditUser.setText(uri.Avatar)
-            self.lineEditUser2.setText(uri.Avatar)
-            logging.debug('RezzMe.ui.launcher: avatar %s', uri.Avatar)
-
-        if uri.Password:
-            self.lineEditPassword.setText(uri.Password)
-            self.lineEditPassword2.setText(uri.Password)
-            self.pushButtonOK.setEnabled(True)
-            self.pushButtonOK2.setEnabled(True)
-        else:
-            self.lineEditPassword.clear()
-            self.lineEditPassword.clear()
-            self.pushButtonOK.setEnabled(False)
-            self.pushButtonOK2.setEnabled(False)
 
         self._updateLabels()
 
@@ -177,7 +157,23 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             else:
                 self.checkBoxOverride.setEnabled(False)
 
+            self.lineEditUser.setText(uri.Avatar)
+            self.lineEditUser2.setText(uri.Avatar)
+            logging.debug('RezzMe.ui.launcher: avatar %s', uri.Avatar)
+
+            if uri.Password:
+                self.lineEditPassword.setText(uri.Password)
+                self.lineEditPassword2.setText(uri.Password)
+                self.pushButtonOK.setEnabled(True)
+                self.pushButtonOK2.setEnabled(True)
+            else:
+                self.lineEditPassword.clear()
+                self.lineEditPassword.clear()
+                self.pushButtonOK.setEnabled(False)
+                self.pushButtonOK2.setEnabled(False)
+
             self._isAvatar = True
+
         else:
             self.labelUser.setText('&user name:')
             self.lineEditUser.setToolTip(self._tooltips['userid'])
@@ -190,6 +186,12 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self.lineEditPassword2.setToolTip(self._tooltips['password'])
 
             self.checkBoxOverride.setEnabled(True)
+
+            # fill in user ID if known
+            if self._userID:
+                self.lineEditUser.setText(self._userID)
+                self.lineEditUser2.setText(self._userID)
+                self.lineEditPassword.setFocus()
 
             self._isAvatar = False
 

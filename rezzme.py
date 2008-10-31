@@ -153,13 +153,14 @@ def ConnectToGrid(app, uri):
         uri.Credentials = bookmark.Credentials
 
     logging.debug('ConnectToGrid: starting launcher GUI')
-    launcher = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg)
-    launcher.exec_()
+    launcher = RezzMe.launcher.ClientLauncher()
+    ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
+    ui.exec_()
 
-    logging.debug('ConnectToGrid: launcher returned %s', launcher.OK)
-    if launcher.OK:
-        uri = launcher.Uri
-        if not launcher.IsAvatar and launcher.Bookmark:
+    logging.debug('ConnectToGrid: launcher returned %s', ui.OK)
+    if ui.OK:
+        uri = ui.Uri
+        if not ui.IsAvatar and ui.Bookmark:
             logging.debug('ConnectToGrid: bound mode')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
@@ -175,7 +176,7 @@ def ConnectToGrid(app, uri):
             uri.Avatar = avatar
             uri.Password = password
             
-        elif launcher.IsAvatar and launcher.Bookmark:
+        elif ui.IsAvatar and ui.Bookmark:
             logging.debug('ConnectToGrid: free mode')
             bookmarks.Add(uri)
             bookmarks.Save()
@@ -189,7 +190,7 @@ def ConnectToGrid(app, uri):
 
     # ok, got everything, now construct the command line
     logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
-    RezzMe.launcher.Launch(uri.Avatar, uri.Password, gridInfo, launcher.Client, uri.Location)
+    launcher.Launch(uri.Avatar, uri.Password, gridInfo, ui.Client, uri.Location)
 
 
 # def RezzMeSystemTray(app):

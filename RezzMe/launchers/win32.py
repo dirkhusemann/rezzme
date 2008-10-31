@@ -35,90 +35,84 @@ import _winreg
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
 
-clientsDefaults = []
-clientPathsDefaults = {}
+class PlatformLauncher(object):
+    
+    def __init__(self):
 
-# try for hippo opensim viewer first
-try:
-    hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
+        # try for hippo opensim viewer first
+        try:
+            hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
 
-    if hovk:
-        hovp = _winreg.QueryValueEx(hovk, None)[0]
-        hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
-        hippoExe = '%s\\%s' % (hovp, hove)
+            if hovk:
+                hovp = _winreg.QueryValueEx(hovk, None)[0]
+                hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
+                hippoExe = '%s\\%s' % (hovp, hove)
 
-        clientsDefaults += ['hippo']
-        clientPathsDefaults['hippo'] = hippoExe
-except:
-    pass
+                self._clients['hippo'] = hippoExe
+        except:
+            pass
 
-slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
-if slk:
-    slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
+        try:
+            slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
+            if slk:
+                slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
 
-    clientsDefaults += ['secondlife']
-    clientPathsDefaults['secondlife'] = slp
+                self._clients['secondlife'] = slp
+        except:
+            pass
 
+        if not self._clients:
+            raise RezzMeExceptions('no virtual worlds clients found!')
 
-def Clients():
-    return (clients, clientPaths)
+    def _gClients(self):
+        return self._clients
+    Clients = property(fget = _gClients)
 
-def ClientPattern():
-    return 'client executable (*.exe *.bat)'
+    def _gClientPattern(self):
+        return 'client executable (*.exe *.bat)'
+    ClientPattern = property(fget = _gClientPattern)
 
+    
+    def Launch(self, avatar, password, gridInfo, clientName, client, location):
 
-def Launch(avatar, password, gridInfo, clientName, location):
-    clientArgs = [ ]
-    clientArgs += ['-loginuri', gridInfo['login']]
-    clientArgs += ['-multiple']
+        clientArgs = [ ]
+        clientArgs += ['-loginuri', gridInfo['login']]
+        clientArgs += ['-multiple']
 
-    keys = gridInfo.keys()
-    if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
-    if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
+        keys = gridInfo.keys()
+        if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
+        if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
-    # need to mirror clientArgs into logArgs to avoid capturing
-    # password into log file
-    logArgs = clientArgs[:]
-    if avatar and password:
-        clientArgs += ['-login']
-        # on windows we use os.exec*(), thus, no quote
-        clientArgs += urllib.unquote(avatar).split()
+        # need to mirror clientArgs into logArgs to avoid capturing
+        # password into log file
         logArgs = clientArgs[:]
+        if avatar and password:
+            clientArgs += ['-login']
+            # on windows we use os.exec*(), thus, no quote
+            clientArgs += urllib.unquote(avatar).split()
+            logArgs = clientArgs[:]
 
-        clientArgs += [password]
-        logArgs += ['**********']
+            clientArgs += [password]
+            logArgs += ['**********']
 
 
-    if clientName == 'hippo':
-        userGridXml = os.path.expanduser('~/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
-        userGridXml = os.path.normcase(userGridXml)
+        if clientName == 'hippo':
+            userGridXml = os.path.expanduser('~/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
+            userGridXml = os.path.normcase(userGridXml)
 
-        defaultGridXml = os.path.join(os.path.dirname(clientPaths[clientName]), 'app_settings', 'default_grids.xml')
+            defaultGridXml = os.path.join(os.path.dirname(clientPaths[clientName]), 'app_settings', 'default_grids.xml')
 
-        gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
-        clientArgs += ['-grid', gridnick]
-        logArgs += ['-grid', gridnick]
-
-        if location:
-            clientArgs += [location]
-            logArgs += [location]
-
-        # all systems go: start client
-        clientArgs = [ 'hippo_opensim_viewer' ] + clientArgs
-        logArgs = [ 'hippo_opensim_viewer' ] + logArgs
-
-        logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
-        os.execv(clientPaths[clientName], clientArgs)
-
-    elif clientName == 'secondlife':
+            gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
+            clientArgs += ['-grid', gridnick]
+            logArgs += ['-grid', gridnick]
 
         if location:
             clientArgs += [location]
             logArgs += [location]
         
         # all systems go: start client
-        clientArgs = [ 'secondlife' ] + clientArgs
-        logArgs = [ 'secondlife' ] + logArgs
+        clientArgs = [ client ] + clientArgs
+        logArgs = [ client ] + logArgs
 
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
-        os.execv(clientPaths[clientName], clientArgs)
+        os.execv(client, clientArgs)
