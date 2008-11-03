@@ -6,6 +6,7 @@ ez_setup.use_setuptools()
 
 import os
 import pprint
+import re
 import sys
 from setuptools import setup
 
