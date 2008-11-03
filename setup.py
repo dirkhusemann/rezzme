@@ -102,8 +102,11 @@ elif platform == 'win32':
                              'RezzMe.launchers.win32',
                              'setuptools'],
                 'dist_dir': 'dist-win32',
+                'bundle_files': 1,
+                'optimize': 2,
                 }
-            }
+            },
+        zipfile = None,
         }
 
 else:
