@@ -38,22 +38,6 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 
 [Files]
 Source: %(source)s\dist-win32\%(name)s.exe; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\_hashlib.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\_socket.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\_ssl.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\bz2.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\library.zip; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\mingwm10.dll; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\MSVCR71.dll; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\pyexpat.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\PyQt4.QtCore.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\PyQt4.QtGui.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\python25.dll; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\QtCore4.dll; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\QtGui4.dll; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\sip.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\unicodedata.pyd; DestDir: {app}; Flags: ignoreversion
-Source: %(source)s\dist-win32\w9xpopen.exe; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

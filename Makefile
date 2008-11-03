@@ -10,7 +10,7 @@ SVN2CL  = svn2cl --group-by-day --separate-daylogs --include-rev --authors=AUTHO
 all: build deploy changelog
 
 clean:
-	rm -rf dist build dist_win32
+	rm -rf dist build dist_win32 dist-win32
 	rm -rf rezzme*.dmg
 	rm -rf RezzMe/resources.py
 	rm -rf RezzMe/config/config.py
