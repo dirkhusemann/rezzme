@@ -320,6 +320,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
                 self._credentials.Save()
 
 
+
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditPassword_editingFinished(self):
         password = unicode(self.lineEditPassword.text())
@@ -336,6 +337,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self.pushButtonOK2.setEnabled(False)
 
 
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_lineEditPassword2_editingFinished(self):
+        self.on_lineEditPassword_editingFinished()
+
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_lineEditPassword_textEdited(self, text):
         # cannot use parameter text, as that is according to the docs
@@ -348,6 +353,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self.pushButtonOK.setEnabled(False)
             self.pushButtonOK2.setEnabled(False)
 
+    @PyQt4.QtCore.pyqtSignature('QString')
+    def on_lineEditPassword2_textEdited(self, text):
+        self.on_lineEditPassword_textEdited(text)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonOK_clicked(self):

@@ -105,6 +105,7 @@ class PlatformLauncher(object):
             userGridXml = os.path.normcase(userGridXml)
 
             defaultGridXml = os.path.join(os.path.dirname(clientPaths[clientName]), 'app_settings', 'default_grids.xml')
+            logging.debug('hippo client: modifying %s', defaultGridXml)
 
             gridnick = RezzMe.launchers.hippo.HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml)
             clientArgs += ['-grid', gridnick]
