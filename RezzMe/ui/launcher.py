@@ -82,9 +82,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         self._clients = self._launcher.ClientTags
         self._client = self._clients[0]
-        self.comboBoxClients.clear()
-        self.comboBoxClients.addItems(self._clients)
-        self.comboBoxClients.addItem(addNewClient)
+        self._updateClients()
         
         logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(self._clients))
         logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri)
@@ -157,13 +155,13 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             else:
                 self.checkBoxOverride.setEnabled(False)
 
-            self.lineEditUser.setText(uri.Avatar)
-            self.lineEditUser2.setText(uri.Avatar)
-            logging.debug('RezzMe.ui.launcher: avatar %s', uri.Avatar)
+            self.lineEditUser.setText(self._uri.Avatar)
+            self.lineEditUser2.setText(self._uri.Avatar)
+            logging.debug('RezzMe.ui.launcher: avatar %s', self._uri.Avatar)
 
-            if uri.Password:
-                self.lineEditPassword.setText(uri.Password)
-                self.lineEditPassword2.setText(uri.Password)
+            if self._uri.Password:
+                self.lineEditPassword.setText(self._uri.Password)
+                self.lineEditPassword2.setText(self._uri.Password)
                 self.pushButtonOK.setEnabled(True)
                 self.pushButtonOK2.setEnabled(True)
             else:
@@ -197,6 +195,12 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         self.labelUri.setText(self._uri.SafeUri)
         self.labelUri.setToolTip(unicode(self.labelUri.toolTip()) % self._gridInfo)
+
+    def _updateClients(self):
+        self.comboBoxClients.clear()
+        self.comboBoxClients.addItems(self._clients)
+        self.comboBoxClients.addItem(addNewClient)
+
 
     def _status(self, msg, color = None):
         self.labelStatus.setText(msg)
@@ -249,16 +253,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return True
 
     def _addClient(self):
-        clientSelector = RezzMe.ui.client.RezzMeClientSelector()
-        clientSelector.exec_()
-        if not clientSelector.OK: return
-
-        (client, tag) = clientSelector.Client
-        if not tag in self._clients:
-            self._clients += [tag]
-        self._launcher.AddClient(tag, client)
-        logging.debug('RezzMe.launcher._addClient: %s', client)
-        
+        self._launcher.GetClient()
+        self._clients = self._launcher.ClientTags
+        self._client = self._clients[0]
+        self._updateClients()
 
     # properties
     def _gOverride(self):

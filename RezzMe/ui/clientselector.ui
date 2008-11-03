@@ -14,7 +14,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" >
    <item>
-    <widget class="QLabel" name="label" >
+    <widget class="QLabel" name="labelMessage" >
      <property name="font" >
       <font>
        <family>Bitstream Vera Sans</family>

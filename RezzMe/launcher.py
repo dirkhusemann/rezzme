@@ -83,6 +83,19 @@ class ClientLauncher(object):
         for tag in config.sections():
             if config.has_option(tag, 'path'):
                 self._clients[tag] = config.get(tag, 'path')
+                logging.debug('RezzMe.launcher._loadUserClients: adding %s - %s', tag, self._clients[tag])
+
+
+    def GetClient(self, msg = None):
+        clientSelector = RezzMe.ui.client.RezzMeClientSelector(msg = msg, clientLauncher = self)
+        clientSelector.exec_()
+        if not clientSelector.OK: return
+
+        (client, tag) = clientSelector.Client
+        if not tag in self._clients:
+            self._clients[tag] = client
+        self.SaveClients()
+        logging.debug('RezzMe.launcher.GetClient: %s - %s', tag, client)
 
     def AddClient(self, tag, path):
         self._clients[tag] = path

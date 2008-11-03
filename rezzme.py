@@ -154,6 +154,12 @@ def ConnectToGrid(app, uri):
 
     logging.debug('ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
+    if not launcher.ClientTags:
+        launcher.GetClient('Hmm, cannot find a virtual world client. Please select a virtual world client and give it a tag:')
+        if not launcher.ClientTags:
+            raise RezzMe.exceptions.RezzMeException('RezzMe.launcher: no virtual world client found')
+
+
     ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
     ui.exec_()
 

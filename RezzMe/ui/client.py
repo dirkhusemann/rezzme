@@ -35,11 +35,15 @@ import RezzMe.ui.clientselector
 
 class RezzMeClientSelector(PyQt4.QtGui.QDialog, RezzMe.ui.clientselector.Ui_ClientSelector):
 
-    def __init__(self, parent = None):
+    def __init__(self, parent = None, msg = 'Select a new virtual world client:', clientLauncher = None):
 
         # init: base and app
         super(RezzMeClientSelector, self).__init__(parent)
         self.setupUi(self)
+
+        if msg: self.labelMessage.setText(msg)
+
+        self._launcher = clientLauncher
 
         self._clientPath = None
         self._clientTag = None
@@ -67,7 +71,7 @@ class RezzMeClientSelector(PyQt4.QtGui.QDialog, RezzMe.ui.clientselector.Ui_Clie
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonSelectClient_clicked(self):
         self._clientPath = unicode(PyQt4.QtGui.QFileDialog.getOpenFileName(self, 'Select virtual world client', '.', 
-                                                                           RezzMe.launcher.ClientPattern()));
+                                                                           self._launcher.ClientPattern));
         if self._clientPath:
             self.labelClientPath.setText(self._clientPath)
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'clientselector.ui'
 #
-# Created: Wed Oct 29 14:46:47 2008
+# Created: Mon Nov  3 10:29:01 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,13 +17,13 @@ class Ui_ClientSelector(object):
         self.vboxlayout = QtGui.QVBoxLayout(ClientSelector)
         self.vboxlayout.setObjectName("vboxlayout")
 
-        self.label = QtGui.QLabel(ClientSelector)
+        self.labelMessage = QtGui.QLabel(ClientSelector)
 
         font = QtGui.QFont()
         font.setFamily("Bitstream Vera Sans")
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.vboxlayout.addWidget(self.label)
+        self.labelMessage.setFont(font)
+        self.labelMessage.setObjectName("labelMessage")
+        self.vboxlayout.addWidget(self.labelMessage)
 
         self.gridlayout = QtGui.QGridLayout()
         self.gridlayout.setObjectName("gridlayout")
@@ -99,7 +99,7 @@ class Ui_ClientSelector(object):
 
     def retranslateUi(self, ClientSelector):
         ClientSelector.setWindowTitle(QtGui.QApplication.translate("ClientSelector", "Virtual world client selector", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("ClientSelector", "Select a new client and give it a short tag:", None, QtGui.QApplication.UnicodeUTF8))
+        self.labelMessage.setText(QtGui.QApplication.translate("ClientSelector", "Select a new client and give it a short tag:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("ClientSelector", "client:", None, QtGui.QApplication.UnicodeUTF8))
         self.labelClientPath.setText(QtGui.QApplication.translate("ClientSelector", "-", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButtonSelectClient.setToolTip(QtGui.QApplication.translate("ClientSelector", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

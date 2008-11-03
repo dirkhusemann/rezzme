@@ -61,8 +61,6 @@ class PlatformLauncher(object):
         except:
             pass
 
-        if not self._clients:
-            raise RezzMeExceptions('no virtual worlds clients found!')
 
     def _gClients(self):
         return self._clients

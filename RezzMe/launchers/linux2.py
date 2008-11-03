@@ -52,10 +52,6 @@ class PlatformLauncher(object):
                 if os.path.exists(t):
                     self._clients[c] = t
                     break
-
-        if not self._clients:
-            raise RezzMeExceptions('no virtual worlds clients found!')
-
         
     def _gClients(self):
         return self._clients
