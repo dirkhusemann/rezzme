@@ -39,8 +39,11 @@ class PlatformLauncher(object):
     
     def __init__(self):
 
+        self._clients = {}
+
         # try for hippo opensim viewer first
         try:
+            logging.debug('RezzMe.launchers.win32: checking for hippo client')
             hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
 
             if hovk:
@@ -49,15 +52,18 @@ class PlatformLauncher(object):
                 hippoExe = '%s\\%s' % (hovp, hove)
 
                 self._clients['hippo'] = hippoExe
+                logging.debug('RezzMe.launchers.win32: found hippo client at %s', hippoExe)
         except:
             pass
 
         try:
+            logging.debug('RezzMe.launchers.win32: checking for secondlife client')
             slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
             if slk:
                 slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
 
                 self._clients['secondlife'] = slp
+                logging.debug('RezzMe.launchers.win32: found secondlife client at %s', slp)
         except:
             pass
 
