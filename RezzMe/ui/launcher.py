@@ -339,7 +339,18 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditPassword2_editingFinished(self):
-        self.on_lineEditPassword_editingFinished()
+        password = unicode(self.lineEditPassword2.text())
+        if self._isAvatar:
+            self._uri.Password = password
+        else:
+            self._userPassword = password
+
+        if password:
+            self.pushButtonOK.setEnabled(True)
+            self.pushButtonOK2.setEnabled(True)
+        else:
+            self.pushButtonOK.setEnabled(False)
+            self.pushButtonOK2.setEnabled(False)
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_lineEditPassword_textEdited(self, text):
@@ -355,7 +366,16 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_lineEditPassword2_textEdited(self, text):
-        self.on_lineEditPassword_textEdited(text)
+        # cannot use parameter text, as that is according to the docs
+        # the text delta which could be empty, so take a look at the
+        # QLineEdit widget
+        if unicode(self.lineEditPassword2.text()):
+            self.pushButtonOK.setEnabled(True)
+            self.pushButtonOK2.setEnabled(True)
+        else:
+            self.pushButtonOK.setEnabled(False)
+            self.pushButtonOK2.setEnabled(False)
+
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonOK_clicked(self):
