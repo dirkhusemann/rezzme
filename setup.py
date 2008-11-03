@@ -87,7 +87,7 @@ elif platform == 'win32':
     import pkg_resources
     pkg_resources.require("setuptools")
 
-    reIcon = re(r'(?P<name>.*)\.png$', re.IGNORECASE)
+    reIcon = re.compile(r'(?P<name>.*)\.png$', re.IGNORECASE)
     icon = cfg['package']['icon_32']
     im = reIcon.match(icon)
     if im:
