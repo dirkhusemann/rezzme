@@ -101,7 +101,7 @@ class PlatformLauncher(object):
             clientArgs += [password]
             logArgs += ["'**********'"]
 
-        if 'hippo' == clientName:
+        if 'hippo' in clientName.lower() or 'hippo' in client.lower():
             userGridXml = os.path.expanduser('~/.hippo_opensim_viewer/user_settings/grid_info.xml')
             defaultGridXml = self.HippoDefaultGrids(client)
 
