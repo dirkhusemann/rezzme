@@ -35,6 +35,7 @@ import os
 import re
 import sys
 import RezzMe.exceptions
+import RezzMe.ui.client
 
 try:
     exec 'import RezzMe.launchers.%s as PlatformLauncher' % sys.platform
