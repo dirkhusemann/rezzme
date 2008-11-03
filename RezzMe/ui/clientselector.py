@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'clientselector.ui'
 #
-# Created: Mon Nov  3 10:29:01 2008
+# Created: Mon Nov  3 11:05:18 2008
 #      by: PyQt4 UI code generator 4.3.3
 #
 # WARNING! All changes made in this file will be lost!

@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file alias="rezzme.png">%(icon)s</file>
+    <file alias="about.html">%(about)s</file>
+  </qresource>
+</RCC>

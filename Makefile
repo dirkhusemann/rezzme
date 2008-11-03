@@ -29,6 +29,9 @@ RezzMe/config/config.py: rezzme.cfg rezzme-site.cfg
 about.html : about.raw.html rezzme.cfg
 	${EXPAND} $< $@
 
+rezzme.qrc : rezzme.raw.qrc rezzme.cfg
+	${EXPAND} $< $@
+
 resources: rezzme.png about.html rezzme.qrc 
 	${PYRCC} -o RezzMe/resources.py rezzme.qrc
 
