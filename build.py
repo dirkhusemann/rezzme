@@ -62,7 +62,7 @@ name = cfg['package']['name']
 command = cfg[sys.platform]['build']
 
 # use platform independent system(), this needs to run on all platforms
-system('python setup.py %s' % command)
+system('python -OO setup.py %s' % command)
 
 # post processing: mac osx: create disk image
 if onMacOSX:
