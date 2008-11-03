@@ -86,9 +86,15 @@ elif platform == 'win32':
     import pkg_resources
     pkg_resources.require("setuptools")
 
+    reIcon = re(r'(?P<name>.*)\.png$', re.IGNORECASE)
+    icon = cfg['package']['icon_32']
+    im = reIcon.match(icon)
+    if im:
+        icon = '%s.ico' % im.group('name')
+
     extra_options = {
         'windows': [{'script' : application, 
-                     'icon_resources': [(1, 'rezzme.ico')]}],
+                     'icon_resources': [(1, icon)]}],
         'options': {
             'py2exe': {
                 'includes': ['sip', 

@@ -262,7 +262,7 @@ class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
         super(RezzMeTray, self).__init__(parent)
 
         logging.debug('RezzMe.ui.tray: init')
-        self.setIcon(PyQt4.QtGui.QIcon(':/rezzme.png'))
+        self.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
 
         self._app = app
         self._desktopServices = PyQt4.QtGui.QDesktopServices()
