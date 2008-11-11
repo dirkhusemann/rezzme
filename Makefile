@@ -12,6 +12,10 @@ all: build deploy changelog
 clean:
 	rm -rf dist build dist_win32 dist-win32
 	rm -rf rezzme*.dmg
+	rm -rf MANIFEST.in
+	rm -rf rezzme-sealed.cfg
+	rm -rf rezzme.desktop
+	rm -rf rezzme.qrc
 	rm -rf RezzMe/resources.py
 	rm -rf RezzMe/config/config.py
 	make -C RezzMe/ui clean
@@ -29,10 +33,16 @@ RezzMe/config/config.py: rezzme.cfg rezzme-site.cfg
 about.html : about.raw.html rezzme.cfg
 	${EXPAND} $< $@
 
+rezzme.desktop : rezzme.raw.desktop rezzme.cfg
+	${EXPAND} $< $@
+
 rezzme.qrc : rezzme.raw.qrc rezzme.cfg
 	${EXPAND} $< $@
 
-resources: rezzme.png about.html rezzme.qrc 
+MANIFEST.in : MANIFEST.raw.in rezzme.cfg
+	${EXPAND} $< $@
+
+resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in
 	${PYRCC} -o RezzMe/resources.py rezzme.qrc
 
 changelog:

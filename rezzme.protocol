@@ -1,5 +1,5 @@
 [Protocol]
-exec=/usr/bin/rezzme.py '%u'
+exec=rezzme.py %u
 protocol=rezzme
 input=none
 output=none

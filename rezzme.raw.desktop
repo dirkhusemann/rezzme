@@ -1,0 +1,16 @@
+[Desktop Entry]
+Comment=access virtual worlds easily
+Encoding=UTF-8
+Exec=rezzme
+GenericName=rezzme - access virtual worlds easily
+Icon=/usr/share/icons/hicolor/32x32/apps/%(icon_32)s
+MimeType=
+Name=rezzme
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-StartupNotify=true
+Categories=Qt;KDE;Network;VirtualWorlds;

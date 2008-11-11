@@ -24,7 +24,7 @@
       <string/>
      </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="elideMode" >
       <enum>Qt::ElideLeft</enum>
@@ -516,6 +516,20 @@ p, li { white-space: pre-wrap; }
   <zorder>labelVersion</zorder>
   <zorder>tabWidget</zorder>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEditUser</tabstop>
+  <tabstop>lineEditPassword</tabstop>
+  <tabstop>pushButtonOK</tabstop>
+  <tabstop>pushButtonCancel</tabstop>
+  <tabstop>lineEditUser2</tabstop>
+  <tabstop>lineEditPassword2</tabstop>
+  <tabstop>checkBoxOverride</tabstop>
+  <tabstop>checkBoxBookmark</tabstop>
+  <tabstop>comboBoxClients</tabstop>
+  <tabstop>pushButtonOK2</tabstop>
+  <tabstop>pushButtonCancel2</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -525,8 +539,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>366</x>
-     <y>166</y>
+     <x>502</x>
+     <y>208</y>
     </hint>
     <hint type="destinationlabel" >
      <x>415</x>
@@ -541,8 +555,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>335</x>
-     <y>264</y>
+     <x>502</x>
+     <y>255</y>
     </hint>
     <hint type="destinationlabel" >
      <x>358</x>

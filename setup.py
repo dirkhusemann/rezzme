@@ -16,7 +16,7 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
-if not os.path.exists('rezzme.cfg'):
+if not os.path.exists('rezzme.cfg') and not os.path.exists('rezzme-sealed.cfg'):
     print '''
 oops...you need to create rezzme.cfg first!'
 
@@ -132,6 +132,8 @@ setup(name = cfg['package']['name'],
 if not command: sys.exit(0)
 
 if command == 'install' and platform == 'linux2':
+    cfg = RezzMe.config.builder.buildCfg('rezzme-sealed')
+
     import subprocess
     gconftool2 = subprocess.Popen(['which', 'gconftool-2'], stdout = subprocess.PIPE)
     gconftool2 = gconftool2.communicate()[0].rstrip('\n')
@@ -150,16 +152,27 @@ if command == 'install' and platform == 'linux2':
     i tried to use gconftool-2 on your system to configure gnome,
     firefox, and thunderbird for the rezzme:// protocol. 
     '''
-        
-    if os.path.exists('/usr/share/services'):
-        print 'setting up rezzme.py as KDE protocol handler for rezzme(s):// URIs'
-        os.system('cp rezzme.protocol /usr/share/services/rezzme.protocol')
-        os.system('cp rezzmes.protocol /usr/share/services/rezzmes.protocol')
 
-        print '''
-    i tried to install rezzme.protocol as a KDE service into /usr/share/services
+    for s in ['/usr/share/services', '/usr/share/kde4/services']:
+        if os.path.exists(s):
+            print 'setting up rezzme.py as KDE protocol handler for rezzme(s):// URIs via %s' % s
+            os.system('cp rezzme.protocol %s/rezzme.protocol' % s)
+            os.system('cp rezzmes.protocol %s/rezzmes.protocol' % s)
+
+            print '''
+    i tried to install rezzme.protocol as a KDE service into %s
     on your system to configure KDE for the rezzme:// protocol.
-    '''
+    ''' % s
+
+
+    if os.path.exists('/usr/share/applications'):
+        print 'copying rezzme.desktop to /usr/share/applications'
+        os.system('cp rezzme.desktop /usr/share/applications')
+        if not os.path.exists('/usr/share/icons/hicolor/32x32/apps'):
+            os.system('mkdir -p /usr/share/icons/hicolor/32x32/apps')
+        print 'copying %s to /usr/share/icons/hicolor/32x32/apps' % cfg['package']['icon_32']
+        os.system('cp %s /usr/share/icons/hicolor/32x32/apps' % cfg['package']['icon_32'])
+        
 
     print '''
 you might need to add the following config entries to

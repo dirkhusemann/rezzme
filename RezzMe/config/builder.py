@@ -27,13 +27,22 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from __future__ import with_statement
+
 import ConfigParser
+import os
 
 def buildCfg(name):
     
     config = ConfigParser.RawConfigParser()
-    config.readfp(open('%s.cfg' % name))
-    config.read(['%s-site.cfg' % name])
+    sealed = False
+
+    if os.path.exists('%s.cfg' % name):
+        config.readfp(open('%s.cfg' % name))
+        config.read(['%s-site.cfg' % name])
+    elif os.path.exists('%s-sealed.cfg' % name):
+        config.readfp(open('%s-sealed.cfg' % name))
+        sealed = True
 
     # convert rezzme.cfg to RezzMe/config/config.py
     # using the following presets
@@ -62,4 +71,19 @@ def buildCfg(name):
         for option in config.options(section):
             cfg[section][option] = config.get(section, option)
 
+    if not sealed:
+        writeCfg(cfg, name)
+
     return cfg
+
+def writeCfg(cfg, name):
+
+    config = ConfigParser.RawConfigParser()
+    for section in cfg:
+        if not config.has_section(section):
+            config.add_section(section)
+        for option in cfg[section]:
+            config.set(section, option, cfg[section][option])
+
+    with open('%s-sealed.cfg' % name, 'w') as c:
+        config.write(c)
