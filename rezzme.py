@@ -110,23 +110,25 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
-if onMacOSX: import aemreceive.sfba as AE
+if onMacOSX: 
+    import aemreceive.sfba as AE
 
-class RezzMeQApplication(PyQt4.QtGui.QApplication):
-    '''Wrapper class around QApplication adding exec state information.
-       '''
 
-    def __init__(self, *args):
-        PyQt4.QtGui.QApplication.__init__(self, *args)
-        self._started = False
+# class RezzMeQApplication(PyQt4.QtGui.QApplication):
+#     '''Wrapper class around QApplication adding exec state information.
+#        '''
 
-    def exec_(self):
-        self._started = True
-        PyQt4.QtGui.QApplication.exec_()
+#     def __init__(self, *args):
+#         PyQt4.QtGui.QApplication.__init__(self, *args)
+#         self._started = False
 
-    def _started(self):
-        return self._started
-    Started = property(fget = _started)
+#     def exec_(self):
+#         self._started = True
+#         PyQt4.QtGui.QApplication.exec_()
+
+#     def _started(self):
+#         return self._started
+#     Started = property(fget = _started)
 
 
 
@@ -167,7 +169,7 @@ def ConnectToGrid(app, uri):
     if ui.OK:
         uri = ui.Uri
         if not ui.IsAvatar and ui.Bookmark:
-            logging.debug('ConnectToGrid: bound mode')
+            logging.debug('ConnectToGrid: userID/password mode')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
             password = uri.Password
@@ -183,7 +185,7 @@ def ConnectToGrid(app, uri):
             uri.Password = password
             
         elif ui.IsAvatar and ui.Bookmark:
-            logging.debug('ConnectToGrid: free mode')
+            logging.debug('ConnectToGrid: avatar name/password mode')
             bookmarks.Add(uri)
             bookmarks.Save()
 
@@ -198,11 +200,6 @@ def ConnectToGrid(app, uri):
     logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
     launcher.Launch(uri.Avatar, uri.Password, gridInfo, ui.Client, uri.Location)
 
-
-# def RezzMeSystemTray(app):
-#     tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
-#     while not tray.Done:
-#         app.exec_()
 
 def RezzMeUri(app, args):
     if not args:
@@ -241,7 +238,7 @@ if __name__ == '__main__':
     socket.setdefaulttimeout(timeout)
 
     # need an QApplication context to signal errors
-    app = RezzMeQApplication(sys.argv)
+    app = PyQt4.QtGui.QApplication(sys.argv)
 
     args = sys.argv[1:]
     tray = None
@@ -261,6 +258,7 @@ if __name__ == '__main__':
             app.exec_()
 
         else:
+
             if not args:
                 logging.debug('main: invoked without command line arguments, starting rezzme system tray')
                 tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
@@ -269,13 +267,13 @@ if __name__ == '__main__':
                 logging.debug('main: invoked with command line arguments: %s', ' '.join(args))
                 logging.debug('main: starting launcher GUI')
                 RezzMeUri(app = app, args = args)
-#                app.exec_()
 
     except RezzMe.exceptions.RezzMeException, e:
         logging.critical('main: caught rezzme exception: %s', e.Message, exc_info = True)
         oops = PyQt4.QtGui.QMessageBox.critical(None, 'Virtual World Launcher Wizard', e.Message)
         logging.critical('main: exiting with retval 1')
         sys.exit(1)
+
     except BaseException, e:
         logging.critical('main: caught base exception: %s', str(e), exc_info = True)
         sys.exit(2)

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Comment=access virtual worlds easily
 Encoding=UTF-8
-Exec=rezzme
+Exec=rezzme.py
 GenericName=rezzme - access virtual worlds easily
 Icon=/usr/share/icons/hicolor/32x32/apps/%(icon_32)s
 MimeType=
