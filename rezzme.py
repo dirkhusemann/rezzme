@@ -110,6 +110,8 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
+logging.debug('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
+
 if onMacOSX: 
     import aemreceive.sfba as AE
 

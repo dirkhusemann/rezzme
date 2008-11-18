@@ -36,8 +36,8 @@ import urllib
 
 defaults = { 
     'rezzmes://login.agni.lindenlab.com/cgi-bin/login.cgi': 'SecondLife main grid',
-    'rezzmes://login.aditi.lindenlab.com/cgi-bin/login.cgi': 'SecondLife BETA grid',
-    'rezzmes://www.osgrid.org:8002/': 'OSgrid'}
+    'rezzme://login.aditi.lindenlab.com/cgi-bin/login.cgi': 'SecondLife BETA grid',
+    'rezzme://www.osgrid.org:8002/': 'OSgrid'}
 
 class Bookmarks(object):
     '''Deal with rezzme:// bookmarks.
