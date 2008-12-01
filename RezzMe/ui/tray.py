@@ -29,6 +29,7 @@
 
 import logging
 import os
+import sys
 
 import PyQt4.QtCore
 import PyQt4.QtGui
@@ -41,7 +42,9 @@ import RezzMe.resources
 
 from PyQt4.QtCore import SIGNAL
 
-onMacOSX = hasattr(PyQt4.QtGui, "qt_mac_set_native_menubar")
+onMacOSX = sys.platform == 'darwin'
+onLinux = sys.platform == 'linux2'
+onWindows = sys.platform == 'win32'
 
 class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
 
@@ -56,17 +59,25 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         self.show()
 
 
-class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
+class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
-    def __init__(self, bookmarks = None, defaults = None, parent = None):
-        super(RezzMeTrayEdit, self).__init__(parent)
+    def __init__(self, app = None, bookmarks = None, defaults = None, cfg = None,
+                 parent = None):
+        super(RezzMeTrayWindow, self).__init__(parent)
 
         self._bookmarks = bookmarks
         self._defaultBookmarks = defaults
         self._uri = {}
         self._tag = None
 
+        self._app = app
+        self._cfg = cfg
+
+        # setup generated UI 
         self.setupUi(self)
+
+        self._setupTrayIcon()
+        self._desktopServices = PyQt4.QtGui.QDesktopServices()
         
         logging.debug('RezzMe.ui.RezzMeTrayEdit: init')
         if not onMacOSX:
@@ -83,12 +94,88 @@ class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
-        self.show()
-        self.raise_()
+        self._trayIcon.show()
+
+        #        self.show()
+        #        self.raise_()
 
     def __delete__(self):
         self._bookmarks = None
         self._uri = None
+
+    def _setupTrayIcon(self):
+        logging.debug('RezzMe.ui.tray: setting up system tray icon')
+        self._trayIcon = PyQt4.QtGui.QSystemTrayIcon(self)
+        self._trayIcon.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
+
+        self._menu = None
+        self._bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
+        logging.debug('RezzMe.ui.tray: loaded bookmarks')
+        self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
+
+        if self._cfg and 'default rezzmes' in self._cfg:
+            for tag in self._cfg['default rezzmes']:
+                self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = self._cfg['default rezzmes'][tag], tag = tag))
+                logging.debug('RezzMe.ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][tag])
+
+        self._reloadMenu()
+        self._done = False
+
+        self.connect(self, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
+        logging.debug('RezzMe.ui.tray: connected slot')
+
+    def _iconActivated(self, reason):
+        logging.debug('RezzMe.ui.tray: activated')
+        self._reloadMenu()
+
+    def _reloadMenu(self):
+        self._menu = PyQt4.QtGui.QMenu(self)
+        self._bookmarks.Reload()
+        logging.debug('RezzMe.ui.tray._reloadMenu: reloading menu')
+
+        menu = {}
+        for bookmark in self._bookmarks.Bookmarks:
+            menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
+            logging.debug('RezzMe.ui.tray._reloadMenu: adding bookmark %s', bookmark)
+
+        for entry in sorted(menu.keys()):
+            self._menu.addAction(entry, menu[entry])
+
+        if menu: self._menu.addSeparator()
+
+        if self._defaultBookmarks:
+            menu = {}
+            for bookmark in self._defaultBookmarks.Bookmarks:
+                menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
+                logging.debug('RezzMe.ui.tray._reloadMenu: adding default bookmark %s', bookmark)
+
+            for entry in sorted(menu.keys()): 
+                self._menu.addAction(entry, menu[entry])
+            if menu:
+                self._menu.addSeparator()
+
+        self._menu.addAction('edit or add rezzme:// bookmarks', self.showNormal)
+        self._menu.addAction('about...', self._about)
+        self._menu.addAction('quit', self._quit)
+
+        self._trayIcon.setContextMenu(self._menu)
+        logging.debug('RezzMe.ui.tray._reloadMenu: menu (re)set')
+
+    def _activate(self):
+        self.showNormal()
+
+    def _action(self, bookmark):
+        logging.debug('RezzMe.ui.tray._action: selected %s', bookmark)
+        self._desktopServices.openUrl(PyQt4.QtCore.QUrl(bookmark.FullUri))
+        
+
+    def _about(self):
+        rezzMeAbout = RezzMeTrayAbout()
+        rezzMeAbout.exec_()
+
+    def _quit(self):
+        self._done = True
+        self._app.quit()
 
     def _updateRezzMeUri(self, gridHost = None, 
                          region = None, x = None, y = None, z = None,
@@ -148,6 +235,10 @@ class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if x is not None and 'x' not in self._uri: self._uri['x'] = x
         if y is not None and 'y' not in self._uri: self._uri['y'] = y
         if z is not None and 'z' not in self._uri: self._uri['z'] = z
+
+    def _gDone(self):
+        return self._done
+    Done = property(fget = _gDone)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditGridHost_editingFinished(self):
@@ -254,102 +345,3 @@ class RezzMeTrayEdit(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.lineEditAvatarName.clear()
 
 
-RezzMeEventUrlType = PyQt4.QtCore.QEvent.Type(PyQt4.QtCore.QEvent.User + 1)
-
-class RezzMeTray(PyQt4.QtGui.QSystemTrayIcon):
-    
-    def __init__(self, parent = None, app = None, cfg = None, rezzMeService = None):
-        super(RezzMeTray, self).__init__(parent)
-
-        logging.debug('RezzMe.ui.tray: init')
-        self.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
-
-        self._app = app
-        self._desktopServices = PyQt4.QtGui.QDesktopServices()
-
-        if onMacOSX: 
-            logging.debug('RezzMe.ui.tray: onMacOSX: setting rezzMeService')
-            self._rezzMeService = rezzMeService
-
-        self._menu = None
-        self._bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
-        logging.debug('RezzMe.ui.tray: loaded bookmarks')
-        self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
-
-        if cfg and 'default rezzmes' in cfg:
-            for tag in cfg['default rezzmes']:
-                self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = cfg['default rezzmes'][tag], tag = tag))
-                logging.debug('RezzMe.ui.tray: adding default bookmark: %s', cfg['default rezzmes'][tag])
-
-        self._reloadMenu()
-        self._done = False
-
-        self.connect(self, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._activated)
-        logging.debug('RezzMe.ui.tray: connected slot')
-        self.show()
-
-    def _gDone(self):
-        return self._done
-    Done = property(fget = _gDone)
-
-    def _activated(self, reason):
-        self._reloadMenu()
-        if not onMacOSX: self._menu.exec_(PyQt4.QtGui.QCursor.pos())
-
-
-    def event(self, event):
-        if not onMacOSX and event.type() == PyQt4.QtCore.QEvent.ToolTip:
-            self._reloadMenu()
-            PyQt4.QtGui.QToolTip.showText(PyQt4.QtGui.QCursor.pos(), '%d self-saved rezzme:// bookmarks plus %d default bookmarks' % 
-                                          (len(self._bookmarks.Bookmarks), len(self._defaultBookmarks.Bookmarks)))
-            return True
-
-        return False
-
-    def _reloadMenu(self):
-        self._menu = PyQt4.QtGui.QMenu()
-        self._bookmarks.Reload()
-        logging.debug('RezzMe.ui.tray._reloadMenu: reloading menu')
-
-        menu = {}
-        for bookmark in self._bookmarks.Bookmarks:
-            menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
-            logging.debug('RezzMe.ui.tray._reloadMenu: adding bookmark %s', bookmark)
-        for entry in sorted(menu.keys()): self._menu.addAction(entry, menu[entry])
-        if menu: self._menu.addSeparator()
-
-        if self._defaultBookmarks:
-            menu = {}
-            for bookmark in self._defaultBookmarks.Bookmarks:
-                menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
-                logging.debug('RezzMe.ui.tray._reloadMenu: adding default bookmark %s', bookmark)
-            for entry in sorted(menu.keys()): 
-                self._menu.addAction(entry, menu[entry])
-            if menu: self._menu.addSeparator()
-
-        self._menu.addAction('edit or add rezzme:// bookmarks', self._editBookmarks)
-        self._menu.addAction('about...', self._about)
-        self._menu.addAction('quit', self._quit)
-
-        self.setContextMenu(self._menu)
-        logging.debug('RezzMe.ui.tray._reloadMenu: menu (re)set')
-
-
-    def _action(self, bookmark):
-        logging.debug('RezzMe.ui.tray._action: selected %s', bookmark)
-        self._desktopServices.openUrl(PyQt4.QtCore.QUrl(bookmark.FullUri))
-
-    def _editBookmarks(self):
-        logging.debug('RezzMe.ui.tray._editBookmarks: editing bookmarks')
-        rezzMeEdit = RezzMeTrayEdit(bookmarks = self._bookmarks, defaults = self._defaultBookmarks)
-        rezzMeEdit.exec_()
-
-        self._reloadMenu()
-
-    def _about(self):
-        rezzMeAbout = RezzMeTrayAbout()
-        rezzMeAbout.exec_()
-
-    def _quit(self):
-        self._done = True
-        self._app.quit()

@@ -250,7 +250,7 @@ if __name__ == '__main__':
             logging.debug('main: onMacOSX: installing MacOS AppleEvent handler')
             aeHandler = MacOSXAppleEventHandler()
             logging.debug('main: onMacOSX: instantiating rezzme system tray')
-            tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
+            tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
 
             def rezzMe(uri, app = app):
                 RezzMeUri(app = app, args = [uri])
@@ -263,7 +263,7 @@ if __name__ == '__main__':
 
             if not args:
                 logging.debug('main: invoked without command line arguments, starting rezzme system tray')
-                tray = RezzMe.ui.tray.RezzMeTray(parent = None, app = app, cfg = cfg)
+                tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
                 logging.debug('main: invoked with command line arguments: %s', ' '.join(args))
