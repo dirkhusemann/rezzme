@@ -30,6 +30,7 @@
 import ConfigParser
 import logging
 import os
+import sys
 import urllib
 import urllib2
 import xml.etree.ElementTree as ET
