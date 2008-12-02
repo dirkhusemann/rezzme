@@ -44,7 +44,9 @@ import RezzMe.ui.client
 
 from PyQt4.QtCore import SIGNAL
 
-onMacOS = hasattr(PyQt4.QtGui, "qt_mac_set_native_menubar")
+onMacOSX = sys.platform == 'darwin'
+onLinux = sys.platform == 'linux2'
+onWindows = sys.platform == 'win32'
 
 black = 'rgb(0, 0, 0)'
 red   = 'rgb(255, 0, 0)'
@@ -355,6 +357,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         if password:
             self.pushButtonOK.setEnabled(True)
             self.pushButtonOK2.setEnabled(True)
+            self.lineEditPassword2.setText(password)
         else:
             self.pushButtonOK.setEnabled(False)
             self.pushButtonOK2.setEnabled(False)
@@ -371,6 +374,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         if password:
             self.pushButtonOK.setEnabled(True)
             self.pushButtonOK2.setEnabled(True)
+            self.lineEditPassword.setText(password)
         else:
             self.pushButtonOK.setEnabled(False)
             self.pushButtonOK2.setEnabled(False)
@@ -383,6 +387,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         if unicode(self.lineEditPassword.text()):
             self.pushButtonOK.setEnabled(True)
             self.pushButtonOK2.setEnabled(True)
+            self.lineEditPassword2.setText(self.lineEditPassword.text())
         else:
             self.pushButtonOK.setEnabled(False)
             self.pushButtonOK2.setEnabled(False)
@@ -395,6 +400,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         if unicode(self.lineEditPassword2.text()):
             self.pushButtonOK.setEnabled(True)
             self.pushButtonOK2.setEnabled(True)
+            self.lineEditPassword.setText(self.lineEditPassword2.text())
         else:
             self.pushButtonOK.setEnabled(False)
             self.pushButtonOK2.setEnabled(False)
