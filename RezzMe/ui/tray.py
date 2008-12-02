@@ -30,6 +30,7 @@
 import logging
 import os
 import sys
+import urllib
 
 import PyQt4.QtCore
 import PyQt4.QtGui
@@ -192,7 +193,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             if port: self._uri['port'] = port
 
         if avatar: self._uri['avatar'] = avatar
-        if region: self._uri['region'] = region
+        if region: self._uri['region'] = urllib.quote(region)
         if x: self._uri['x'] = x
         if y: self._uri['y'] = y
         if z: self._uri['z'] = z
@@ -224,7 +225,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.lineEditGridHost.setText('%(host)s:%(port)s' % self._uri)
         else:
             self.lineEditGridHost.setText('%(host)s' % self._uri)
-        if 'region' in self._uri: self.lineEditRegion.setText(self._uri['region']) 
+        if 'region' in self._uri: self.lineEditRegion.setText(urllib.unquote(self._uri['region'])) 
         if 'x' in self._uri: self.lineEditX.setText(str(self._uri['x'])) 
         if 'y' in self._uri: self.lineEditY.setText(str(self._uri['y'])) 
         if 'z' in self._uri: self.lineEditZ.setText(str(self._uri['z'])) 
