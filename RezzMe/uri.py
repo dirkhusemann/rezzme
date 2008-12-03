@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import logging
 import sys
 import types
 import types
@@ -66,6 +67,9 @@ class Uri(object):
 
         self._tag = tag
         self._display = display
+
+        for k in self._dict:
+            logging.debug('RezzMe.uri.Uri: %s -> %s', k, self._dict[k])
 
     def _sync(self):
         self._plain = '%s://' % self.Scheme

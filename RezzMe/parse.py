@@ -108,12 +108,10 @@ def ParsePath(path):
         z = int(matchXYZ.group('z'))
 
         loc = 'secondlife:///%s/%d/%d/%d' % (region, x, y, z)
-        region = urllib.unquote(region)
 
     elif match:
         region = match.group('region')
         loc = 'secondlife:///%s' % region
-        region = urllib.unquote(region)
 
     return (loc, region, x, y, z)
 

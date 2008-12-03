@@ -1,4 +1,129 @@
+2008-12-02  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r89] RezzMe/ui/launcher.py, about.raw.html: fix: missing import
+	  sys
+
+	* [r88] ., rezzme.cfg: + upped version
+
+	* [r87] about-lotus3di.raw.html: - dropping local modification
+
+	* [r86] RezzMe/ui/tray.py: - fixing space in region name problem
+	  - fixing missing password sync
+
+	* [r85] RezzMe/ui/launcher.py: - fixing space in region name
+	  problem
+	  - fixing missing password sync
+
+2008-12-01  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r84] ., RezzMe/ui/tray.py, about-lotus3di.raw.html,
+	  about.raw.html, rezzme.cfg, rezzme.py, setup.iss: fixing system
+	  tray menu bug: menu does not go away
+
+2008-11-18  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r83] RezzMe/bookmarks.py, RezzMe/gridinfo.py, rezzme.cfg,
+	  rezzme.py: ~ logging version info and platform to log file
+	  + upped version to 4.0.5
+
+2008-11-14  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r82] ., RezzMe/ui/launcher.py, rezzme.cfg, rezzme.py,
+	  rezzme.raw.desktop: fix: rezzme.desktop used wrong rezzme program
+	  name
+	  fix: advanced tab logic was screwed
+	  fix: starting without pre-existing .rezzme.* files borked login
+	  logic
+
+2008-11-11  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r81] .: ~ ignoring generated MANIFEST.in
+
+	* [r80] ., MANIFEST.in, MANIFEST.raw.in, Makefile,
+	  RezzMe/config/builder.py, RezzMe/ui/rezzme.ui, rezzme.cfg,
+	  rezzme.protocol, rezzme.raw.desktop, rezzmes.protocol, setup.py:
+	  - adding kde4 support for kubuntu intrepid ipex
+	  - adding linux rezzme.desktop support (now showing up in KDE
+	  menu)
+
+2008-11-03  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r79] RezzMe/ui: ignoring generated clientselector.py
+
+	* [r78] RezzMe/ui/clientselector.py: dropping clientselector.py
+	  (auto-generated)
+
+	* [r77] RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/ui/clientselector.py: trying to be smarter about hippo
+	  detection
+
+	* [r76] RezzMe/ui/launcher.py: win32 fixes
+	  ui fixes
+
+	* [r75] RezzMe/launchers/win32.py, RezzMe/ui/launcher.py: win32
+	  fixes
+	  ui fixes
+
+	* [r74] RezzMe/launchers/win32.py: win32 fixes
+
+	* [r73] Makefile, RezzMe/ui/clientselector.py, setup.iss: fixing
+	  win32 related issues
+
+	* [r72] RezzMe/launcher.py: fix: missing import
+
+	* [r71] setup.py: adding support for 16x16 system tray icons
+
+	* [r70] build.py: adding support for 16x16 system tray icons
+
+	* [r69] setup.py: adding support for 16x16 system tray icons
+
+	* [r68] setup.py: adding support for 16x16 system tray icons
+
+	* [r67] setup.py: adding support for 16x16 system tray icons
+
+	* [r66] ., RezzMe/ui/clientselector.py, RezzMe/ui/tray.py,
+	  rezzme.cfg, rezzme.raw.qrc, setup.py: adding support for 16x16
+	  system tray icons
+
+	* [r65] ., Makefile, RezzMe/ui/clientselector.py,
+	  about-lotus3di.raw.html, rezzme.cfg, rezzme.qrc, rezzme.raw.qrc:
+	  adding additional customization hooks
+
+	* [r64] RezzMe/launcher.py, RezzMe/launchers/linux2.py,
+	  RezzMe/launchers/win32.py, RezzMe/ui/client.py,
+	  RezzMe/ui/clientselector.py, RezzMe/ui/clientselector.ui,
+	  RezzMe/ui/launcher.py, rezzme.py: bug fixes: clients would not be
+	  saved
+	  enhancement: use client selection UI to locate virtual world
+	  client,
+	  if none found in the usual places
+
+2008-10-31  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r63] RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/ui/launcher.py, rezzme.py: adapting win32 launcher to
+	  follow linux2 lead
+
+2008-10-30  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r62] RezzMe/launcher.py, RezzMe/launchers/darwin.py,
+	  RezzMe/launchers/linux2.py, RezzMe/launchers/win32.py,
+	  RezzMe/ui/client.py, RezzMe/ui/clientselector.py,
+	  RezzMe/ui/clientselector.ui, RezzMe/ui/launcher.py: adding
+	  support to allow adding of additional secondlife clients
+
+2008-10-28  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r61] RezzMe/ui/launcher.py, RezzMe/ui/rezzme.ui, rezzme.py:
+	  redesign of the user interface: tabbed UI, easy login tab,
+	  advanced
+	  login tab
+
 2008-10-01  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r60] ChangeLog: updated changelog
+
+	* [r59] ChangeLog: updated changelog
 
 	* [r58] rezzme.cfg: running on linux and windows (it seems)
 
@@ -17,7 +142,7 @@
 	  RezzMeException: didn't have a __str__() method causing rather
 	  terse
 	  exceptions to be raised and caught.
- 
+	  
 	  also, we were not dealing correctly with a virgin hippo install:
 	  grid_info.xml might not exist, in which case we need to find
 	  default_grids.xml from hippo package directory. also, the path to
@@ -49,7 +174,7 @@
 
 	* [r44] RezzMe/launchers/win32.py, rezzme.py: ~ fixing bug in win32
 	  launcher (assumed hippo viewer would be present)
-
+	  
 	  ~ better exception handling
 
 2008-09-29  dr scofield aka dirk husemann (hud@zurich.ibm.com)

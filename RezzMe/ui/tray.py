@@ -122,7 +122,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._reloadMenu()
         self._done = False
 
-        self.connect(self, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
+        PyQt4.QtCore.QObject.connect(self._trayIcon, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
         logging.debug('RezzMe.ui.tray: connected slot')
 
     def _iconActivated(self, reason):
