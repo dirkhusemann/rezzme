@@ -29,6 +29,7 @@
 
 import logging
 import os
+import subprocess
 import urllib
 import _winreg
 
@@ -92,7 +93,6 @@ class PlatformLauncher(object):
         logArgs = clientArgs[:]
         if avatar and password:
             clientArgs += ['-login']
-            # on windows we use os.exec*(), thus, no quote
             clientArgs += urllib.unquote(avatar).split()
             logArgs = clientArgs[:]
 
@@ -114,10 +114,12 @@ class PlatformLauncher(object):
         if location:
             clientArgs += [location]
             logArgs += [location]
-        
+
+        cmdLine = '%s %s' % (client, ' '.join(clientArgs))
+        logging.debug('RezzMe.launchers.win32: command line: >%s<', cmdLine)
         # all systems go: start client
         clientArgs = [ client ] + clientArgs
         logArgs = [ client ] + logArgs
 
         logging.debug('RezzMe.launchers.win32: client args %s', ' '.join(logArgs))
-        os.execv(client, clientArgs)
+        subprocess.call(clientArgs)
