@@ -282,6 +282,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         logging.debug('RezzMe.ui.tray.edit.on_pushButtonAdd_clicked: bookmark %s', bookmark)
         self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, tag = self._tag))
         self._bookmarks.Save()
+        self._reloadMenu()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonChange_clicked(self):
@@ -295,6 +296,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if oldBookmark:
             self._bookmarks.Change(oldBookmark, newBookmark)
             self._bookmarks.Save()
+        self._reloadMenu()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonDelete_clicked(self):
@@ -305,6 +307,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if bookmark:
             self._bookmarks.Delete(bookmark)
             self._bookmarks.Save()
+        self._reloadMenu()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonCancel_clicked(self):

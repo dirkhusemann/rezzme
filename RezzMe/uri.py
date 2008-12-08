@@ -37,8 +37,17 @@ import RezzMe.parse
 import RezzMe.exceptions
 
 class Uri(object):
+    '''The RezzMe.uri.Uri object encapsulates virtual world resource identifiers.
+
+       A virtual world is identified by the hosting server, an
+       optional user/avatar name and password, an optional region name
+       with optional X/Y/Z coordinates. In addition RezzMe.uri.Uri
+       objects can also contain a tag (short label of the target
+       grid), a display tag (for use in menus), and the identifier of
+       the virtual world client to use.
+       '''
     
-    def __init__(self, uri = None, tag = None, display = None):
+    def __init__(self, uri = None, tag = None, display = None, client = None):
         
         if uri is None: 
             raise RezzMe.exceptions.RezzMeException('empty uri parameter')
@@ -48,25 +57,30 @@ class Uri(object):
         self._safe = None
         self._display = None
         self._tag = None
+        self._client = None
 
         if isinstance(uri, str) or isinstance(uri, unicode):
             self._dict = {}
             self._orig = uri
             self._parse(uri)
+
         elif type(uri) is types.DictType:
             self._dict = dict
             self._sync()
             self._orig = self.FullUri
+
         elif isinstance(uri, RezzMe.uri.Uri):
             self._dict = uri._dict
             self._sync()
             self._orig = uri.FullUri
+
         else:
             raise RezzMe.exceptions.RezzMeException('unexpected uri type %s' % type(uri))
 
 
         self._tag = tag
         self._display = display
+        self._client = client
 
         for k in self._dict:
             logging.debug('RezzMe.uri.Uri: %s -> %s', k, self._dict[k])
@@ -176,9 +190,14 @@ class Uri(object):
             del self._dict['avatar'] 
         else:
             self._dict['avatar'] = value
-
         self._sync()
     Avatar = property(fget = _avatar, fset = _savatar, doc = 'avatar name')
+
+    def _client(self):
+        return self._client
+    def _sclient(self, value):
+        self._client = value
+    Client = property(fget = _client, fset = _sclient, doc = 'client to use')
 
     def _password(self):
         return self._keyValue('password')
