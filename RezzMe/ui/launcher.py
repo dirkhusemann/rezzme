@@ -37,7 +37,6 @@ import xml.etree.ElementTree as ET
 
 import PyQt4.QtCore
 import PyQt4.QtGui
-import RezzMe.credentials
 import RezzMe.launcher
 import RezzMe.parse
 import RezzMe.ui.rezzme
@@ -78,10 +77,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._bookmark = False
         self._ok = False
 
-        self._credentials = RezzMe.credentials.Credentials(os.path.expanduser('~/.rezzme.credentials'))
-        self._userID = self._credentials.Credential(uri)
+        self._userID = self._uri.UserId
         self._userPassword = None
-        self._override = False
+        self._override = self._uri.Avatar is not None
 
         self._clients = self._launcher.ClientTags
         self._uri.Client = self._clients[0]
@@ -137,14 +135,17 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self.labelVersion.setText('%s/%s' % (cfg['package']['name'], 
                                              cfg['package']['version']))
 
-        self.tabWidget.setCurrentIndex(0)
+        if self._override:
+            self.tabWidget.setCurrentIndex(1)
+        else:
+            self.tabWidget.setCurrentIndex(0)
         self.show()
         self.raise_()
 
     def _updateLabels(self):
         if not self._authenticator or (self._authenticator and self._override):
             logging.debug('RezzMe.ui.launcher: avatar mode')
-            self.labelUser.setText('&avatar name:')
+            self.labelUser.setText('avatar &name:')
             self.lineEditUser.setToolTip('enter your avatar name here')
             self.labelUser2.setText('&avatar name:')
             self.lineEditUser2.setToolTip('enter your avatar name here')
@@ -156,8 +157,11 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
             if self._authenticator:
                 self.checkBoxOverride.setEnabled(True)
+                if self._override:
+                    self.checkBoxOverride.setChecked(True)
             else:
                 self.checkBoxOverride.setEnabled(False)
+
 
             if self._uri.Avatar:
                 self.lineEditUser.setText(self._uri.Avatar)
@@ -203,7 +207,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             else:
                 self.lineEditUser.clear()
                 self.lineEditUser2.clear()
-                self.lineEditPassword.setFocus()
+                self.lineEditUser.setFocus()
 
             self._isAvatar = False
 
@@ -292,11 +296,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return self._bookmark
     Bookmark = property(fget = _gBookmark)
 
-#     def _gClient(self):
-#         return self._client
-#     Client = property(fget = _gClient)
 
-    
     def _gIsAvatar(self):
         return self._isAvatar
     IsAvatar = property(fget = _gIsAvatar)
@@ -329,9 +329,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self._uri.Avatar = name
         else:
             self._userID = name
-            if self._userID:
-                self._credentials.Add(self._uri, self._userID)
-                self._credentials.Save()
+            self._uri.UserId = name
         self.lineEditUser2.setText(name)
 
     @PyQt4.QtCore.pyqtSignature('')
@@ -341,9 +339,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self._uri.Avatar = name
         else:
             self._userID = name
-            if self._userID:
-                self._credentials.Add(self._uri, self._userID)
-                self._credentials.Save()
+            self._uri.UserId = name
         self.lineEditUser.setText(name)
 
 
