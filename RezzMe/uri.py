@@ -47,7 +47,7 @@ class Uri(object):
        the virtual world client to use.
        '''
     
-    def __init__(self, uri = None, tag = None, display = None, client = None):
+    def __init__(self, uri = None, tag = None, display = None, client = None, userId = None):
         
         if uri is None: 
             raise RezzMe.exceptions.RezzMeException('empty uri parameter')
@@ -55,9 +55,6 @@ class Uri(object):
         self._plain = None
         self._http = None
         self._safe = None
-        self._display = None
-        self._tag = None
-        self._client = None
 
         if isinstance(uri, str) or isinstance(uri, unicode):
             self._dict = {}
@@ -78,9 +75,10 @@ class Uri(object):
             raise RezzMe.exceptions.RezzMeException('unexpected uri type %s' % type(uri))
 
 
-        self._tag = tag
-        self._display = display
-        self._client = client
+        self.Tag = tag
+        self.Display = display
+        self.Client = client
+        self.UserId = userId
 
         for k in self._dict:
             logging.debug('RezzMe.uri.Uri: %s -> %s', k, self._dict[k])
@@ -170,12 +168,12 @@ class Uri(object):
     def _credentials(self):
         return self._keyValue(['avatar', 'password'])
     def _scredentials(self, value):
-        if value[0] is None:
+        if value[0] is None and 'avatar' in self._dict:
             del self._dict['avatar']
         else:
             self._dict['avatar'] = value[0]
 
-        if value[1] is None:
+        if value[1] is None and 'pasword' in self._dict:
             del self._dict['password']
         else:
             self._dict['password'] = value[1]
@@ -186,7 +184,7 @@ class Uri(object):
     def _avatar(self):
         return self._keyValue('avatar')
     def _savatar(self, value):
-        if value is None:
+        if value is None and 'avatar' in self._dict:
             del self._dict['avatar'] 
         else:
             self._dict['avatar'] = value
@@ -194,15 +192,18 @@ class Uri(object):
     Avatar = property(fget = _avatar, fset = _savatar, doc = 'avatar name')
 
     def _client(self):
-        return self._client
+        return self._keyValue('client')
     def _sclient(self, value):
-        self._client = value
+        if value is None and 'client' in self._dict:
+            del self._dict['client'] 
+        else:
+            self._dict['client'] = value
     Client = property(fget = _client, fset = _sclient, doc = 'client to use')
 
     def _password(self):
         return self._keyValue('password')
     def _spassword(self, value):
-        if value is None:
+        if value is None and 'password' in self._dict:
             del self._dict['password']
         else:
             self._dict['password'] = value
@@ -211,29 +212,45 @@ class Uri(object):
     Password = property(fget = _password, fset = _spassword, doc = 'password')
 
     def _tag(self):
-        return self._tag
+        return self._keyValue('tag')
     def _stag(self, value):
-        self._tag = value
+        if value is None and 'tag' in self._dict:
+            del self._dict['tag']
+        else:
+            self._dict['tag'] = value
     Tag = property(fget = _tag, fset = _stag, doc ='short descriptive label of the target grid')
 
+    def _userId(self):
+        return self._keyValue('userID')
+    def _suserId(self, value):
+        if value is None and 'userID' in self._dict:
+            del self._dict['userID']
+        else:
+            self._dict['userID'] = value
+    userId = property(fget = _userId, fset = _suserId, doc ='user ID in case of authenticated grid')
+
     def _display(self):
-        if not self._display: 
+        display = self._keyValue('display')
+        if not display: 
 
-            self._display = ''
+            display = ''
             if self.Avatar: 
-                self._display += '%s@' % self.Avatar
+                display += '%s@' % self.Avatar
             if self.Tag: 
-                self._display += '%s, ' % self.Tag
+                display += '%s, ' % self.Tag
             if self.Port:
-                self._display += 'rezzme://%s:%s' % (self.Host, self.Port)
+                display += 'rezzme://%s:%s' % (self.Host, self.Port)
             else:
-                self._display += 'rezzme://%s' % self.Host
+                display += 'rezzme://%s' % self.Host
             if self.Path:
-                self._display += '%s' % self.Path
-
-        return self._display
+                display += '%s' % self.Path
+            self.Display = display
+        return display
     def _sdisplay(self, value):
-        self._display = value
+        if value is None and 'display' in self._dict:
+            del self._dict['display']
+        else:
+            self._dict['display'] = value
         self._sync()
     Display = property(fget = _display, fset = _sdisplay, doc = 'string that can be used in menus and so forth')
 
@@ -267,13 +284,6 @@ class Uri(object):
     def _path(self):
         return self._keyValue('path')
     Path = property(fget = _path, doc = 'URI path component (if available)')
-    
-    def _bookmarkAndTag(self):
-        if self._tag is not None:
-            return '%s %s' % (self.FullUri, self.Tag)
-        else:
-            return self.FullUri
-    BookmarkAndTag = property(fget = _bookmarkAndTag)
 
     def _dict(self):
         return self._dict
