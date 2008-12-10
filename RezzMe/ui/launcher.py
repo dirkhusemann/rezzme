@@ -84,7 +84,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._override = False
 
         self._clients = self._launcher.ClientTags
-        self._client = self._clients[0]
+        self._uri.Client = self._clients[0]
         self._updateClients()
         
         logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(self._clients))
@@ -269,7 +269,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     def _addClient(self):
         self._launcher.GetClient()
         self._clients = self._launcher.ClientTags
-        self._client = self._clients[0]
+        self._uri.Client = self._clients[0]
         self._updateClients()
 
     # properties
@@ -292,9 +292,9 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return self._bookmark
     Bookmark = property(fget = _gBookmark)
 
-    def _gClient(self):
-        return self._client
-    Client = property(fget = _gClient)
+#     def _gClient(self):
+#         return self._client
+#     Client = property(fget = _gClient)
 
     
     def _gIsAvatar(self):
@@ -318,7 +318,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         if client == addNewClient:
             self._addClient()
         else:
-            self._client = client
+            self._uri.Client = client
 
 
     # UserID and password

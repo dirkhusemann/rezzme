@@ -29,6 +29,7 @@
 
 import logging
 import os
+import RezzMe.config.parser
 import RezzMe.exceptions
 import RezzMe.parse
 import RezzMe.uri
@@ -51,44 +52,47 @@ class Bookmarks(object):
            path: if not None, path to bookmarks file
            '''
 
-        logging.debug('RezzMe.bookmarks.Bookmarks: instantiating object: path %s', path)
-        self._path = path
         self._bookmarks = []
+
+        self._path = None
+        if not path:
+            return
+        
+        self._path = os.path.expanduser(path)
+        logging.debug('RezzMe.bookmarks.Bookmarks: instantiating object: path %s', self._path)
         self._load()
+
         
     def __delete__(self):
         '''destructor.
 
            saves bookmarks to ~/.rezzme.bookmarks
            '''
-        self.Save()
+        if self._path:
+            self.Save()
         self._bookmarks = None
         
     def _load(self):
         if not self._path: 
             logging.debug('RezzMe.bookmarks.Bookmarks._load: path is empty')
             return
+
         if not os.path.exists(self._path): 
             logging.debug('RezzMe.bookmarks.Bookmarks._load: file "%s" does not exist', self._path)
             return
         
         try:
-            bookmarks = open(self._path, 'r')
-            for bookmarkline in bookmarks:
-                if ' ' in bookmarkline:
-                    (bookmark, tag) = bookmarkline.split(None, 1)
-                    bookmark = bookmark.strip()
-                    tag = tag.strip()
-                else:
-                    bookmark = bookmarkline.strip()
-                    bookmark = bookmark.strip()
-                    tag = None
+            bookmarks = RezzMe.config.parser.Parser(self._path)
+            logging.debug('RezzMe.bookmarks.Bookmarks._load: sections %s', '|'.join(bookmarks.sections()))
+            for bookmark in bookmarks.sections():
+                tag = bookmarks.get(bookmark, 'tag')
+                client = bookmarks.get(bookmark, 'client')
+                display = bookmarks.get(bookmark, 'display')
+                uri = RezzMe.uri.Uri(uri = bookmark, tag = tag, display = display, client = client)
 
-                uri = RezzMe.uri.Uri(uri = bookmark, tag = tag)
                 self.Add(uri)
-                logging.debug('RezzMe.bookmarks.Bookmarks._load: adding uri %s', uri.SafeUri)
 
-            bookmarks.close()
+                logging.debug('RezzMe.bookmarks.Bookmarks._load: adding uri %s', uri.SafeUri)
 
         except IOError:
             print 'failed to load bookmarks from "%s"' % self._path
@@ -105,15 +109,17 @@ class Bookmarks(object):
             return
 
         try:
-            if os.path.exists(self._path):
-                bak = '%s.bak' % self._path
-                logging.debug('RezzMe.bookmarks.Bookmarks.Save: "%s" exists, baking up to "%s"', self._path, bak)
-                if os.path.exists(bak): os.unlink(bak)
-                os.rename(self._path, bak)
-            bookmarks = open(self._path, 'w')
+            bookmarks = RezzMe.config.parser.Parser(self._path)
             for bookmark in self._bookmarks:
-                bookmarks.write('%s\n' % bookmark.BookmarkAndTag)
-            bookmarks.close()
+                bookmarks.add_section(bookmark.FullUri)
+                if bookmark.Client:
+                    bookmarks.set(bookmark.FullUri, 'client', bookmark.Client)
+                if bookmark.Tag:
+                    bookmarks.set(bookmark.FullUri, 'tag', bookmark.Tag)
+                if bookmark.Display:
+                    bookmarks.set(bookmark.FullUri, 'display', bookmark.Display)
+            bookmarks.save()
+
         except IOError, e:
             logging.error('RezzMe.bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
 

@@ -81,7 +81,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._desktopServices = PyQt4.QtGui.QDesktopServices()
         
         logging.debug('RezzMe.ui.RezzMeTrayEdit: init')
-        if not onMacOSX:
+        if onMacOSX:
             logging.debug('RezzMe.ui.RezzMeTrayEdit: onMacOSX: disabling focus for buttons')
             self.pushButtonAdd.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
             self.pushButtonChange.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
@@ -110,7 +110,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._trayIcon.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
 
         self._menu = None
-        self._bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
+        self._bookmarks = RezzMe.bookmarks.Bookmarks('~/.rezzme.bookmarks')
         logging.debug('RezzMe.ui.tray: loaded bookmarks')
         self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
 
