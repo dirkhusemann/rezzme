@@ -83,7 +83,6 @@ class Bookmarks(object):
         
         try:
             bookmarks = RezzMe.config.parser.Parser(self._path)
-            logging.debug('RezzMe.bookmarks.Bookmarks._load: sections %s', '|'.join(bookmarks.sections()))
             for bookmark in bookmarks.sections():
                 tag = bookmarks.get(bookmark, 'tag')
                 client = bookmarks.get(bookmark, 'client')

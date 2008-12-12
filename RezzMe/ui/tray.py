@@ -137,7 +137,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         menu = {}
         for bookmark in self._bookmarks.Bookmarks:
             menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
-            logging.debug('RezzMe.ui.tray._reloadMenu: adding bookmark %s', bookmark)
+            logging.debug('RezzMe.ui.tray._reloadMenu: adding bookmark %s', bookmark.SafeUri)
 
         for entry in sorted(menu.keys()):
             self._menu.addAction(entry, menu[entry])
