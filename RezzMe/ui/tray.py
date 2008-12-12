@@ -125,6 +125,11 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         logging.debug('RezzMe.ui.tray: activated')
         self._reloadMenu()
 
+    def _resetWindow(self):
+        self._reloadMenu()
+        self._reloadComboBox()
+        self.checkBoxEditBookmark.setChecked(False)
+
     def _reloadComboBox(self):
         self.comboBoxBookmarks.clear()
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
@@ -193,7 +198,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             if port: self._uri['port'] = port
 
         if avatar is not None:
-            if not avatar:
+            if not avatar and 'avatar' in self._uri:
                 del self._uri['avatar']
             else:
                 self._uri['avatar'] = avatar
@@ -286,8 +291,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         logging.debug('RezzMe.ui.tray.edit.on_pushButtonAdd_clicked: bookmark %s', bookmark)
         self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, tag = self._tag))
         self._bookmarks.Save()
-        self._reloadMenu()
-        self._reloadComboBox()
+        self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonChange_clicked(self):
@@ -301,8 +305,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if oldBookmark:
             self._bookmarks.Change(oldBookmark, newBookmark)
             self._bookmarks.Save()
-        self._reloadMenu()
-        self._reloadComboBox()
+        self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonDelete_clicked(self):
@@ -312,9 +315,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         logging.debug('RezzMe.ui.tray.edit.on_pushButtonDelete_clicked: bookmark %s', bookmark)
         if bookmark:
             self._bookmarks.Delete(bookmark)
-            self._bookmarks.Save()
-        self._reloadMenu()
-        self._reloadComboBox()
+        self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonCancel_clicked(self):

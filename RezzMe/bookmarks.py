@@ -109,7 +109,7 @@ class Bookmarks(object):
             return
 
         try:
-            bookmarks = RezzMe.config.parser.Parser(self._path)
+            bookmarks = RezzMe.config.parser.Parser()
             for uri in self._bookmarks:
                 bookmarks.add_section(uri.FullUri)
                 if uri.Client:
@@ -120,7 +120,8 @@ class Bookmarks(object):
                     bookmarks.set(uri.FullUri, 'display', uri.Display)
                 if uri.UserId:
                     bookmarks.set(uri.FullUri, 'userID', uri.UserId)
-            bookmarks.save()
+            bookmarks.save(self._path)
+            logging.debug('RezzMe.bookmarks.Save: saved bookmarks to %s', self._path)
 
         except IOError, e:
             logging.error('RezzMe.bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
@@ -129,8 +130,9 @@ class Bookmarks(object):
     def Delete(self, uri):
         logging.debug('RezzMe.bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
         if uri in self._bookmarks: 
-            logging.debug('RezzMe.bookmarks.Bookmarks.Delete: deleting uri %s', uri.SafeUri)
+            logging.debug('RezzMe.bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
             del self._bookmarks[self._bookmarks.index(uri)]
+            self.Save()
 
     def Change(self, old, new):
         logging.debug('RezzMe.bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
