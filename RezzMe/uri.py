@@ -160,9 +160,7 @@ class Uri(object):
         if type(key) is types.StringType:
             if key in self._dict: return self._dict[key]
         elif type(key) is types.ListType:
-            if not all(map(lambda x: x in self._dict, key)): 
-                return map(lambda k: None, key)
-            return map(lambda x: self._dict[x], key)
+            return [self._dict[x] if x in self._dict else None for x in key]
         return None
 
     def _credentials(self):
@@ -276,7 +274,7 @@ class Uri(object):
 
     def _location(self):
         if self.Region and all(self.XYZ):
-            return 'secondlife://%s/%s' % (self.Region, '/'.join(map(lambda x: str(x), self.XYZ)))
+            return 'secondlife://%s/%s' % (self.Region, '/'.join([str(x) for x in self.XYZ])) # map(lambda x: str(x), self.XYZ)))
         elif self.Region:
             return 'secondlife://%s/' % self.Region
     Location = property(fget = _location, doc = 'location with in the target grid as a secondlife:// slurl')
