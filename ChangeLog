@@ -1,4 +1,50 @@
+2008-12-12  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r102] rezzme.cfg: updating to version 4.0.13
+
+	* [r101] rezzme.py: fixing bookmark matching
+
+	* [r100] RezzMe/ui/tray.py: fixing bookmark matching
+
+	* [r99] RezzMe/uri.py: fixing bookmark matching
+
+	* [r98] RezzMe/bookmarks.py, RezzMe/launcher.py,
+	  RezzMe/ui/launcher.py, RezzMe/ui/tray.py, RezzMe/uri.py,
+	  rezzme.py: further progress on cleaning up URI handling and
+	  bookmarking them
+
+2008-12-10  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r97] RezzMe/uri.py: cleaning up Uri internals
+
+	* [r96] RezzMe/ui/launcher.py: - dropping .rezzme.credentials and
+	  merging that functionality into bookmarks
+	  - fix: when avatar name supplied in rezzme URI advanced tab is
+	  not
+	  shown when the grid is authenticated
+	  - shortcut for avatar name field was colliding with shortcut for
+	  advanced tab
+
+	* [r95] RezzMe/bookmarks.py: dropping .rezzme.credentials and
+	  merging that functionality into bookmarks
+
+	* [r94] RezzMe/bookmarks.py, RezzMe/config/parser.py,
+	  RezzMe/ui/launcher.py, RezzMe/ui/tray.py, rezzme.cfg, rezzme.py:
+	  changing bookmarks file format to config file format
+
+2008-12-08  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r93] RezzMe/ui/tray.py, RezzMe/uri.py: ~ fixing missing menu
+	  reload after bookmark editing
+
+2008-12-05  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r92] RezzMe/launchers/win32.py, rezzme.cfg: + fixing windows
+	  startup problem (subprocess is your friend)
+
 2008-12-03  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r91] ChangeLog: updating changelog
 
 	* [r90] ChangeLog, RezzMe/parse.py, RezzMe/ui/tray.py,
 	  RezzMe/uri.py, rezzme.cfg: more fixes to address space in region
