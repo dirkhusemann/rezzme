@@ -1,5 +1,21 @@
 2008-12-12  dr scofield aka dirk husemann (hud@zurich.ibm.com)
 
+	* [r108] rezzme.cfg: upping version
+
+	* [r107] RezzMe/bookmarks.py, RezzMe/config/parser.py,
+	  RezzMe/ui/tray.py: fix: delete doesn't
+
+	* [r106] RezzMe/config/parser.py: fix: (windows) need to delete
+	  backup file before renaming original to
+	  backup file
+
+	* [r105] RezzMe/ui/tray.py: fix: combo box and menu not in sync
+
+	* [r104] RezzMe/bookmarks.py, RezzMe/config/parser.py,
+	  RezzMe/ui/tray.py, RezzMe/uri.py: cleaning up
+
+	* [r103] ChangeLog: updated ChangeLog
+
 	* [r102] rezzme.cfg: updating to version 4.0.13
 
 	* [r101] rezzme.py: fixing bookmark matching
