@@ -145,26 +145,44 @@ class Bookmarks(object):
             del self._bookmarks[self._bookmarks.index(uri)]
         self._bookmarks += [uri]
 
-    def Bookmark(self, uri = None, display = None):
+    def FindBestMatch(self, uri = None, display = None):
         if uri: 
             if not isinstance(uri, RezzMe.uri.Uri):
                 uri = RezzMe.uri.Uri(uri)
-            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: uri %s', uri.SafeUri)
+            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: uri %s', uri.SafeUri)
 
             best = None
-            for u in self._bookmarks:
-                if u.BaseUri.startswith(uri.BaseUri):
-                    if all(u.Credentials): return u
-                    if u.Avatar: best = u
-                    if not best: best = u
-            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: best match %s', best)
+
+            if uri.Avatar:
+                for u in [b for b in self._bookmarks if b.Avatar]:
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.FullUri)
+                    if u.BaseUri.startswith(uri.BaseUri):
+                        if all(u.Credentials):
+                            best = u
+                            break
+
+                        if not best:
+                            best = u
+            
+            else:
+                for u in [b for b in self._bookmarks if not b.Avatar]:
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.FullUri)
+                    if u.BaseUri.startswith(uri.BaseUri):
+                        if u.UserId:
+                            best = u
+                            break
+
+                        if not best:
+                            best = u
+
+            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best)
             return best
 
         elif display:
-            logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: display %s', display)
+            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: display %s', display)
             for u in self._bookmarks:
                 if display == u.Display: 
-                    logging.debug('RezzMe.bookmarks.Bookmarks.Bookmark: %s matches %s', display, u.SafeUri)
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: %s matches %s', display, u.SafeUri)
                     return u
 
         return None

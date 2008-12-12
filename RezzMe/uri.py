@@ -296,5 +296,5 @@ class Uri(object):
     def __hash__(self):
         return self.FullUri.__hash__()
 
-    def __str__(self): 
-        return self.FullUri
+    def __str__(self):
+        return '%s client: %s/tag: %s/userId: %s' % (self.FullUri, self.Client, self.Tag, self.UserId)

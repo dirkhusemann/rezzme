@@ -71,6 +71,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._launcher = launcher
         
         # init: attributes
+        logging.debug('RezzMe.ui.RezzMeLauncher:__init__: uri %s', uri)
         self._uri = uri
         self._gridInfo = gridInfo
         self._cfg = cfg
@@ -82,7 +83,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._override = self._uri.Avatar is not None
 
         self._clients = self._launcher.ClientTags
-        self._uri.Client = self._clients[0]
+        if not self._uri.Client:
+            self._uri.Client = self._clients[0]
         self._updateClients()
         
         logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(self._clients))
@@ -271,9 +273,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         return True
 
     def _addClient(self):
-        self._launcher.GetClient()
+        (tag, client) = self._launcher.GetClient()
         self._clients = self._launcher.ClientTags
-        self._uri.Client = self._clients[0]
+        # self._uri.Client = self._clients[0]
+        self._uri.Client = tag
         self._updateClients()
 
     # properties
@@ -294,7 +297,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     
     def _gBookmark(self):
         return self._bookmark
-    Bookmark = property(fget = _gBookmark)
+    BookmarkIt = property(fget = _gBookmark)
 
 
     def _gIsAvatar(self):

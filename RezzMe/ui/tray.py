@@ -192,7 +192,11 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             if host: self._uri['host'] = host
             if port: self._uri['port'] = port
 
-        if avatar: self._uri['avatar'] = avatar
+        if avatar is not None:
+            if not avatar:
+                del self._uri['avatar']
+            else:
+                self._uri['avatar'] = avatar
         if region: self._uri['region'] = urllib.quote(region)
         if x: self._uri['x'] = x
         if y: self._uri['y'] = y

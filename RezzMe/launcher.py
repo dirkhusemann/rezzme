@@ -97,6 +97,7 @@ class ClientLauncher(object):
             self._clients[tag] = client
         self.SaveClients()
         logging.debug('RezzMe.launcher.GetClient: %s - %s', tag, client)
+        return (tag, client)
 
     def AddClient(self, tag, path):
         self._clients[tag] = path

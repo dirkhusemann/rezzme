@@ -150,11 +150,20 @@ def ConnectToGrid(app, uri):
     # unless we already have avatar and password from the URI, check
     # whether we can get credentials for uri via our extensive
     # collection of bookmarks...
+    updateBookmarks = False
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
-    bookmark = bookmarks.Bookmark(uri = uri)
-    if bookmark and any(bookmark.Credentials): 
-        logging.debug('ConnectToGrid: obtained credentials')
-        uri.Credentials = bookmark.Credentials
+    bookmark = bookmarks.FindBestMatch(uri = uri)
+    if bookmark:
+        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark, uri)
+        if any(bookmark.Credentials): 
+            logging.debug('ConnectToGrid: obtained credentials')
+            uri.Credentials = bookmark.Credentials
+            updateBookmarks = True
+        if bookmark.UserId:
+            logging.debug('ConnectToGrid: using user ID "%s" from bookmarks', bookmark.UserId)
+            uri.UserId = bookmark.UserId
+            updateBookmarks = True
+    
 
     logging.debug('ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
@@ -170,7 +179,8 @@ def ConnectToGrid(app, uri):
     logging.debug('ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
         uri = ui.Uri
-        if not ui.IsAvatar and ui.Bookmark:
+        logging.debug('ConnectToGrid: uri returned: %s', uri)
+        if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
             logging.debug('ConnectToGrid: userID/password mode')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
@@ -186,7 +196,7 @@ def ConnectToGrid(app, uri):
             uri.Avatar = avatar
             uri.Password = password
             
-        elif ui.IsAvatar and ui.Bookmark:
+        elif ui.IsAvatar and (ui.BookmarkIt or updateBookmarks):
             logging.debug('ConnectToGrid: avatar name/password mode')
             bookmarks.Add(uri)
             bookmarks.Save()
@@ -200,7 +210,7 @@ def ConnectToGrid(app, uri):
 
     # ok, got everything, now construct the command line
     logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
-    launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Client, uri.Location)
+#    launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Client, uri.Location)
 
 
 def RezzMeUri(app, args):
