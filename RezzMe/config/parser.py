@@ -49,8 +49,12 @@ class Parser(ConfigParser.RawConfigParser):
             ConfigParser.RawConfigParser.readfp(self, open(self._file, 'r'))
         except IOError:
             logging.error('RezzMe.config.parser.Parser: cannot load config file %s', self._file)
-        except ConfigParser.MissingSectionHeadres:
+        except ConfigParser.MissingSectionHeaders:
             logging.info('RezzMe.config.parser.Parser: encountered old style config file %s', self._file)
+        finally:
+            if os.path.exists('%s.broken' % self._file):
+                os.remove('%s.broken' % self._file)
+            os.rename(self._file, '%s.broken' % self._file)
 
 
     def save(self, configFile = None):
@@ -59,6 +63,8 @@ class Parser(ConfigParser.RawConfigParser):
         if not configFile: configFile = self._file
 
         if os.path.exists(configFile):
+            if os.path.exists('%s~' % configFile):
+                os.remove('%s~' % configFile)
             os.rename(configFile, '%s~' % configFile)
 
         self.write(open(configFile, 'w'))
