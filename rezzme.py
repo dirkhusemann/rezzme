@@ -181,7 +181,8 @@ def ConnectToGrid(app, uri):
         uri = ui.Uri
         logging.debug('ConnectToGrid: uri returned: %s', uri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
-            logging.debug('ConnectToGrid: userID/password mode')
+
+            logging.debug('ConnectToGrid: saving userId')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
             password = uri.Password
@@ -197,7 +198,8 @@ def ConnectToGrid(app, uri):
             uri.Password = password
             
         elif ui.IsAvatar and (ui.BookmarkIt or updateBookmarks):
-            logging.debug('ConnectToGrid: avatar name/password mode')
+
+            logging.debug('ConnectToGrid: saving/updating avatar name/password')
             bookmarks.Add(uri)
             bookmarks.Save()
 
@@ -210,7 +212,7 @@ def ConnectToGrid(app, uri):
 
     # ok, got everything, now construct the command line
     logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
-#    launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Client, uri.Location)
+    launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Client, uri.Location)
 
 
 def RezzMeUri(app, args):
