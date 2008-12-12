@@ -293,7 +293,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         old = unicode(self.comboBoxBookmarks.currentText())
         new = self._updateRezzMeUri(updateGui = False)
 
-        oldBookmark = self._bookmarks.Bookmark(display = old)
+        oldBookmark = self._bookmarks.FindBestMatch(display = old)
         newBookmark = RezzMe.uri.Uri(uri = new, tag = self._tag)
         logging.debug('RezzMe.ui.tray.edit.on_pushButtonChange_clicked: old %s -> new %s', oldBookmark, newBookmark)
 
@@ -305,7 +305,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonDelete_clicked(self):
         bookmark = unicode(self.comboBoxBookmarks.currentText())
-        bookmark = self._bookmarks.Bookmark(display = bookmark)
+        bookmark = self._bookmarks.FindBestMatch(display = bookmark)
 
         logging.debug('RezzMe.ui.tray.edit.on_pushButtonDelete_clicked: bookmark %s', bookmark)
         if bookmark:
@@ -323,11 +323,11 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self.pushButtonChange.setEnabled(True)
 
         display = unicode(display)
-        bookmark = self._bookmarks.Bookmark(display = display)
+        bookmark = self._bookmarks.FindBestMatch(display = display)
         logging.debug('RezzMe.ui.tray.edit.on_comboBoxBookmarks_activated: %s', bookmark)
 
         if not bookmark:
-            bookmark = self._defaultBookmarks.Bookmark(display = display)
+            bookmark = self._defaultBookmarks.FindBestMatch(display = display)
             self.pushButtonChange.setEnabled(False)
 
         self._uri = bookmark.Dict
