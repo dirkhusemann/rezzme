@@ -88,17 +88,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.pushButtonDelete.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
             self.pushButtonCancel.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
 
-        self.comboBoxBookmarks.clear()
-        self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
+        self._reloadComboBox()
 
         if self._defaultBookmarks: 
             logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
         self._trayIcon.show()
-
-        #        self.show()
-        #        self.raise_()
 
     def __delete__(self):
         self._bookmarks = None
@@ -128,6 +124,10 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     def _iconActivated(self, reason):
         logging.debug('RezzMe.ui.tray: activated')
         self._reloadMenu()
+
+    def _reloadComboBox(self):
+        self.comboBoxBookmarks.clear()
+        self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
 
     def _reloadMenu(self):
         self._menu = PyQt4.QtGui.QMenu(self)
@@ -287,6 +287,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, tag = self._tag))
         self._bookmarks.Save()
         self._reloadMenu()
+        self._reloadComboBox()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonChange_clicked(self):
@@ -301,6 +302,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self._bookmarks.Change(oldBookmark, newBookmark)
             self._bookmarks.Save()
         self._reloadMenu()
+        self._reloadComboBox()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonDelete_clicked(self):
@@ -312,6 +314,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self._bookmarks.Delete(bookmark)
             self._bookmarks.Save()
         self._reloadMenu()
+        self._reloadComboBox()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonCancel_clicked(self):
