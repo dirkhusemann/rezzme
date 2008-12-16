@@ -191,10 +191,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._app.quit()
 
     def _update(self, tag, value):
-        if value is RezzMeTrayWindow.Empty and tag in self._uri:
-            del self._uri[tag]
+        if value is RezzMeTrayWindow.Empty:
+            if tag in self._uri:
+                del self._uri[tag]
+            return None
         elif value:
             self._uri[tag] = value
+            return value
 
 
     def _updateRezzMeUri(self, gridHost = None, 
@@ -211,8 +214,8 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             if host: self._uri['host'] = host
             if port: self._uri['port'] = port
 
-        self._update('avatar', avatar)
-        self._update('region', region)
+        avatar = self._update('avatar', avatar)
+        region = self._update('region', region)
 
         if region: self._uri['region'] = urllib.quote(region)
         if x: self._uri['x'] = x

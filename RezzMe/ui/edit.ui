@@ -416,6 +416,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>lineEditZ</tabstop>
   <tabstop>lineEditAvatarName</tabstop>
   <tabstop>pushButtonAdd</tabstop>
+  <tabstop>lineEditTag</tabstop>
   <tabstop>pushButtonChange</tabstop>
   <tabstop>pushButtonDelete</tabstop>
   <tabstop>pushButtonCancel</tabstop>
