@@ -62,6 +62,13 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
 
 class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
+    class EmptyInput(object):
+
+        def __init__(self):
+            pass
+
+    Empty = EmptyInput()
+
     def __init__(self, app = None, bookmarks = None, defaults = None, cfg = None,
                  parent = None):
         super(RezzMeTrayWindow, self).__init__(parent)
@@ -183,6 +190,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._done = True
         self._app.quit()
 
+    def _update(self, tag, value):
+        if value is RezzMeTrayWindow.Empty and tag in self._uri:
+            del self._uri[tag]
+        elif value:
+            self._uri[tag] = value
+
+
     def _updateRezzMeUri(self, gridHost = None, 
                          region = None, x = None, y = None, z = None,
                          avatar = None, Description = None, updateGui = True):
@@ -197,11 +211,9 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             if host: self._uri['host'] = host
             if port: self._uri['port'] = port
 
-        if avatar is not None:
-            if not avatar and 'avatar' in self._uri:
-                del self._uri['avatar']
-            else:
-                self._uri['avatar'] = avatar
+        self._update('avatar', avatar)
+        self._update('region', region)
+
         if region: self._uri['region'] = urllib.quote(region)
         if x: self._uri['x'] = x
         if y: self._uri['y'] = y
@@ -252,11 +264,15 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditGridHost_editingFinished(self):
-        self._updateRezzMeUri(gridHost = unicode(self.lineEditGridHost.text()))
+        gridHost = unicode(self.lineEditGridHost.text())
+        if not gridHost: gridHost = None
+        self._updateRezzMeUri(gridHost = gridHost)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditRegion_editingFinished(self):
-        self._updateRezzMeUri(region = unicode(self.lineEditRegion.text()))
+        region = unicode(self.lineEditRegion.text())
+        if not region: region = RezzMeTrayWindow.Empty
+        self._updateRezzMeUri(region = region)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditX_editingFinished(self):
@@ -278,12 +294,17 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditAvatarName_editingFinished(self):
-        self._updateRezzMeUri(avatar = unicode(self.lineEditAvatarName.text()))
+        avatar = unicode(self.lineEditAvatarName.text())
+        if not avatar: avatar = RezzMeTrayWindow.Empty
+        self._updateRezzMeUri(avatar = avatar)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditTag_editingFinished(self):
         tag = unicode(self.lineEditTag.text()).strip()
-        if tag: self._tag = tag
+        if tag:
+            self._tag = tag
+        else:
+            self._tag = None
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonAdd_clicked(self):
@@ -355,5 +376,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.lineEditY.clear()
             self.lineEditZ.clear()
             self.lineEditAvatarName.clear()
+            self.lineEditTag.clear()
 
 

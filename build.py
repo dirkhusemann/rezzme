@@ -12,7 +12,7 @@ onWindows = sys.platform == 'win32'
 
 if not os.path.exists('rezzme.cfg'):
     print '''
-oops...you need to create rezzme.cfg first!'
+oops...you need to create rezzme.cfg first!
 
 copy rezzme.cfg.example to rezzme.cfg and adapt it to your needs,
 and run me again.

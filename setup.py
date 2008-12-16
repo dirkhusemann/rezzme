@@ -1,14 +1,12 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-import ez_setup
-ez_setup.use_setuptools()
-
 import os
 import pprint
 import re
 import sys
-from setuptools import setup
+
+from distutils.core import setup
 
 import RezzMe.config.builder
 
@@ -18,7 +16,7 @@ onWindows = sys.platform == 'win32'
 
 if not os.path.exists('rezzme.cfg') and not os.path.exists('rezzme-sealed.cfg'):
     print '''
-oops...you need to create rezzme.cfg first!'
+oops...you need to create rezzme.cfg first!
 
 copy rezzme.cfg.example to rezzme.cfg and adapt it to your needs,
 and run me again.
