@@ -1,5 +1,10 @@
 2008-12-17  dr scofield aka dirk husemann (hud@zurich.ibm.com)
 
+	* [r114] RezzMe/bookmarks.py, RezzMe/ui/tray.py: fix: confusing
+	  avatars when there are two bookmarks for the same grid
+
+	* [r113] ChangeLog: updated changelog
+
 	* [r112] RezzMe/ui/edit.ui, RezzMe/ui/launcher.py, about.raw.html,
 	  rezzme.cfg: fixing tabbing orders in bookmark editor
 	  fixing focus setting in launcher dialog
