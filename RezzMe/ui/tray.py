@@ -97,9 +97,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         self._reloadComboBox()
 
-        if self._defaultBookmarks: 
-            logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
-            self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
         self._trayIcon.show()
 
@@ -140,6 +137,10 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     def _reloadComboBox(self):
         self.comboBoxBookmarks.clear()
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
+
+        if self._defaultBookmarks: 
+            logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
+            self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
     def _reloadMenu(self):
         self._menu = PyQt4.QtGui.QMenu(self)
