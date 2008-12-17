@@ -144,6 +144,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self.show()
         self.raise_()
 
+    # dialog core: UI logic contained in here
     def _updateLabels(self):
         if not self._authenticator or (self._authenticator and self._override):
             logging.debug('RezzMe.ui.launcher: avatar mode')
@@ -164,14 +165,29 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             else:
                 self.checkBoxOverride.setEnabled(False)
 
-
+            if self.tabWidget.currentIndex() == 0:
+                self.lineEditUser.setFocus()
+            else:
+                self.lineEditUser2.setFocus()
+                
             if self._uri.Avatar:
                 self.lineEditUser.setText(self._uri.Avatar)
                 self.lineEditUser2.setText(self._uri.Avatar)
                 logging.debug('RezzMe.ui.launcher: avatar %s', self._uri.Avatar)
+
+                if self.tabWidget.currentIndex() == 0:
+                    self.lineEditPassword.setFocus()
+                else:
+                    self.lineEditPassword2.setFocus()
+
             else:
                 self.lineEditUser.clear()
                 self.lineEditUser2.clear()
+
+                if self.tabWidget.currentIndex() == 0:
+                    self.lineEditUser.setFocus()
+                else:
+                    self.lineEditUser2.setFocus()
                 
 
             if self._uri.Password:
@@ -188,6 +204,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self._isAvatar = True
 
         else:
+
             logging.debug('RezzMe.ui.launcher: user mode')
             self.labelUser.setText('&user name:')
             self.lineEditUser.setToolTip(self._tooltips['userid'])
@@ -201,17 +218,29 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
             self.checkBoxOverride.setEnabled(True)
 
+
             # fill in user ID if known
             if self._userID:
                 self.lineEditUser.setText(self._userID)
                 self.lineEditUser2.setText(self._userID)
                 self.lineEditPassword.setFocus()
+
+                if self.tabWidget.currentIndex() == 0:
+                    self.lineEditPassword.setFocus()
+                else:
+                    self.lineEditPassword2.setFocus()
+
             else:
                 self.lineEditUser.clear()
                 self.lineEditUser2.clear()
-                self.lineEditUser.setFocus()
+
+                if self.tabWidget.currentIndex() == 0:
+                    self.lineEditUser.setFocus()
+                else:
+                    self.lineEditUser2.setFocus()
 
             self._isAvatar = False
+
 
         self.labelUri.setText(self._uri.SafeUri)
         self.labelUri.setToolTip(unicode(self.labelUri.toolTip()) % self._gridInfo)
