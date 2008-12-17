@@ -1,4 +1,21 @@
+2008-12-17  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r112] RezzMe/ui/edit.ui, RezzMe/ui/launcher.py, about.raw.html,
+	  rezzme.cfg: fixing tabbing orders in bookmark editor
+	  fixing focus setting in launcher dialog
+
+2008-12-16  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r111] RezzMe/ui/edit.ui, RezzMe/ui/tray.py: fixing EmptyInput
+	  treatment
+	  fixing tab order
+
+	* [r110] ., RezzMe/ui/tray.py, build.py, setup.py: fix: reverting
+	  to normal distutils
+
 2008-12-12  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r109] ChangeLog: updated ChangeLog
 
 	* [r108] rezzme.cfg: upping version
 
