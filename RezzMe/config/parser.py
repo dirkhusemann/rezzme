@@ -50,7 +50,7 @@ class Parser(ConfigParser.RawConfigParser):
         except IOError:
             logging.error('RezzMe.config.parser.Parser: cannot load config file %s', self._file)
             self._markConfigFileAsBroken()
-        except ConfigParser.MissingSectionHeaders:
+        except ConfigParser.MissingSectionHeaderError:
             logging.info('RezzMe.config.parser.Parser: encountered old style config file %s', self._file)
             self._markConfigFileAsBroken()
 
