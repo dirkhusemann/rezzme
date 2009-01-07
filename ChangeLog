@@ -1,4 +1,15 @@
+2009-01-07  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r117] RezzMe/config/parser.py, rezzme.cfg: ~ fix: non-existing
+	  exception ref in RezzMe.config.parser causes
+	  rezzme crash when encountering old style bookmark
+
+	* [r116] docs, docs/rezzme-uri-scheme.txt: adding URI scheme
+	  description
+
 2008-12-17  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r115] ChangeLog: updated ChangeLog
 
 	* [r114] RezzMe/bookmarks.py, RezzMe/ui/tray.py: fix: confusing
 	  avatars when there are two bookmarks for the same grid
