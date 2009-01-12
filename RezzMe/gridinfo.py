@@ -53,11 +53,13 @@ def GetGridInfo(uri):
        '''
 
     logging.debug('RezzMe.gridinfo.GetGridInfo: retrieving grid info from uri %s', uri)
-
+    logging.debug('RezzMe.gridinfo.GetGridInfo: base URI %s',
+                  uri.BaseUri)
+                  
     # short circuit for "fake" uris
-    if uri.PlainUri in fakeGridInfo: 
+    if uri.BaseUri in fakeGridInfo: 
         logging.debug('RezzMe.gridinfo.GetGridInfo: returning fake grid info for uri %s', uri)
-        return fakeGridInfo[uri.PlainUri]
+        return fakeGridInfo[uri.BaseUri]
 
     # construct GridInfo URL
     infoUri = '%s/get_grid_info' % (uri.BaseHttpUri)
