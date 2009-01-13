@@ -4,5 +4,7 @@
     <file alias="rezzme.png">%(icon_32)s</file>
     <file alias="rezzme-16x16.png">%(icon_16)s</file>
     <file alias="about.html">%(about)s</file>
+    <file alias="changelog.html">ChangeLog.html</file>
+    <file alias="svn2html.css">svn2html.css</file>
   </qresource>
 </RCC>

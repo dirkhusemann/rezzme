@@ -50,6 +50,7 @@ import sys
 
 try:
     import logging
+    import logging.handlers
     import RezzMe.config.config
 
     cfg = RezzMe.config.config.config()
@@ -58,18 +59,19 @@ try:
         level = eval('logging.%s' % cfg['debug']['level'])
     else:
         level = logging.CRITICAL
-    
-    if 'logfile' in cfg['debug']:
-        logfile = cfg['debug']['logfile']
-    else:
-        logfile = '~/.rezzme.log'
+
+    logfile = cfg['debug']['logfile'] if 'logfile' in cfg['debug'] else '~/.rezzme.log'
+    logsize = cfg['debug']['logsize'] if 'logsize' in cfg['debug'] else 1000 * 100
 
     if logfile:
-        logging.basicConfig(level    = level,
-                            format   = '%(asctime)s %(levelname)-8s %(message)s',
-                            datefmt  = '%a, %d %b %Y %H:%M:%S',
-                            filename = os.path.expanduser(logfile),
-                            filemode = 'w')
+        logfile = os.path.expanduser(logfile)
+        rotatingHandler = logging.handlers.RotatingFileHandler(logfile, 'a', logsize)
+        rotatingHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
+                                                       '%a, %d %b %Y %H:%M:%S'))
+
+        logging.getLogger().addHandler(rotatingHandler)
+        logging.getLogger().setLevel(level)
+
     else:
         logging.basicConfig(level    = level,
                             format   = '%(asctime)s %(levelname)-8s %(message)s',
@@ -137,7 +139,7 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
-        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark, uri.SafeURI)
+        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark, uri.SafeUri)
         if any(bookmark.Credentials): 
             logging.debug('ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials
@@ -162,7 +164,7 @@ def ConnectToGrid(app, uri):
     logging.debug('ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
         uri = ui.Uri
-        logging.debug('ConnectToGrid: uri returned: %s', uri.SafeURI)
+        logging.debug('ConnectToGrid: uri returned: %s', uri.SafeUri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
 
             logging.debug('ConnectToGrid: saving userId')

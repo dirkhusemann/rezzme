@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
+    <width>572</width>
     <height>504</height>
    </rect>
   </property>
@@ -36,11 +36,29 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton" >
-     <property name="text" >
-      <string>way cool!</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item>
+      <widget class="QPushButton" name="pushButton" >
+       <property name="text" >
+        <string>way cool!</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonChangeLog" >
+       <property name="text" >
+        <string>view change log</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonEmail" >
+       <property name="text" >
+        <string>send diagnostics</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -59,6 +77,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel" >
      <x>174</x>
      <y>469</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonEmail</sender>
+   <signal>clicked()</signal>
+   <receiver>About</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>434</x>
+     <y>488</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>455</x>
+     <y>500</y>
     </hint>
    </hints>
   </connection>

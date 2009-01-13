@@ -27,8 +27,13 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from __future__ import with_statement
+
+import ConfigParser
 import logging
 import os
+import smtplib
+import socket
 import sys
 import urllib
 
@@ -49,16 +54,67 @@ onWindows = sys.platform == 'win32'
 
 class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
 
-    def __init__(self, parent = None):
+    def __init__(self, parent = None, cfg = None):
         super(RezzMeTrayAbout, self).__init__(parent)
         self.setupUi(self)
         logging.debug('RezzMe.ui.RezzMeTrayAbout: init')
 
         self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
         self.textBrowser.setOpenExternalLinks(True)
+        self._source = 'about'
+
+        self._cfg = cfg
+
+        if not 'feedback' in self._cfg:
+            self.pushButtonEmail.setVisible(False)
 
         self.show()
 
+    
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_pushButtonChangeLog_clicked(self):
+        logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked')
+        if self._source == 'about':
+            logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to changelog')
+            self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/changelog.html'))
+            self.textBrowser.setOpenExternalLinks(False)
+            self.pushButtonChangeLog.setText('view about')
+            self._source = 'changelog'
+        else:
+            logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to about')
+            self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
+            self.textBrowser.setOpenExternalLinks(True)
+            self.pushButtonChangeLog.setText('view changelog')
+            self._source = 'about'
+        self.textBrowser.reload()
+
+    @PyQt4.QtCore.pyqtSignature('')
+    def on_pushButtonEmail_clicked(self):
+        if not 'feedback' in self._cfg:
+            return
+
+        logFile = os.path.expanduser('~/.rezzme.log')
+        if not os.path.exists(logFile):
+            return
+
+        smtp = smtplib.SMTP(self._cfg['feedback']['smtp'])
+        user = os.environ['USER'] if 'USER' in os.environ else 'whoami'
+        fromAddress = '%s@%s' % (user, socket.getfqdn())
+        toAddress = self._cfg['feedback']['to']
+
+        logContent = None
+        with open(logFile, 'r') as log:
+            logContent = log.read()
+            
+        msg = "From: %(user)s\r\nTo: %(developer)s\r\nSubject: RezzMe Log File\r\n\r\n%(log)s " % dict(user = fromAddress,
+                                                                                                       developer = toAddress,
+                                                                                                       log = logContent)
+
+        smtp.sendmail(fromAddress, toAddress, msg)
+        smtp.quit()
+
+        logging.info('RezzMe.ui.tray: sent %s to %s', logFile, toAddress)
+    
 
 class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
@@ -184,7 +240,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         
 
     def _about(self):
-        rezzMeAbout = RezzMeTrayAbout()
+        rezzMeAbout = RezzMeTrayAbout(cfg = self._cfg)
         rezzMeAbout.exec_()
 
     def _quit(self):
