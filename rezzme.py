@@ -89,6 +89,7 @@ try:
     import PyQt4.QtGui
     from PyQt4.QtCore import SIGNAL
     
+    import RezzMe.config.desktop
     import RezzMe.bookmarks
     import RezzMe.exceptions
     import RezzMe.gridinfo
@@ -114,24 +115,6 @@ logging.debug('rezzme.py version %s on %s' %( cfg['package']['version'], sys.pla
 
 if onMacOSX: 
     import aemreceive.sfba as AE
-
-
-# class RezzMeQApplication(PyQt4.QtGui.QApplication):
-#     '''Wrapper class around QApplication adding exec state information.
-#        '''
-
-#     def __init__(self, *args):
-#         PyQt4.QtGui.QApplication.__init__(self, *args)
-#         self._started = False
-
-#     def exec_(self):
-#         self._started = True
-#         PyQt4.QtGui.QApplication.exec_()
-
-#     def _started(self):
-#         return self._started
-#     Started = property(fget = _started)
-
 
 
 def ConnectToGrid(app, uri):
@@ -253,6 +236,8 @@ if __name__ == '__main__':
 
     # need an QApplication context to signal errors
     app = PyQt4.QtGui.QApplication(sys.argv)
+
+    RezzMe.config.desktop.InstallProtocolHandlers()
 
     args = sys.argv[1:]
     tray = None
