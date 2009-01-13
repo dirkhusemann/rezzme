@@ -1,4 +1,12 @@
+2009-01-13  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r122] RezzMe/config/desktop.py, rezzme.cfg, rezzme.py: + adding
+	  desktop services (for linux GNOME only, thx gconftool-2)
+	  + upping version to 4.0.18
+
 2009-01-12  dr scofield aka dirk husemann (hud@zurich.ibm.com)
+
+	* [r121] ChangeLog:
 
 	* [r120] ChangeLog, RezzMe/gridinfo.py, about.raw.html, rezzme.cfg:
 	  ~ fixing linden lab gridInfo bypass

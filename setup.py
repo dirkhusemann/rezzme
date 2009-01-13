@@ -132,25 +132,6 @@ if not command: sys.exit(0)
 if command == 'install' and platform == 'linux2':
     cfg = RezzMe.config.builder.buildCfg('rezzme-sealed')
 
-    import subprocess
-    gconftool2 = subprocess.Popen(['which', 'gconftool-2'], stdout = subprocess.PIPE)
-    gconftool2 = gconftool2.communicate()[0].rstrip('\n')
-
-    if gconftool2:
-        print 'setting up rezzme.py as GNOME protocol handler for rezzme:// URIs'
-        os.system('%s -t string -s /desktop/gnome/url-handlers/rezzme/command "/usr/bin/rezzme.py %%s"' % gconftool2)
-        os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzme/needs_terminal false' % gconftool2)
-        os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzme/enabled true' % gconftool2)
-
-        os.system('%s -t string -s /desktop/gnome/url-handlers/rezzmes/command "/usr/bin/rezzme.py %%s"' % gconftool2)
-        os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/needs_terminal false' % gconftool2)
-        os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)
-
-        print '''
-    i tried to use gconftool-2 on your system to configure gnome,
-    firefox, and thunderbird for the rezzme:// protocol. 
-    '''
-
     for s in ['/usr/share/services', '/usr/share/kde4/services']:
         if os.path.exists(s):
             print 'setting up rezzme.py as KDE protocol handler for rezzme(s):// URIs via %s' % s
