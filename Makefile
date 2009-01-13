@@ -2,6 +2,7 @@ PYUIC	= pyuic4
 PYRCC	= pyrcc4
 EXPAND  = python ./expand.py
 SVN2CL  = svn2cl --group-by-day --separate-daylogs --include-rev --authors=AUTHORS -r HEAD:1
+SVN2HTML = svn2cl --group-by-day --separate-daylogs --include-rev --html --authors=AUTHORS -r HEAD:1
 
 .PHONY: clean build deploy all
 
@@ -48,3 +49,4 @@ resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in
 changelog:
 	@echo "attempting to update ChangeLog (requires svn2cl)"
 	-@${SVN2CL}
+	-@${SVN2HTML}
