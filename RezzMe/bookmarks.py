@@ -156,7 +156,7 @@ class Bookmarks(object):
 
             if uri.Avatar:
                 for u in [b for b in self._bookmarks if b.Avatar and b.Avatar == uri.Avatar]:
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.FullUri)
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
                     if u.BaseUri.startswith(uri.BaseUri):
                         if all(u.Credentials):
                             best = u
@@ -168,7 +168,7 @@ class Bookmarks(object):
             else:
 #                for u in [b for b in self._bookmarks if not b.Avatar]:
                 for u in self._bookmarks:
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.FullUri)
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
                     if u.BaseUri.startswith(uri.BaseUri):
                         if u.UserId:
                             best = u
@@ -177,7 +177,7 @@ class Bookmarks(object):
                         if not best:
                             best = u
 
-            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best)
+            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
             return best
 
         elif display:
