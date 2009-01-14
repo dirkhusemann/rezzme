@@ -116,7 +116,6 @@ class PlatformLauncher(object):
             logArgs += [location]
 
         cmdLine = '%s %s' % (client, ' '.join(clientArgs))
-        logging.debug('RezzMe.launchers.win32: command line: >%s<', cmdLine)
         # all systems go: start client
         clientArgs = [ client ] + clientArgs
         logArgs = [ client ] + logArgs

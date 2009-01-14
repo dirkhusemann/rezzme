@@ -211,12 +211,7 @@ def RezzMeUri(app, args):
         if uriLower.startswith('rezzme://') or uriLower.startswith('rezzmes://'): 
             logging.debug('RezzMeUri: %s is proper rezzme:// URI', uriLower)
             ConnectToGrid(app, uri)
-            if onMacOSX: 
-                logging.debug('RezzMeUri: expected return from ConnectToGrid (Mac OSX)')
-                return
-            else:
-                logging.info('RezzMeUri: ConnectToGrid was cancelled')
-                return
+            return
 
     raise RezzMe.exceptions.RezzMeException("hmm...couldn't find a rezzme(s):// URI in %s" % ' '.join(sys.argv))
 
