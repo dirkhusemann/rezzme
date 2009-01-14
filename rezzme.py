@@ -113,7 +113,12 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
-logging.debug('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
+# slightly generous banner makes it easier to find start of trace in log file :-)
+logging.info('                                        ')
+logging.info('========================================')
+logging.info('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
+logging.info('========================================')
+logging.info('                                        ')
 
 if onMacOSX: 
     import aemreceive.sfba as AE
