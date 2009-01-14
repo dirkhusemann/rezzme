@@ -16,4 +16,7 @@ about-lotus3di.raw.html
 rezzme-sealed.cfg
 rezzme.desktop
 rezzme.qrc
+rezzme.iss
 dist
+dist-win32
+build

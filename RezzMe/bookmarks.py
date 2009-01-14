@@ -177,7 +177,8 @@ class Bookmarks(object):
                         if not best:
                             best = u
 
-            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
+            if best:
+                logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
             return best
 
         elif display:
