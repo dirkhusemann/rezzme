@@ -76,7 +76,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked')
         if self._source == 'about':
             logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to changelog')
-            self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/changelog.html'))
+            self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/ChangeLog.html'))
             self.textBrowser.setOpenExternalLinks(False)
             self.pushButtonChangeLog.setText('view about')
             self._source = 'changelog'

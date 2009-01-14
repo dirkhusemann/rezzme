@@ -1,8 +1,10 @@
 PYUIC	= pyuic4
 PYRCC	= pyrcc4
 EXPAND  = python ./expand.py
-SVN2CL  = svn2cl --group-by-day --separate-daylogs --include-rev --authors=AUTHORS -r HEAD:1
-SVN2HTML = svn2cl --group-by-day --separate-daylogs --include-rev --html --authors=AUTHORS -r HEAD:1
+# SVN2CL  = svn2cl --group-by-day --separate-daylogs --include-rev --authors=AUTHORS -r HEAD:1
+# SVN2HTML = svn2cl --group-by-day --separate-daylogs --include-rev --html --authors=AUTHORS -r HEAD:1
+GIT2CL = git log > ChangeLog
+
 
 .PHONY: clean build deploy all
 
@@ -21,7 +23,7 @@ clean:
 	rm -rf RezzMe/config/config.py
 	make -C RezzMe/ui clean
 
-build: resources rezzme.ico RezzMe/config/config.py
+build: changelog resources rezzme.ico RezzMe/config/config.py 
 	make -C RezzMe/ui all
 	python ./build.py
 
@@ -47,6 +49,7 @@ resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in
 	${PYRCC} -o RezzMe/resources.py rezzme.qrc
 
 changelog:
-	@echo "attempting to update ChangeLog (requires svn2cl)"
-	-@${SVN2CL}
-	-@${SVN2HTML}
+	@echo "attempting to update ChangeLog"
+	@cat ChangeLog.pre.html > ChangeLog.html
+	@git log >> ChangeLog.html
+	@cat ChangeLog.post.html >> ChangeLog.html

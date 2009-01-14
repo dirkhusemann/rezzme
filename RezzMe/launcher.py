@@ -90,7 +90,7 @@ class ClientLauncher(object):
     def GetClient(self, msg = None):
         clientSelector = RezzMe.ui.client.RezzMeClientSelector(msg = msg, clientLauncher = self)
         clientSelector.exec_()
-        if not clientSelector.OK: return
+        if not clientSelector.OK: return (None, None)
 
         (client, tag) = clientSelector.Client
         if not tag in self._clients:

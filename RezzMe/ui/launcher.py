@@ -303,6 +303,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     def _addClient(self):
         (tag, client) = self._launcher.GetClient()
+        if not client:
+            return
         self._clients = self._launcher.ClientTags
         # self._uri.Client = self._clients[0]
         self._uri.Client = tag
@@ -346,6 +348,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_comboBoxClients_activated(self, client):
+        if not client:
+            return
         client = unicode(client)
         if client == addNewClient:
             self._addClient()
