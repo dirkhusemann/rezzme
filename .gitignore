@@ -10,6 +10,7 @@ RezzMe/ui/clientselector.py
 RezzMe/ui/edit.py
 RezzMe/ui/rezzme.py
 RezzMe/resources.py
+about.html
 about-lotus3di.html
 about-lotus3di.raw.html
 rezzme-sealed.cfg
