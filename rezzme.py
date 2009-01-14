@@ -139,7 +139,7 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
-        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark, uri.SafeUri)
+        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
         if any(bookmark.Credentials): 
             logging.debug('ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials

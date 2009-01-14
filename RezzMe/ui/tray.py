@@ -235,7 +235,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self.showNormal()
 
     def _action(self, bookmark):
-        logging.debug('RezzMe.ui.tray._action: selected %s', bookmark)
+        logging.debug('RezzMe.ui.tray._action: selected %s', bookmark.SafeUri)
         self._desktopServices.openUrl(PyQt4.QtCore.QUrl(bookmark.FullUri))
         
 
