@@ -17,3 +17,14 @@ in addition the launcher will check for the 'authenticator' key:
 
 if it is present, rezzme will obtain the avatar name and avatar
 password via the authenticator URI.
+
+
+windows install note
+====================
+
+unless you quit any running rezzme system tray "icons", you will have
+to reboot once the rezzme installer has done its job. due to the
+design of windows there is not much we can do about this. sorry.
+
+you could upgrade to linux...
+
