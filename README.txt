@@ -19,10 +19,10 @@ if it is present, rezzme will obtain the avatar name and avatar
 password via the authenticator URI.
 
 
-windows install note
-====================
+windows installer note
+======================
 
-unless you quit any running rezzme system tray "icons", you will have
-to reboot once the rezzme installer has done its job. due to the
-design of windows there is not much we can do about this. sorry.
+unless you **quit any running rezzme system tray "icons", you will
+have to reboot** once the rezzme installer has done its job. due to
+the design of windows there is not much we can do about this. sorry.
 
