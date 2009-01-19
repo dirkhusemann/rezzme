@@ -15,8 +15,9 @@ in addition the launcher will check for the 'authenticator' key:
 
 * `authenticator` 
 
-if it is present, rezzme will obtain the avatar name and avatar
-password via the authenticator URI.
+if it is present, rezzme will authenticate you using your user ID and
+password and obtain the avatar name and avatar password via the
+authenticator URI.
 
 
 windows installer note
