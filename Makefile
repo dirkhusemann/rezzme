@@ -30,7 +30,7 @@ build: changelog resources rezzme.ico RezzMe/config/config.py
 deploy:
 	python ./deploy.py
 
-RezzMe/config/config.py: rezzme.cfg rezzme-site.cfg
+RezzMe/config/config.py: rezzme.cfg 
 	python ./config.py RezzMe/config/config.py
 
 about.html : about.raw.html rezzme.cfg
