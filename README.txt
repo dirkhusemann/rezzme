@@ -26,5 +26,3 @@ unless you quit any running rezzme system tray "icons", you will have
 to reboot once the rezzme installer has done its job. due to the
 design of windows there is not much we can do about this. sorry.
 
-well...you could upgrade to linux...really...
-
