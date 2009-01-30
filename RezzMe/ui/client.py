@@ -29,7 +29,6 @@
 
 import PyQt4.QtCore
 import PyQt4.QtGui
-from PyQt4.QtCore import SIGNAL
 
 import RezzMe.ui.clientselector
 

@@ -31,10 +31,7 @@ from __future__ import with_statement
 
 import logging
 import os
-import urllib
-import xml.etree.ElementTree as ET
-
-import RezzMe.exceptions
+import xml.etree.ElementTree
 
 def LLSD2Dict(element):
     d = {}
@@ -75,10 +72,10 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
     if os.path.exists(userGridXml):
         logging.debug('RezzMe.launchers.hippo: found %s', userGridXml)
         with open(userGridXml, 'r') as xml:
-            hippoGridInfo = ET.parse(xml).getroot()
+            hippoGridInfo = xml.etree.ElementTree.parse(xml).getroot()
     else:
         logging.debug('RezzMe.launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
-        hippoGridInfo = ET.fromstring('<llsd><array></array></llsd>')
+        hippoGridInfo = xml.etree.ElementTree.fromstring('<llsd><array></array></llsd>')
             
     # check whether we are already in hippo's grid info
     # note: LLSD "XML" sucks big time: it depends on the ordering of elements to work...
@@ -104,12 +101,12 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
         else:
             gridXml += '<key>%s</key><string/>' % value
     gridXml += '</map>'
-    grid = ET.fromstring(gridXml)
-    logging.debug('RezzMe.launchers.hippo: : adding XML sniplet %s to grid_info.xml', ET.tostring(grid))
+    grid = xml.etree.ElementTree.fromstring(gridXml)
+    logging.debug('RezzMe.launchers.hippo: : adding XML sniplet %s to grid_info.xml', xml.etree.ElementTree.tostring(grid))
 
     # write out grid_info.xml again
     hippoGridInfo.find('./array').append(grid)
-    logging.debug('RezzMe.launchers.hippo: grid_info.xml: %s', ET.tostring(hippoGridInfo))
+    logging.debug('RezzMe.launchers.hippo: grid_info.xml: %s', xml.etree.ElementTree.tostring(hippoGridInfo))
 
     if os.path.exists(userGridXml):
         bak = '%s.bak' % userGridXml
@@ -117,7 +114,7 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
         if os.path.exists(bak): os.unlink(bak)
         os.rename(userGridXml, bak)
     with open(userGridXml, 'w') as xml:
-        xml.write(ET.tostring(hippoGridInfo))
+        xml.write(xml.etree.ElementTree.tostring(hippoGridInfo))
     logging.info('RezzMe.launchers.hippo: updated grid_info.xml')
 
     return gridInfo['gridnick']

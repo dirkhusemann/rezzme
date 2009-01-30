@@ -29,10 +29,6 @@
 
 import logging
 import os
-import RezzMe.exceptions
-import RezzMe.parse
-import RezzMe.uri
-import urllib
 
 class Credentials(object):
     '''Deal with user IDs for authenticated grids.
@@ -46,7 +42,7 @@ class Credentials(object):
         self._credentials = {}
         self.__load()
 
-    def __delete__(self):
+    def __del__(self):
         self.Save()
         self._credentials = None
 

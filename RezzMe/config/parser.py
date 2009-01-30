@@ -31,6 +31,8 @@ import ConfigParser
 import logging
 import os
 
+import RezzMe.utils
+
 class Parser(ConfigParser.RawConfigParser):
 
     def __init__(self, configFile = None):
@@ -41,7 +43,7 @@ class Parser(ConfigParser.RawConfigParser):
         if not configFile:
             return
 
-        self._file = os.path.expanduser(self._file)
+        self._file = RezzMe.utils.ExpandUser(self._file)
         if not os.path.exists(self._file):
             return
 

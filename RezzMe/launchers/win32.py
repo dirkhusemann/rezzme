@@ -35,6 +35,7 @@ import _winreg
 
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
+import RezzMe.utils
 
 class PlatformLauncher(object):
     
@@ -101,7 +102,7 @@ class PlatformLauncher(object):
 
 
         if 'hippo' in clientName.lower() or 'hippo' in client.lower():
-            userGridXml = os.path.expanduser('~/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
+            userGridXml = RezzMe.utils.ExpandUser('~/Application Data/Hippo_OpenSim_Viewer/user_settings/grid_info.xml')
             userGridXml = os.path.normcase(userGridXml)
 
             defaultGridXml = os.path.join(os.path.dirname(client), 'app_settings', 'default_grids.xml')

@@ -27,9 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import logging
-import sys
-import types
+# import logging
 import types
 import urllib
 
@@ -62,7 +60,7 @@ class Uri(object):
             self._parse(uri)
 
         elif type(uri) is types.DictType:
-            self._dict = dict
+            self._dict = uri
             self._sync()
             self._orig = self.FullUri
 
@@ -79,6 +77,8 @@ class Uri(object):
         self.Display = display
         self.Client = client
         self.UserId = userId
+
+        self.Extensions = {}
 
 #         for k in self._dict:
 #             logging.debug('RezzMe.uri.Uri: %s -> %s', k, self._dict[k])
@@ -132,6 +132,9 @@ class Uri(object):
 
     def _parse(self, uri):
         self._dict = RezzMe.parse.ParseUriAndPath(uri)
+
+        if not self._dict:
+            raise RezzMe.exceptions.RezzMeException('wonky URI >%s<' % uri)
 
         if not self.Scheme: return None
         self._sync()

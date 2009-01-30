@@ -65,6 +65,9 @@ try:
 
     if logfile:
         logfile = os.path.expanduser(logfile)
+        if logfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
+            logfile = '%s/%s' % (os.environ['USERPROFILE'], logfile[2:])
+
         rotatingHandler = logging.handlers.RotatingFileHandler(logfile, 'a', logsize)
         rotatingHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
                                                        '%a, %d %b %Y %H:%M:%S'))
@@ -100,6 +103,7 @@ try:
     import RezzMe.ui.launcher
     import RezzMe.ui.tray
     import RezzMe.uri
+    import RezzMe.utils
 except ImportError, e:
     logging.critical('rezzme: import error: %s', str(e), exc_info = True)
     sys.exit(1)
@@ -141,7 +145,7 @@ def ConnectToGrid(app, uri):
     # whether we can get credentials for uri via our extensive
     # collection of bookmarks...
     updateBookmarks = False
-    bookmarks = RezzMe.bookmarks.Bookmarks(os.path.expanduser('~/.rezzme.bookmarks'))
+    bookmarks = RezzMe.bookmarks.Bookmarks(RezzMe.utils.ExpandUser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
         logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)

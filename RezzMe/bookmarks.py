@@ -33,7 +33,7 @@ import RezzMe.config.parser
 import RezzMe.exceptions
 import RezzMe.parse
 import RezzMe.uri
-import urllib
+import RezzMe.utils
 
 defaults = { 
     'rezzmes://login.agni.lindenlab.com/cgi-bin/login.cgi': 'SecondLife main grid',
@@ -58,12 +58,12 @@ class Bookmarks(object):
         if not path:
             return
         
-        self._path = os.path.expanduser(path)
+        self._path = RezzMe.utils.ExpandUser(path)
         logging.debug('RezzMe.bookmarks.Bookmarks: instantiating object: path %s', self._path)
         self._load()
 
         
-    def __delete__(self):
+    def __del__(self):
         '''destructor.
 
            saves bookmarks to ~/.rezzme.bookmarks
@@ -88,7 +88,15 @@ class Bookmarks(object):
                 client = bookmarks.get(bookmark, 'client')
                 display = bookmarks.get(bookmark, 'display')
                 userId = bookmarks.get(bookmark, 'userID')
-                uri = RezzMe.uri.Uri(uri = bookmark, tag = tag, display = display, client = client, userId = userId)
+                try:
+                    uri = RezzMe.uri.Uri(uri = bookmark, tag = tag, display = display, client = client, userId = userId)
+                except:
+                    continue
+
+                # collect extension value used by other apps
+                for ext in bookmarks.options(bookmark):
+                    if ext.startswith('x_'):
+                        uri.Extensions[ext] = bookmarks.get(bookmark, ext)
 
                 self.Add(uri)
 
@@ -120,6 +128,11 @@ class Bookmarks(object):
                     bookmarks.set(uri.FullUri, 'display', uri.Display)
                 if uri.UserId:
                     bookmarks.set(uri.FullUri, 'userID', uri.UserId)
+
+                # take care of potential extension values
+                for ext in uri.Extensions:
+                    bookmarks.set(uri.FullUri, ext, uri.Extensions[ext])
+                    
             bookmarks.save(self._path)
             logging.debug('RezzMe.bookmarks.Save: saved bookmarks to %s', self._path)
 

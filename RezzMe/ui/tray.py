@@ -29,7 +29,6 @@
 
 from __future__ import with_statement
 
-import ConfigParser
 import logging
 import os
 import smtplib
@@ -44,9 +43,8 @@ import RezzMe.bookmarks
 import RezzMe.parse
 import RezzMe.ui.edit
 import RezzMe.ui.about
+import RezzMe.utils
 import RezzMe.resources
-
-from PyQt4.QtCore import SIGNAL
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -93,7 +91,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         if not 'feedback' in self._cfg:
             return
 
-        logFile = os.path.expanduser('~/.rezzme.log')
+        logFile = RezzMe.utils.ExpandUser('~/.rezzme.log')
         if not os.path.exists(logFile):
             return
 
@@ -156,7 +154,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         self._trayIcon.show()
 
-    def __delete__(self):
+    def __del__(self):
         self._bookmarks = None
         self._uri = None
 
@@ -178,7 +176,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._reloadMenu()
         self._done = False
 
-        PyQt4.QtCore.QObject.connect(self._trayIcon, SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
+        PyQt4.QtCore.QObject.connect(self._trayIcon, PyQt4.QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
         logging.debug('RezzMe.ui.tray: connected slot')
 
     def _iconActivated(self, reason):

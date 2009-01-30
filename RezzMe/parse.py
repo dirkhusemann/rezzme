@@ -27,9 +27,10 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import ConfigParser
+import logging
 import optparse
 import re
+import sys
 import urllib
 
 def ParseOptions():
@@ -42,7 +43,6 @@ def ParseOptions():
 
     if options.longhelp:
         parser.print_help()
-        longHelp()
         sys.exit(0)
 
     return options
@@ -64,6 +64,7 @@ def ParseUri(uri):
     uri = uri.lstrip().rstrip()
     match = reURI.match(uri)
     if not match or not match.group('scheme') or not match.group('host'):
+        logging.warning('RezzMe.parser.ParseUri: wonky URI: %s --- skipping it', uri)
         return (None, None, None, None, None, None)
 
     scheme = match.group('scheme')
@@ -99,8 +100,13 @@ def ParsePath(path):
     y = 0
     z = 0
 
-    matchXYZ = reLOCXYZ.match(path)
-    match = reLOC.match(path)
+    try:
+        matchXYZ = reLOCXYZ.match(path)
+        match = reLOC.match(path)
+    except:
+        logging.error('RezzMe.parser.ParsePath: stumbled badly over %s', path)
+        raise
+    
     if matchXYZ:
         region = matchXYZ.group('region')
         x = int(matchXYZ.group('x'))
@@ -117,7 +123,13 @@ def ParsePath(path):
 
 def ParseUriAndPath(uri):
     (scheme, host, port, avatar, password, path) = ParseUri(uri)
-    (slurl,region, x, y, z) = ParsePath(path)
+
+    if not scheme:
+        return {}
+
+    (slurl,region, x, y, z) = (None, None, None, None, None)
+    if path:
+        (slurl,region, x, y, z) = ParsePath(path)
 
     p = {}
     for key in ['scheme', 'host', 'port', 'avatar', 'password', 

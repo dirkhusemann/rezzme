@@ -29,7 +29,6 @@
 
 from __future__ import with_statement
 
-import copy
 import logging
 import os
 import subprocess
@@ -46,7 +45,6 @@ class PlatformLauncher(object):
         self._clients = {}
 
         for c in self._clientsDefault:
-            found = False
             for bin in os.environ['PATH'].split(':'):
                 t = '%s/%s' % (bin, self._clientsDefault[c])
                 if os.path.exists(t):

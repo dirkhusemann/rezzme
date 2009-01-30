@@ -32,10 +32,10 @@ from __future__ import with_statement
 import ConfigParser
 import logging
 import os
-import re
 import sys
 import RezzMe.exceptions
 import RezzMe.ui.client
+import RezzMe.utils
 
 try:
     exec 'import RezzMe.launchers.%s as PlatformLauncher' % sys.platform
@@ -47,7 +47,7 @@ class ClientLauncher(object):
 
     def __init__(self):
         self._clients = None
-        self._configFile = os.path.expanduser('~/.rezzme.clients')
+        self._configFile = RezzMe.utils.ExpandUser('~/.rezzme.clients')
 
         logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
         self._platformLauncher = PlatformLauncher.PlatformLauncher()
@@ -69,7 +69,7 @@ class ClientLauncher(object):
            '''
 
         if not clientTag in self._clients:
-            raise RezzMeException('RezzMe.launcher: no client for for %s' % clientTag)
+            raise RezzMe.exceptions.RezzMeException('RezzMe.launcher: no client for for %s' % clientTag)
 
         self._platformLauncher.Launch(avatar, password, gridInfo, clientTag, self._clients[clientTag], location)
         

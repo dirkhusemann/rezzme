@@ -30,9 +30,7 @@
 import logging
 import urllib
 import urllib2
-import xml.etree.ElementTree as ET
-
-import RezzMe.uri
+import xml.etree.ElementTree
 
 fakeGridInfo = {
     'rezzme://lindenlab.com/': {
@@ -67,7 +65,7 @@ def GetGridInfo(uri):
     # try to retrieve GridInfo 
     gridInfo = {}
     try:
-        gridInfoXml = ET.parse(urllib2.urlopen(infoUri))
+        gridInfoXml = xml.etree.ElementTree.parse(urllib2.urlopen(infoUri))
         for e in gridInfoXml.findall('/*'):
             if e.text: gridInfo[e.tag] = e.text
             logging.debug('RezzMe.gridinfo.GetGridInfo: %s = %s', e.tag, e.text)
