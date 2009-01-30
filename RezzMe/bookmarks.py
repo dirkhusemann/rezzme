@@ -34,10 +34,6 @@ import RezzMe.exceptions
 import RezzMe.parse
 import RezzMe.uri
 import RezzMe.utils
-<<<<<<< HEAD:RezzMe/bookmarks.py
-=======
-import urllib
->>>>>>> dc3a75f8836fd97db2ce9acd02808907d7b43c99:RezzMe/bookmarks.py
 
 defaults = { 
     'rezzmes://login.agni.lindenlab.com/cgi-bin/login.cgi': 'SecondLife main grid',
