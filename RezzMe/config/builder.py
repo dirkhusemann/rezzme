@@ -29,6 +29,7 @@
 
 from __future__ import with_statement
 
+import codecs
 import ConfigParser
 import os
 
@@ -38,10 +39,10 @@ def buildCfg(name):
     sealed = False
 
     if os.path.exists('%s.cfg' % name):
-        config.readfp(open('%s.cfg' % name))
+        config.readfp(codecs.open('%s.cfg' % name, 'r', 'utf8'))
         config.read(['%s-site.cfg' % name])
     elif os.path.exists('%s-sealed.cfg' % name):
-        config.readfp(open('%s-sealed.cfg' % name))
+        config.readfp(codecs.open('%s-sealed.cfg' % name, 'r', 'utf8'))
         sealed = True
 
     # convert rezzme.cfg to RezzMe/config/config.py
@@ -85,5 +86,5 @@ def writeCfg(cfg, name):
         for option in cfg[section]:
             config.set(section, option, cfg[section][option])
 
-    with open('%s-sealed.cfg' % name, 'w') as c:
+    with codecs.open('%s-sealed.cfg' % name, 'w', 'utf8') as c:
         config.write(c)

@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import codecs
 import ConfigParser
 import logging
 import os
@@ -48,7 +49,7 @@ class Parser(ConfigParser.RawConfigParser):
             return
 
         try:
-            c = open(self._file, 'r')
+            c = codecs.open(self._file, 'r', 'utf8')
             ConfigParser.RawConfigParser.readfp(self, c)
         except IOError:
             logging.error('RezzMe.config.parser.Parser: cannot load config file %s', self._file)
@@ -74,7 +75,7 @@ class Parser(ConfigParser.RawConfigParser):
                 os.remove('%s~' % configFile)
             os.rename(configFile, '%s~' % configFile)
 
-        self.write(open(configFile, 'w'))
+        self.write(codecs.open(configFile, 'w', 'utf8'))
 
     def get(self, section, option):
         if not self.has_section(section):

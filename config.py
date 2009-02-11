@@ -3,6 +3,7 @@
 
 from __future__ import with_statement
 
+import codecs
 import os
 import sys
 
@@ -15,7 +16,7 @@ onWindows = sys.platform == 'win32'
 # check prereqs
 if not os.path.exists('rezzme.cfg'):
     print '''
-oops...you need to create rezzme.cfg first!'
+oops...you need to create rezzme.cfg first!
 
 copy rezzme.cfg.example to rezzme.cfg and adapt it to your needs,
 and run me again.
@@ -29,7 +30,7 @@ if len(sys.argv) != 2:
 # read in configuration
 cfg = RezzMe.config.builder.buildCfg('rezzme')
 
-with open(sys.argv[1], 'w') as outfile:
+with codecs.open(sys.argv[1], 'w', 'utf8') as outfile:
     outfile.write('''
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-

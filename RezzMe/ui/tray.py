@@ -29,6 +29,7 @@
 
 from __future__ import with_statement
 
+import codecs
 import logging
 import os
 import smtplib
@@ -101,7 +102,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         toAddress = self._cfg['feedback']['to']
 
         logContent = None
-        with open(logFile, 'r') as log:
+        with codecs.open(logFile, 'r', 'utf8') as log:
             logContent = log.read()
             
         msg = "From: %(user)s\r\nTo: %(developer)s\r\nSubject: RezzMe Log File\r\n\r\n%(log)s " % dict(user = fromAddress,

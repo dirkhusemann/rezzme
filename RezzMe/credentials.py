@@ -27,6 +27,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import codecs
 import logging
 import os
 
@@ -56,7 +57,7 @@ class Credentials(object):
             return
         
         try:
-            creds = open(self._path, 'r')
+            creds = codecs.open(self._path, 'r', 'utf8')
             for cred in creds:
                 if not ' ' in cred: continue
 
@@ -94,7 +95,7 @@ class Credentials(object):
                 if os.path.exists(bak): os.unlink(bak)
                 os.rename(self._path, bak)
                 logging.debug('RezzMe.credentials.Credentials.Save: path "%s" exist, backing up to "%s"', self._path, bak)
-            creds = open(self._path, 'w')
+            creds = codecs.open(self._path, 'w', 'utf8')
             for cred in self._credentials:
                 creds.write('%s %s\n' % (cred, self._credentials[cred]))
             creds.close()

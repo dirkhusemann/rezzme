@@ -29,6 +29,7 @@
 
 from __future__ import with_statement
 
+import codecs
 import logging
 import os
 import xml.etree.ElementTree
@@ -64,14 +65,14 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
             logging.warning('RezzMe.launchers.hippo: incomplete hippo installation: missing %s', defaultGridXml)
         else:
             # yes, copy it over to userGridXml
-            with open(defaultGridXml, 'r') as defaultXml:
-                with open(userGridXml, 'w') as userXml:
+            with codecs.open(defaultGridXml, 'r', 'utf8') as defaultXml:
+                with codecs.open(userGridXml, 'w', 'utf8') as userXml:
                     userXml.write(defaultXml.read())
             logging.info('RezzMe.launchers.hippo: copied %s to %s', defaultGridXml, userGridXml)
 
     if os.path.exists(userGridXml):
         logging.debug('RezzMe.launchers.hippo: found %s', userGridXml)
-        with open(userGridXml, 'r') as xml:
+        with codecs.open(userGridXml, 'r', 'utf8') as xml:
             hippoGridInfo = xml.etree.ElementTree.parse(xml).getroot()
     else:
         logging.debug('RezzMe.launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
@@ -113,7 +114,7 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
         logging.debug('RezzMe.launchers.hippo: "%s" exists, baking up to "%s"', userGridXml, bak)
         if os.path.exists(bak): os.unlink(bak)
         os.rename(userGridXml, bak)
-    with open(userGridXml, 'w') as xml:
+    with codecs.open(userGridXml, 'w', 'utf8') as xml:
         xml.write(xml.etree.ElementTree.tostring(hippoGridInfo))
     logging.info('RezzMe.launchers.hippo: updated grid_info.xml')
 
