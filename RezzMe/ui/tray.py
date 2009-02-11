@@ -360,6 +360,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditTag_editingFinished(self):
         tag = unicode(self.lineEditTag.text()).strip()
+        logging.debug('ui.tray.py: tag editing finished: %s', tag)
         if tag:
             self._tag = tag
         else:

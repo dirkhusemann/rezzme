@@ -77,6 +77,22 @@ class Parser(ConfigParser.RawConfigParser):
 
         self.write(codecs.open(configFile, 'w', 'utf8'))
 
+    # fix ConfigParser's unicode challenged write() method
+    def write(self, fp):
+
+        if self._defaults:
+            fp.write("[%s]\n" % DEFAULTSECT)
+            for (key, value) in self._defaults.items():
+                fp.write("%s = %s\n" % (key, unicode(value).replace('\n', '\n\t')))
+            fp.write("\n")
+        for section in self._sections:
+            fp.write("[%s]\n" % section)
+            for (key, value) in self._sections[section].items():
+                if key != "__name__":
+                    fp.write("%s = %s\n" %
+                             (key, unicode(value).replace('\n', '\n\t')))
+            fp.write("\n")
+
     def get(self, section, option):
         if not self.has_section(section):
             return None
