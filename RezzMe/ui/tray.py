@@ -152,8 +152,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.pushButtonCancel.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
 
         self._reloadComboBox()
-
-
         self._trayIcon.show()
 
     def __del__(self):
@@ -227,6 +225,8 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._menu.addAction('edit or add rezzme:// bookmarks', self.showNormal)
         self._menu.addAction('about...', self._about)
         self._menu.addAction('quit', self._quit)
+
+        self._trayIcon.setToolTip('RezzMe: Your trusted companion for virtual worlds [~ %d bookmarks]' % len(self._bookmarks.Bookmarks))
 
         logging.debug('RezzMe.ui.tray._reloadMenu: menu (re)set')
 
