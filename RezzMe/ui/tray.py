@@ -139,6 +139,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         # setup generated UI 
         self.setupUi(self)
 
+        self._menu = PyQt4.QtGui.QMenu(self)
         self._setupTrayIcon()
         self._desktopServices = PyQt4.QtGui.QDesktopServices()
         
@@ -164,7 +165,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._trayIcon = PyQt4.QtGui.QSystemTrayIcon(self)
         self._trayIcon.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
 
-        self._menu = None
         self._bookmarks = RezzMe.bookmarks.Bookmarks('~/.rezzme.bookmarks')
         logging.debug('RezzMe.ui.tray: loaded bookmarks')
         self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
@@ -174,6 +174,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
                 self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = self._cfg['default rezzmes'][tag], tag = tag))
                 logging.debug('RezzMe.ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][tag])
 
+        self._trayIcon.setContextMenu(self._menu)
         self._reloadMenu()
         self._done = False
 
@@ -198,7 +199,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
     def _reloadMenu(self):
-        self._menu = PyQt4.QtGui.QMenu(self)
+        self._menu.clear()
         self._bookmarks.Reload()
         logging.debug('RezzMe.ui.tray._reloadMenu: reloading menu')
 
@@ -227,7 +228,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._menu.addAction('about...', self._about)
         self._menu.addAction('quit', self._quit)
 
-        self._trayIcon.setContextMenu(self._menu)
         logging.debug('RezzMe.ui.tray._reloadMenu: menu (re)set')
 
     def _activate(self):
