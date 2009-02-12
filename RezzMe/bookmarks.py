@@ -168,20 +168,25 @@ class Bookmarks(object):
             best = None
 
             if uri.Avatar:
+                # we've got an avatar specified: so we are only going
+                # to look at bookmarks that have this avatar
+                # explicitly set
                 for u in [b for b in self._bookmarks if b.Avatar and b.Avatar == uri.Avatar]:
                     logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
-                    if u.BaseUri.startswith(uri.BaseUri):
-                        if all(u.Credentials):
-                            best = u
-                            break
+                    
+                    if uri.Host == u.Host and uri.Port == u.Port and uri.Region == u.Region:
+                        # host, port, region match: perfect, done
+                        best = u
+                        break
 
-                        if not best:
-                            best = u
-            
+                    if uri.Host == u.Host and uri.Port == u.Port:
+                        # host, port match: let's keep it in mind and continue looking
+                        best = u
+
             else:
-#                for u in [b for b in self._bookmarks if not b.Avatar]:
+                # no avatar specified: let's see whether we can find a match
                 for u in self._bookmarks:
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
+                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch(no avatar): looking at %s', u.SafeUri)
                     if u.BaseUri.startswith(uri.BaseUri):
                         if u.UserId:
                             best = u
