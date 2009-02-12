@@ -71,7 +71,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._launcher = launcher
         
         # init: attributes
-        logging.debug('ui.RezzMeLauncher:__init__: uri %s', uri.SafeUri)
+        # logging.debug('ui.RezzMeLauncher:__init__: uri %s', uri.SafeUri)
+        logging.debug('ui.RezzMeLauncher:__init__: uri %s', uri)
         self._uri = uri
         self._gridInfo = gridInfo
         self._cfg = cfg

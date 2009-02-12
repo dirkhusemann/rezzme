@@ -168,6 +168,7 @@ def ConnectToGrid(app, uri):
 
 
     oldUri = RezzMe.uri.Uri(uri)
+    logging.debug('rezzme.ConnectToGrid: calling launcher UI with %s', uri)
     ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
     ui.exec_()
 

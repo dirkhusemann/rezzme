@@ -274,6 +274,9 @@ grid tag: %(gridnick)s</string>
          <property name="text" >
           <string>rezzme://cool.opensim.foo.com:9000/CoolPlaza/128/17/23</string>
          </property>
+         <property name="textInteractionFlags" >
+          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+         </property>
         </widget>
        </item>
        <item>
