@@ -189,6 +189,21 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._reloadComboBox()
         self.checkBoxEditBookmark.setChecked(False)
 
+        self._resetTrayEditGui()
+
+    def _resetTrayEditGui(self):
+        self.labelRezzMe.clear()
+        self.lineEditGridHost.clear()
+        self.lineEditRegion.clear()
+        self.lineEditX.clear()
+        self.lineEditY.clear()
+        self.lineEditZ.clear()
+        self.lineEditAvatarName.clear()
+        self.lineEditTag.clear()
+
+        self._tag = None
+        self._uri = {}
+
     def _reloadComboBox(self):
         self.comboBoxBookmarks.clear()
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
@@ -402,6 +417,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonCancel_clicked(self):
         logging.debug('ui.tray.edit.on_pushButtonCancel_clicked')
+        self._resetTrayEditGui()
 
 
     @PyQt4.QtCore.pyqtSignature('QString')
@@ -430,13 +446,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if checked:
             self.on_comboBoxBookmarks_activated(self.comboBoxBookmarks.currentText())
         else:
-            self.labelRezzMe.clear()
-            self.lineEditGridHost.clear()
-            self.lineEditRegion.clear()
-            self.lineEditX.clear()
-            self.lineEditY.clear()
-            self.lineEditZ.clear()
-            self.lineEditAvatarName.clear()
-            self.lineEditTag.clear()
+            self._resetTrayEditGui()
 
 
