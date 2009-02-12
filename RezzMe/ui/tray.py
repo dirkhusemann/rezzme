@@ -321,11 +321,24 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.lineEditGridHost.setText('%(host)s:%(port)s' % self._uri)
         else:
             self.lineEditGridHost.setText('%(host)s' % self._uri)
-        if 'region' in self._uri: self.lineEditRegion.setText(urllib.unquote(self._uri['region'])) 
-        if 'x' in self._uri: self.lineEditX.setText(str(self._uri['x'])) 
-        if 'y' in self._uri: self.lineEditY.setText(str(self._uri['y'])) 
-        if 'z' in self._uri: self.lineEditZ.setText(str(self._uri['z'])) 
-        if 'avatar' in self._uri: self.lineEditAvatarName.setText(self._uri['avatar']) 
+        if 'region' in self._uri:
+            self.lineEditRegion.setText(urllib.unquote(self._uri['region'])) 
+
+            self.lineEditX.setEnabled(True)
+            self.lineEditY.setEnabled(True)
+            self.lineEditZ.setEnabled(True)
+
+            if 'x' in self._uri: self.lineEditX.setText(str(self._uri['x'])) 
+            if 'y' in self._uri: self.lineEditY.setText(str(self._uri['y'])) 
+            if 'z' in self._uri: self.lineEditZ.setText(str(self._uri['z'])) 
+            if 'avatar' in self._uri: self.lineEditAvatarName.setText(self._uri['avatar'])
+
+        else:
+
+            self.lineEditX.setEnabled(False)
+            self.lineEditY.setEnabled(False)
+            self.lineEditZ.setEnabled(False)
+
         self.labelRezzMe.setText(rezzme)
 
     def _fillXYZ(self, x = None, y = None, z = None):
