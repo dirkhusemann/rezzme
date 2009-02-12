@@ -182,6 +182,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     def _iconActivated(self, reason):
         logging.debug('ui.tray: activated')
         self._reloadMenu()
+        self._reloadComboBox()
 
     def _resetWindow(self):
         self._reloadMenu()
