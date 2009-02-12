@@ -167,16 +167,16 @@ def ConnectToGrid(app, uri):
             raise RezzMe.exceptions.RezzMeException('RezzMe.launcher: no virtual world client found')
 
 
+    oldUri = RezzMe.uri.Uri(uri)
     ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
     ui.exec_()
 
     logging.debug('rezzme.ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
         # get a copy of the old URI
-        oldUri = RezzMe.uri.Uri(uri)
         uri = ui.Uri
-#        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
-        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri)
+        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
+        # logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
 
             logging.debug('rezzme.ConnectToGrid: saving userId')

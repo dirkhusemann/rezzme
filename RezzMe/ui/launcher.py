@@ -84,6 +84,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         self._clients = self._launcher.ClientTags
         if not self._uri.Client:
+            logging.debug('ui.launcher: setting client to %s', self._clients[0])
             self._uri.Client = self._clients[0]
         self._updateClients()
         

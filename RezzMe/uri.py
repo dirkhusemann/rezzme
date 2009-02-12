@@ -54,6 +54,8 @@ class Uri(object):
         self._http = None
         self._safe = None
 
+        self.Extensions = {}
+
         if isinstance(uri, str) or isinstance(uri, unicode):
             self._dict = {}
             self._orig = uri
@@ -68,17 +70,16 @@ class Uri(object):
             self._dict = uri._dict
             self._sync()
             self._orig = uri.FullUri
+            return
 
         else:
             raise RezzMe.exceptions.RezzMeException('unexpected uri type %s' % type(uri))
-
 
         self.Tag = tag
         self.Display = display
         self.Client = client
         self.UserId = userId
 
-        self.Extensions = {}
 
 #         for k in self._dict:
 #             logging.debug('uri.Uri: %s -> %s', k, self._dict[k])
@@ -228,7 +229,7 @@ class Uri(object):
             del self._dict['userID']
         else:
             self._dict['userID'] = value
-    userId = property(fget = _userId, fset = _suserId, doc ='user ID in case of authenticated grid')
+    UserId = property(fget = _userId, fset = _suserId, doc ='user ID in case of authenticated grid')
 
     def _display(self):
         display = self._keyValue('display')
