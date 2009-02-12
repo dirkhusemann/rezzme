@@ -70,6 +70,7 @@ class Uri(object):
             self._dict = uri._dict
             self._sync()
             self._orig = uri.FullUri
+            self.Extensions = uri.Extensions
             return
 
         else:
@@ -299,4 +300,4 @@ class Uri(object):
         return self.FullUri.__hash__()
 
     def __str__(self):
-        return '%s client: %s/tag: %s/userId: %s' % (self.FullUri, self.Client, self.Tag, self.UserId)
+        return '%s client: %s/tag: %s/userId: %s/display: %s' % (self.FullUri, self.Client, self.Tag, self.UserId, self.Display)

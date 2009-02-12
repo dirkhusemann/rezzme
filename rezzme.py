@@ -148,7 +148,8 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(RezzMe.utils.ExpandUser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
-        logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
+        # logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
+        logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark, uri)
         if any(bookmark.Credentials): 
             logging.debug('rezzme.ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials
@@ -158,6 +159,9 @@ def ConnectToGrid(app, uri):
             uri.UserId = bookmark.UserId
             updateBookmarks = True
         uri.Client = bookmark.Client
+        uri.Display = bookmark.Display
+        uri.Tag = bookmark.Tag
+        uri.Extensions = bookmark.Extensions
 
     logging.debug('rezzme.ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
