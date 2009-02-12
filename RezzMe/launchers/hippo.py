@@ -72,8 +72,8 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
 
     if os.path.exists(userGridXml):
         logging.debug('launchers.hippo: found %s', userGridXml)
-        with codecs.open(userGridXml, 'r', 'utf8') as xmlGridInfo:
-            hippoGridInfo = xml.etree.ElementTree.parse(xmlGridInfo).getroot()
+        with codecs.open(userGridXml, 'r', 'utf8') as ugx:
+            hippoGridInfo = xml.etree.ElementTree.parse(ugx).getroot()
     else:
         logging.debug('launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
         hippoGridInfo = xml.etree.ElementTree.fromstring('<llsd><array></array></llsd>')
@@ -114,8 +114,8 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
         logging.debug('launchers.hippo: "%s" exists, baking up to "%s"', userGridXml, bak)
         if os.path.exists(bak): os.unlink(bak)
         os.rename(userGridXml, bak)
-    with codecs.open(userGridXml, 'w', 'utf8') as xml:
-        xml.write(xml.etree.ElementTree.tostring(hippoGridInfo))
+    with codecs.open(userGridXml, 'w', 'utf8') as ugx:
+        ugx.write(xml.etree.ElementTree.tostring(hippoGridInfo))
     logging.info('launchers.hippo: updated grid_info.xml')
 
     return gridInfo['gridnick']

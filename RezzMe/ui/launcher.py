@@ -263,6 +263,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self.comboBoxClients.clear()
         self.comboBoxClients.addItems(self._clients)
         self.comboBoxClients.addItem(addNewClient)
+        self.comboBoxClients.setCurrentIndex(self._clients.index(self._uri.Client))
 
 
     def _status(self, msg, color = None):

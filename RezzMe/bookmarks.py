@@ -200,6 +200,7 @@ class Bookmarks(object):
 
             if best:
                 logging.debug('bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
+                # logging.debug('bookmarks.Bookmarks.FindBestMatch: best match %s', best)
             return best
 
         elif display:
