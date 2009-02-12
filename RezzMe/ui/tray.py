@@ -289,7 +289,8 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         avatar = self._update('avatar', avatar)
         region = self._update('region', region)
 
-        if region: self._uri['region'] = urllib.quote(region.encode('utf8'), '')
+        if region:
+            self._uri['region'] = urllib.quote(region.encode('utf8'), '')
         if x: self._uri['x'] = x
         if y: self._uri['y'] = y
         if z: self._uri['z'] = z
@@ -302,10 +303,11 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         rezzme += self._uri['host']
         if 'port' in self._uri: rezzme += ':%s' % self._uri['port']
         rezzme += '/'
-        if 'region' in self._uri: rezzme += self._uri['region']
-        if 'x' in self._uri: rezzme += '/%s' % self._uri['x']
-        if 'y' in self._uri: rezzme += '/%s' % self._uri['y']
-        if 'z' in self._uri: rezzme += '/%s' % self._uri['z']
+        if 'region' in self._uri:
+            rezzme += self._uri['region']
+            if 'x' in self._uri: rezzme += '/%s' % self._uri['x']
+            if 'y' in self._uri: rezzme += '/%s' % self._uri['y']
+            if 'z' in self._uri: rezzme += '/%s' % self._uri['z']
 
         if not updateGui: return rezzme
 
