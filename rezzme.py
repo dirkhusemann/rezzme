@@ -157,7 +157,7 @@ def ConnectToGrid(app, uri):
             logging.debug('rezzme.ConnectToGrid: using user ID "%s" from bookmarks', bookmark.UserId)
             uri.UserId = bookmark.UserId
             updateBookmarks = True
-    
+        uri.Client = bookmark.Client
 
     logging.debug('rezzme.ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
