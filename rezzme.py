@@ -131,7 +131,7 @@ if onMacOSX:
 def ConnectToGrid(app, uri):
     logging.debug('rezzme.ConnectToGrid: uri %s', uri)
     uri = RezzMe.uri.Uri(uri = uri)
-    logging.debug('rezzme.ConnectToGrid: uri resolved to %s', uri)
+    # logging.debug('rezzme.ConnectToGrid: uri resolved to %s', uri.SafeUri)
 
     # sanity check: rezzme: or opensim: scheme?
     if uri.Scheme != 'rezzme' and uri.Scheme != 'rezzmes':
@@ -148,8 +148,8 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(RezzMe.utils.ExpandUser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
-        # logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
-        logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark, uri)
+        logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
+        # logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark, uri)
         if any(bookmark.Credentials): 
             logging.debug('rezzme.ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials
@@ -172,7 +172,7 @@ def ConnectToGrid(app, uri):
 
 
     oldUri = RezzMe.uri.Uri(uri)
-    logging.debug('rezzme.ConnectToGrid: calling launcher UI with %s', uri)
+    logging.debug('rezzme.ConnectToGrid: calling launcher UI with %s', uri.SafeUri)
     ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
     ui.exec_()
 
