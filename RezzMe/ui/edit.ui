@@ -379,7 +379,7 @@ p, li { white-space: pre-wrap; }
         <string>click here to leave without changing or adding anything.</string>
        </property>
        <property name="text" >
-        <string>&amp;Cancel</string>
+        <string>D&amp;one</string>
        </property>
       </widget>
      </item>
@@ -445,60 +445,12 @@ p, li { white-space: pre-wrap; }
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>393</x>
-     <y>218</y>
+     <x>580</x>
+     <y>281</y>
     </hint>
     <hint type="destinationlabel" >
      <x>518</x>
      <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButtonChange</sender>
-   <signal>clicked()</signal>
-   <receiver>RezzMeTrayEdit</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>161</x>
-     <y>224</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>166</x>
-     <y>247</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButtonAdd</sender>
-   <signal>clicked()</signal>
-   <receiver>RezzMeTrayEdit</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>74</x>
-     <y>220</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>78</x>
-     <y>247</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButtonDelete</sender>
-   <signal>clicked()</signal>
-   <receiver>RezzMeTrayEdit</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>330</x>
-     <y>225</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>333</x>
-     <y>248</y>
     </hint>
    </hints>
   </connection>
@@ -513,8 +465,8 @@ p, li { white-space: pre-wrap; }
      <y>22</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>213</x>
-     <y>221</y>
+     <x>292</x>
+     <y>281</y>
     </hint>
    </hints>
   </connection>
@@ -529,8 +481,8 @@ p, li { white-space: pre-wrap; }
      <y>26</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>307</x>
-     <y>222</y>
+     <x>436</x>
+     <y>281</y>
     </hint>
    </hints>
   </connection>

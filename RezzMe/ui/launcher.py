@@ -148,6 +148,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     def _updateLabels(self):
         if not self._authenticator or (self._authenticator and self._override):
             logging.debug('ui.launcher: avatar mode')
+
+            self.labelAuthenticationName.setText('<b>Grid authentication</b>')
+            self.labelAuthenticationName2.setText('<b>Grid authentication</b>')
+
             self.labelUser.setText('avatar &name:')
             self.lineEditUser.setToolTip('enter your avatar name here')
             self.labelUser2.setText('&avatar name:')
@@ -206,6 +210,14 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         else:
 
             logging.debug('ui.launcher: user mode')
+            # set title
+            if 'authgridname' in self._gridInfo:
+                self.labelAuthenticationName.setText('<b>%s</b>' % self._gridInfo['authgridname'])
+                self.labelAuthenticationName2.setText('<b>%s</b>' % self._gridInfo['authgridname'])
+            else:
+                self.labelAuthenticationName.setText('<b>%s credentials</b>' % self._gridInfo['gridname'])
+                self.labelAuthenticationName2.setText('<b>%s credentials</b>' % self._gridInfo['gridname'])
+
             self.labelUser.setText('&user name:')
             self.lineEditUser.setToolTip(self._tooltips['userid'])
             self.labelUser2.setText('&user name:')
