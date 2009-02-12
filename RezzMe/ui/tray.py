@@ -346,13 +346,15 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditRegion_editingFinished(self):
         region = unicode(self.lineEditRegion.text())
-        if not region: region = RezzMeTrayWindow.Empty
+        if not region:
+            region = RezzMeTrayWindow.Empty
         self._updateRezzMeUri(region = region)
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditX_editingFinished(self):
         x = unicode(self.lineEditX.text())
-        if x.isdigit(): self._fillXYZ(y = 0, z = 0)
+        if x.isdigit():
+            self._fillXYZ(y = 0, z = 0)
         self._updateRezzMeUri(x = x)
 
     @PyQt4.QtCore.pyqtSignature('')
