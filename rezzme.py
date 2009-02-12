@@ -172,8 +172,11 @@ def ConnectToGrid(app, uri):
 
     logging.debug('rezzme.ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
+        # get a copy of the old URI
+        oldUri = RezzMe.uri.Uri(uri)
         uri = ui.Uri
-        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
+#        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
+        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
 
             logging.debug('rezzme.ConnectToGrid: saving userId')
@@ -185,6 +188,7 @@ def ConnectToGrid(app, uri):
             uri.Password = None
             uri.Avatar = None
 
+            bookmarks.Delete(oldUri)
             bookmarks.Add(uri)
             bookmarks.Save()
 
@@ -194,6 +198,7 @@ def ConnectToGrid(app, uri):
         elif ui.IsAvatar and (ui.BookmarkIt or updateBookmarks):
 
             logging.debug('rezzme.ConnectToGrid: saving/updating avatar name/password')
+            bookmarks.Delete(oldUri)
             bookmarks.Add(uri)
             bookmarks.Save()
 

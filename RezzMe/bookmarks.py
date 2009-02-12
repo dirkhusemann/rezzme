@@ -141,9 +141,11 @@ class Bookmarks(object):
 
 
     def Delete(self, uri):
-        logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
+#        logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
+        logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri)
         if uri in self._bookmarks: 
-            logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
+            logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri, self._bookmarks.index(uri))
+            # logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
             del self._bookmarks[self._bookmarks.index(uri)]
             self.Save()
 
@@ -153,7 +155,8 @@ class Bookmarks(object):
         self.Add(new)
 
     def Add(self, uri):
-        logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri.SafeUri)
+#        logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri.SafeUri)
+        logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri)
         if uri in self._bookmarks:
             logging.debug('bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', uri.SafeUri)
             del self._bookmarks[self._bookmarks.index(uri)]
