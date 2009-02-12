@@ -59,7 +59,7 @@ class Bookmarks(object):
             return
         
         self._path = RezzMe.utils.ExpandUser(path)
-        logging.debug('RezzMe.bookmarks.Bookmarks: instantiating object: path %s', self._path)
+        logging.debug('bookmarks.Bookmarks: instantiating object: path %s', self._path)
         self._load()
 
         
@@ -74,11 +74,11 @@ class Bookmarks(object):
         
     def _load(self):
         if not self._path: 
-            logging.debug('RezzMe.bookmarks.Bookmarks._load: path is empty')
+            logging.debug('bookmarks.Bookmarks._load: path is empty')
             return
 
         if not os.path.exists(self._path): 
-            logging.debug('RezzMe.bookmarks.Bookmarks._load: file "%s" does not exist', self._path)
+            logging.debug('bookmarks.Bookmarks._load: file "%s" does not exist', self._path)
             return
         
         try:
@@ -100,20 +100,20 @@ class Bookmarks(object):
 
                 self.Add(uri)
 
-                logging.debug('RezzMe.bookmarks.Bookmarks._load: adding uri %s', uri.SafeUri)
+                logging.debug('bookmarks.Bookmarks._load: adding uri %s', uri.SafeUri)
 
         except IOError:
             print 'failed to load bookmarks from "%s"' % self._path
 
 
     def Reload(self):
-        logging.debug('RezzMe.bookmarks.Bookmarks.Reloading: reloading bookmarks')
+        logging.debug('bookmarks.Bookmarks.Reloading: reloading bookmarks')
         self._bookmarks = []
         self._load()
 
     def Save(self):
         if not self._path: 
-            logging.debug('RezzMe.bookmarks.Bookmarks.Save: path is empty')
+            logging.debug('bookmarks.Bookmarks.Save: path is empty')
             return
 
         try:
@@ -134,28 +134,28 @@ class Bookmarks(object):
                     bookmarks.set(uri.FullUri, ext, uri.Extensions[ext])
                     
             bookmarks.save(self._path)
-            logging.debug('RezzMe.bookmarks.Save: saved bookmarks to %s', self._path)
+            logging.debug('bookmarks.Save: saved bookmarks to %s', self._path)
 
         except IOError, e:
-            logging.error('RezzMe.bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
+            logging.error('bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
 
 
     def Delete(self, uri):
-        logging.debug('RezzMe.bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
+        logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
         if uri in self._bookmarks: 
-            logging.debug('RezzMe.bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
+            logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
             del self._bookmarks[self._bookmarks.index(uri)]
             self.Save()
 
     def Change(self, old, new):
-        logging.debug('RezzMe.bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
+        logging.debug('bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
         self.Delete(old)
         self.Add(new)
 
     def Add(self, uri):
-        logging.debug('RezzMe.bookmarks.Bookmarks.Add: new uri %s', uri.SafeUri)
+        logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri.SafeUri)
         if uri in self._bookmarks:
-            logging.debug('RezzMe.bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', uri.SafeUri)
+            logging.debug('bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', uri.SafeUri)
             del self._bookmarks[self._bookmarks.index(uri)]
         self._bookmarks += [uri]
 
@@ -163,7 +163,7 @@ class Bookmarks(object):
         if uri: 
             if not isinstance(uri, RezzMe.uri.Uri):
                 uri = RezzMe.uri.Uri(uri)
-            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: uri %s', uri.SafeUri)
+            logging.debug('bookmarks.Bookmarks.FindBestMatch: uri %s', uri.SafeUri)
 
             best = None
 
@@ -172,7 +172,7 @@ class Bookmarks(object):
                 # to look at bookmarks that have this avatar
                 # explicitly set
                 for u in [b for b in self._bookmarks if b.Avatar and b.Avatar == uri.Avatar]:
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
+                    logging.debug('bookmarks.Bookmarks.FindBestMatch: looking at %s', u.SafeUri)
                     
                     if uri.Host == u.Host and uri.Port == u.Port and uri.Region == u.Region:
                         # host, port, region match: perfect, done
@@ -186,7 +186,7 @@ class Bookmarks(object):
             else:
                 # no avatar specified: let's see whether we can find a match
                 for u in self._bookmarks:
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch(no avatar): looking at %s', u.SafeUri)
+                    logging.debug('bookmarks.Bookmarks.FindBestMatch(no avatar): looking at %s', u.SafeUri)
                     if u.BaseUri.startswith(uri.BaseUri):
                         if u.UserId:
                             best = u
@@ -196,14 +196,14 @@ class Bookmarks(object):
                             best = u
 
             if best:
-                logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
+                logging.debug('bookmarks.Bookmarks.FindBestMatch: best match %s', best.SafeUri)
             return best
 
         elif display:
-            logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: display %s', display)
+            logging.debug('bookmarks.Bookmarks.FindBestMatch: display %s', display)
             for u in self._bookmarks:
                 if display == u.Display: 
-                    logging.debug('RezzMe.bookmarks.Bookmarks.FindBestMatch: %s matches %s', display, u.SafeUri)
+                    logging.debug('bookmarks.Bookmarks.FindBestMatch: %s matches %s', display, u.SafeUri)
                     return u
 
         return None

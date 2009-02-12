@@ -45,7 +45,7 @@ def LLSD2Dict(element):
             d[key] = e.text
             key = None
         else:
-            logging.warning('RezzMe.launchers.hippo.LLSD2Dict: unexpected tag/value %s/%s' % (e.tag, e.text))
+            logging.warning('launchers.hippo.LLSD2Dict: unexpected tag/value %s/%s' % (e.tag, e.text))
     return d
 
 def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
@@ -54,28 +54,28 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
     # check whether userGridXml exists, if not create the containing
     # directory if necessary and copy in defaultGridXml
     if not os.path.exists(userGridXml):
-        logging.info('RezzMe.launchers.hippo: user grid_info.xml does not exist at "%s"', userGridXml)
+        logging.info('launchers.hippo: user grid_info.xml does not exist at "%s"', userGridXml)
         # does the containing directory exist?
         if not os.path.exists(os.path.dirname(userGridXml)):
-            logging.info('RezzMe.launchers.hippo: creating hippo setting directory %s', os.path.dirname(userGridXml))
+            logging.info('launchers.hippo: creating hippo setting directory %s', os.path.dirname(userGridXml))
             os.makedirs(os.path.dirname(userGridXml))
 
         # do we even have defaultGridXml
         if not os.path.exists(defaultGridXml):
-            logging.warning('RezzMe.launchers.hippo: incomplete hippo installation: missing %s', defaultGridXml)
+            logging.warning('launchers.hippo: incomplete hippo installation: missing %s', defaultGridXml)
         else:
             # yes, copy it over to userGridXml
             with codecs.open(defaultGridXml, 'r', 'utf8') as defaultXml:
                 with codecs.open(userGridXml, 'w', 'utf8') as userXml:
                     userXml.write(defaultXml.read())
-            logging.info('RezzMe.launchers.hippo: copied %s to %s', defaultGridXml, userGridXml)
+            logging.info('launchers.hippo: copied %s to %s', defaultGridXml, userGridXml)
 
     if os.path.exists(userGridXml):
-        logging.debug('RezzMe.launchers.hippo: found %s', userGridXml)
+        logging.debug('launchers.hippo: found %s', userGridXml)
         with codecs.open(userGridXml, 'r', 'utf8') as xml:
             hippoGridInfo = xml.etree.ElementTree.parse(xml).getroot()
     else:
-        logging.debug('RezzMe.launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
+        logging.debug('launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
         hippoGridInfo = xml.etree.ElementTree.fromstring('<llsd><array></array></llsd>')
             
     # check whether we are already in hippo's grid info
@@ -83,12 +83,12 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
     for gmap in hippoGridInfo.findall('./array/map'):
         grid = LLSD2Dict(gmap)
         if 'loginuri' in grid and grid['loginuri'] == gridInfo['login']:
-            logging.debug('RezzMe.launchers.hippo:  found gridnick %s for loginuri %s', 
+            logging.debug('launchers.hippo:  found gridnick %s for loginuri %s', 
                           grid['gridnick'], gridInfo['login'])
             return grid['gridnick']
 
     # no, we are not in hippo's grid info: need add ourselves then
-    logging.debug('RezzMe.launchers.hippo:  no existing gridnick for loginuri %s', gridInfo['login'])
+    logging.debug('launchers.hippo:  no existing gridnick for loginuri %s', gridInfo['login'])
     gridXml = '<map>'
     for (key, value) in {'gridname' : 'gridname', 
                          'gridnick' : 'gridnick', 
@@ -103,20 +103,20 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
             gridXml += '<key>%s</key><string/>' % value
     gridXml += '</map>'
     grid = xml.etree.ElementTree.fromstring(gridXml)
-    logging.debug('RezzMe.launchers.hippo: : adding XML sniplet %s to grid_info.xml', xml.etree.ElementTree.tostring(grid))
+    logging.debug('launchers.hippo: : adding XML sniplet %s to grid_info.xml', xml.etree.ElementTree.tostring(grid))
 
     # write out grid_info.xml again
     hippoGridInfo.find('./array').append(grid)
-    logging.debug('RezzMe.launchers.hippo: grid_info.xml: %s', xml.etree.ElementTree.tostring(hippoGridInfo))
+    logging.debug('launchers.hippo: grid_info.xml: %s', xml.etree.ElementTree.tostring(hippoGridInfo))
 
     if os.path.exists(userGridXml):
         bak = '%s.bak' % userGridXml
-        logging.debug('RezzMe.launchers.hippo: "%s" exists, baking up to "%s"', userGridXml, bak)
+        logging.debug('launchers.hippo: "%s" exists, baking up to "%s"', userGridXml, bak)
         if os.path.exists(bak): os.unlink(bak)
         os.rename(userGridXml, bak)
     with codecs.open(userGridXml, 'w', 'utf8') as xml:
         xml.write(xml.etree.ElementTree.tostring(hippoGridInfo))
-    logging.info('RezzMe.launchers.hippo: updated grid_info.xml')
+    logging.info('launchers.hippo: updated grid_info.xml')
 
     return gridInfo['gridnick']
 

@@ -81,7 +81,7 @@ class Uri(object):
         self.Extensions = {}
 
 #         for k in self._dict:
-#             logging.debug('RezzMe.uri.Uri: %s -> %s', k, self._dict[k])
+#             logging.debug('uri.Uri: %s -> %s', k, self._dict[k])
 
     def _sync(self):
         self._plain = '%s://' % self.Scheme

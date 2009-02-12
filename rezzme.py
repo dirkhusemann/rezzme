@@ -129,16 +129,16 @@ if onMacOSX:
 
 
 def ConnectToGrid(app, uri):
-    logging.debug('ConnectToGrid: uri %s', uri)
+    logging.debug('rezzme.ConnectToGrid: uri %s', uri)
     uri = RezzMe.uri.Uri(uri = uri)
-    logging.debug('ConnectToGrid: uri resolved to %s', uri)
+    logging.debug('rezzme.ConnectToGrid: uri resolved to %s', uri)
 
     # sanity check: rezzme: or opensim: scheme?
     if uri.Scheme != 'rezzme' and uri.Scheme != 'rezzmes':
         raise RezzMe.exceptions.RezzMeException('Oops: URI "%s" contains unknown scheme "%s"' % (uri, uri.Scheme))
 
     # get grid info from OpenSim server (todo: move into launcher.py)
-    logging.debug('ConnectToGrid: try to get grid info from %s', uri)
+    logging.debug('rezzme.ConnectToGrid: try to get grid info from %s', uri)
     gridInfo = RezzMe.gridinfo.GetGridInfo(uri)
 
     # unless we already have avatar and password from the URI, check
@@ -148,18 +148,18 @@ def ConnectToGrid(app, uri):
     bookmarks = RezzMe.bookmarks.Bookmarks(RezzMe.utils.ExpandUser('~/.rezzme.bookmarks'))
     bookmark = bookmarks.FindBestMatch(uri = uri)
     if bookmark:
-        logging.debug('ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
+        logging.debug('rezzme.ConnectToGrid: found bookmark %s for uri %s', bookmark.SafeUri, uri.SafeUri)
         if any(bookmark.Credentials): 
-            logging.debug('ConnectToGrid: obtained credentials')
+            logging.debug('rezzme.ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials
             updateBookmarks = True
         if bookmark.UserId:
-            logging.debug('ConnectToGrid: using user ID "%s" from bookmarks', bookmark.UserId)
+            logging.debug('rezzme.ConnectToGrid: using user ID "%s" from bookmarks', bookmark.UserId)
             uri.UserId = bookmark.UserId
             updateBookmarks = True
     
 
-    logging.debug('ConnectToGrid: starting launcher GUI')
+    logging.debug('rezzme.ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
     if not launcher.ClientTags:
         launcher.GetClient('Hmm, cannot find a virtual world client. Please select a virtual world client and give it a tag:')
@@ -170,13 +170,13 @@ def ConnectToGrid(app, uri):
     ui = RezzMe.ui.launcher.RezzMeLauncher(app = app, uri = uri, gridInfo = gridInfo, cfg = cfg, launcher = launcher)
     ui.exec_()
 
-    logging.debug('ConnectToGrid: launcher returned %s', ui.OK)
+    logging.debug('rezzme.ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
         uri = ui.Uri
-        logging.debug('ConnectToGrid: uri returned: %s', uri.SafeUri)
+        logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
 
-            logging.debug('ConnectToGrid: saving userId')
+            logging.debug('rezzme.ConnectToGrid: saving userId')
             # don't save the password in 'bound' mode, it's temporary
             # in all likelihood anyhow
             password = uri.Password
@@ -193,7 +193,7 @@ def ConnectToGrid(app, uri):
             
         elif ui.IsAvatar and (ui.BookmarkIt or updateBookmarks):
 
-            logging.debug('ConnectToGrid: saving/updating avatar name/password')
+            logging.debug('rezzme.ConnectToGrid: saving/updating avatar name/password')
             bookmarks.Add(uri)
             bookmarks.Save()
 
@@ -205,7 +205,7 @@ def ConnectToGrid(app, uri):
                                                 gridInfo['gridname'])
 
     # ok, got everything, now construct the command line
-    logging.debug('ConnectToGrid: starting client for %s', uri.SafeUri)
+    logging.debug('rezzme.ConnectToGrid: starting client for %s', uri.SafeUri)
     launcher.Launch(uri.Avatar, uri.Password, gridInfo, uri.Client, uri.Location)
 
 
@@ -216,9 +216,9 @@ def RezzMeUri(app, args):
     uri = None
     for uri in args:
         uriLower = uri.lower()
-        logging.debug('RezzMeUri: looking at %s', uriLower)
+        logging.debug('rezzme.RezzMeUri: looking at %s', uriLower)
         if uriLower.startswith('rezzme://') or uriLower.startswith('rezzmes://'): 
-            logging.debug('RezzMeUri: %s is proper rezzme:// URI', uriLower)
+            logging.debug('rezzme.RezzMeUri: %s is proper rezzme:// URI', uriLower)
             ConnectToGrid(app, uri)
             return
 
@@ -231,7 +231,7 @@ class MacOSXAppleEventHandler(PyQt4.QtCore.QObject):
         def _urlHandler(uri):
             self.emit(SIGNAL('rezzme'), uri)
 
-        logging.debug('MacOSXAppleEventHandler: installed event handler for "GURLGURL"')
+        logging.debug('rezzme.MacOSXAppleEventHandler: installed event handler for "GURLGURL"')
         AE.installeventhandler(_urlHandler, 'GURLGURL', ('----', 'uri', AE.kAE.typeUnicodeText))
         
 
@@ -250,40 +250,40 @@ if __name__ == '__main__':
     try:
         
         if onMacOSX:
-            logging.debug('main: onMacOSX: installing MacOS AppleEvent handler')
+            logging.debug('rezzme.main: onMacOSX: installing MacOS AppleEvent handler')
             aeHandler = MacOSXAppleEventHandler()
-            logging.debug('main: onMacOSX: instantiating rezzme system tray')
+            logging.debug('rezzme.main: onMacOSX: instantiating rezzme system tray')
             tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
 
             def rezzMe(uri, app = app):
                 RezzMeUri(app = app, args = [uri])
 
             tray.connect(aeHandler, SIGNAL('rezzme'), rezzMe)
-            logging.debug('main: onMacOSX: starting rezzme system tray')
+            logging.debug('rezzme.main: onMacOSX: starting rezzme system tray')
             app.exec_()
 
         else:
 
             if not args:
-                logging.debug('main: invoked without command line arguments, starting rezzme system tray')
+                logging.debug('rezzme.main: invoked without command line arguments, starting rezzme system tray')
                 tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
-                logging.debug('main: invoked with command line arguments: %s', ' '.join(args))
-                logging.debug('main: starting launcher GUI')
+                logging.debug('rezzme.main: invoked with command line arguments: %s', ' '.join(args))
+                logging.debug('rezzme.main: starting launcher GUI')
                 RezzMeUri(app = app, args = args)
 
     except RezzMe.exceptions.RezzMeException, e:
-        logging.critical('main: caught rezzme exception: %s', e.Message, exc_info = True)
+        logging.critical('rezzme.main: caught rezzme exception: %s', e.Message, exc_info = True)
         oops = PyQt4.QtGui.QMessageBox.critical(None, 'Virtual World Launcher Wizard', e.Message)
-        logging.critical('main: exiting with retval 1')
+        logging.critical('rezzme.main: exiting with retval 1')
         sys.exit(1)
 
     except BaseException, e:
-        logging.critical('main: caught base exception: %s', str(e), exc_info = True)
+        logging.critical('rezzme.main: caught base exception: %s', str(e), exc_info = True)
         sys.exit(2)
         
 
-    logging.debug('main: exiting normally with retval 0')
+    logging.debug('rezzme.main: exiting normally with retval 0')
     sys.exit(0)
 

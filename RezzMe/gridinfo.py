@@ -50,13 +50,13 @@ def GetGridInfo(uri):
     '''Invoke /get_grid_info on target grid and obtain additional parameters
        '''
 
-    logging.debug('RezzMe.gridinfo.GetGridInfo: retrieving grid info from uri %s', uri)
-    logging.debug('RezzMe.gridinfo.GetGridInfo: base URI %s',
+    logging.debug('gridinfo.GetGridInfo: retrieving grid info from uri %s', uri)
+    logging.debug('gridinfo.GetGridInfo: base URI %s',
                   uri.BaseUri)
                   
     # short circuit for "fake" uris
     if uri.BaseUri in fakeGridInfo: 
-        logging.debug('RezzMe.gridinfo.GetGridInfo: returning fake grid info for uri %s', uri)
+        logging.debug('gridinfo.GetGridInfo: returning fake grid info for uri %s', uri)
         return fakeGridInfo[uri.BaseUri]
 
     # construct GridInfo URL
@@ -68,21 +68,21 @@ def GetGridInfo(uri):
         gridInfoXml = xml.etree.ElementTree.parse(urllib2.urlopen(infoUri))
         for e in gridInfoXml.findall('/*'):
             if e.text: gridInfo[e.tag] = e.text
-            logging.debug('RezzMe.gridinfo.GetGridInfo: %s = %s', e.tag, e.text)
+            logging.debug('gridinfo.GetGridInfo: %s = %s', e.tag, e.text)
 
     except urllib2.URLError, e:
-        logging.error('RezzMe.gridinfo.GetGridInfo: oops, failed to retrieve grid info: %s', e, exc_info = True)
+        logging.error('gridinfo.GetGridInfo: oops, failed to retrieve grid info: %s', e, exc_info = True)
 
     gridKeys = gridInfo.keys()
     if not 'login' in gridKeys: 
         gridInfo['login'] = '%s/' % uri.BaseHttpUri
-        logging.info('RezzMe.gridinfo.GetGridInfo: curing missing "login" key with %s', gridInfo['login'])
+        logging.info('gridinfo.GetGridInfo: curing missing "login" key with %s', gridInfo['login'])
     if not 'gridname' in gridKeys: 
         gridInfo['gridname'] = '-'
-        logging.info('RezzMe.gridinfo.GetGridInfo: curing missing "gridname" key with %s', gridInfo['gridname'])
+        logging.info('gridinfo.GetGridInfo: curing missing "gridname" key with %s', gridInfo['gridname'])
     if not 'gridnick' in gridKeys: 
         gridInfo['gridnick'] = 'grid'
-        logging.info('RezzMe.gridinfo.GetGridInfo: curing missing "gridnick" key with %s', gridInfo['gridnick'])
+        logging.info('gridinfo.GetGridInfo: curing missing "gridnick" key with %s', gridInfo['gridnick'])
 
     # construct the grid key: login server plus region only
     gridKey = gridInfo['login'].rstrip('/')
@@ -90,6 +90,6 @@ def GetGridInfo(uri):
         region = urllib.quote(uri.Region)
         gridKey = '%s/%s' % (gridKey, region)
     gridInfo['gridkey'] = urllib.quote(gridKey, '')
-#    logging.info('RezzMe.gridinfo.GetGridInfo: adding "gridkey" key with %s', gridInfo['gridkey'].replace('%', '%%'))
+#    logging.info('gridinfo.GetGridInfo: adding "gridkey" key with %s', gridInfo['gridkey'].replace('%', '%%'))
 
     return gridInfo

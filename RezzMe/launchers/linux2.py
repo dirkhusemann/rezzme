@@ -65,15 +65,15 @@ class PlatformLauncher(object):
 
         defaultGrids = '%s/app_settings/default_grids.xml' % hippoHome
         if os.path.exists(defaultGrids):
-            logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", defaultGrids)
+            logging.debug("launchers.linux2: found hippo's default_grids.xml at %s", defaultGrids)
             return defaultGrids
 
-        logging.debug("RezzMe.launchers.linux2: trying to find hippo's default_grids.xml via locate...")
+        logging.debug("launchers.linux2: trying to find hippo's default_grids.xml via locate...")
         defaultGrids = subprocess.Popen(['locate', 'app_settings/default_grids.xml'], stdout = subprocess.PIPE).communicate()[0].rstrip()
         if defaultGrids:
             for p in defaultGrids.split():
                 if 'hippo' in p.lower(): 
-                    logging.debug("RezzMe.launchers.linux2: found hippo's default_grids.xml at %s", p)
+                    logging.debug("launchers.linux2: found hippo's default_grids.xml at %s", p)
                     return p
         return None
     
@@ -116,5 +116,5 @@ class PlatformLauncher(object):
         clientArgs = [ client ] + clientArgs
         logArgs = [ client ] + logArgs
 
-        logging.debug('RezzMe.launchers.linux2: client %s args %s', client, ' '.join(logArgs))
+        logging.debug('launchers.linux2: client %s args %s', client, ' '.join(logArgs))
         os.execvp(client, clientArgs)

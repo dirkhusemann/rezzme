@@ -56,7 +56,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
     def __init__(self, parent = None, cfg = None):
         super(RezzMeTrayAbout, self).__init__(parent)
         self.setupUi(self)
-        logging.debug('RezzMe.ui.RezzMeTrayAbout: init')
+        logging.debug('ui.RezzMeTrayAbout: init')
 
         self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
         self.textBrowser.setOpenExternalLinks(True)
@@ -72,15 +72,15 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
     
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonChangeLog_clicked(self):
-        logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked')
+        logging.debug('ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked')
         if self._source == 'about':
-            logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to changelog')
+            logging.debug('ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to changelog')
             self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/ChangeLog.html'))
             self.textBrowser.setOpenExternalLinks(False)
             self.pushButtonChangeLog.setText('view about')
             self._source = 'changelog'
         else:
-            logging.debug('RezzMe.ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to about')
+            logging.debug('ui.tray.RezzMeTrayAbout.on_pushButtonChangeLog_clicked: switching to about')
             self.textBrowser.setSource(PyQt4.QtCore.QUrl('qrc:/about.html'))
             self.textBrowser.setOpenExternalLinks(True)
             self.pushButtonChangeLog.setText('view changelog')
@@ -112,7 +112,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         smtp.sendmail(fromAddress, toAddress, msg)
         smtp.quit()
 
-        logging.info('RezzMe.ui.tray: sent %s to %s', logFile, toAddress)
+        logging.info('ui.tray: sent %s to %s', logFile, toAddress)
     
 
 class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
@@ -143,9 +143,9 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._setupTrayIcon()
         self._desktopServices = PyQt4.QtGui.QDesktopServices()
         
-        logging.debug('RezzMe.ui.RezzMeTrayEdit: init')
+        logging.debug('ui.RezzMeTrayEdit: init')
         if onMacOSX:
-            logging.debug('RezzMe.ui.RezzMeTrayEdit: onMacOSX: disabling focus for buttons')
+            logging.debug('ui.RezzMeTrayEdit: onMacOSX: disabling focus for buttons')
             self.pushButtonAdd.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
             self.pushButtonChange.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
             self.pushButtonDelete.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
@@ -159,28 +159,28 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._uri = None
 
     def _setupTrayIcon(self):
-        logging.debug('RezzMe.ui.tray: setting up system tray icon')
+        logging.debug('ui.tray: setting up system tray icon')
         self._trayIcon = PyQt4.QtGui.QSystemTrayIcon(self)
         self._trayIcon.setIcon(PyQt4.QtGui.QIcon(':/rezzme-16x16.png'))
 
         self._bookmarks = RezzMe.bookmarks.Bookmarks('~/.rezzme.bookmarks')
-        logging.debug('RezzMe.ui.tray: loaded bookmarks')
+        logging.debug('ui.tray: loaded bookmarks')
         self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
 
         if self._cfg and 'default rezzmes' in self._cfg:
             for tag in self._cfg['default rezzmes']:
                 self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = self._cfg['default rezzmes'][tag], tag = tag))
-                logging.debug('RezzMe.ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][tag])
+                logging.debug('ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][tag])
 
         self._trayIcon.setContextMenu(self._menu)
         self._reloadMenu()
         self._done = False
 
         PyQt4.QtCore.QObject.connect(self._trayIcon, PyQt4.QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
-        logging.debug('RezzMe.ui.tray: connected slot')
+        logging.debug('ui.tray: connected slot')
 
     def _iconActivated(self, reason):
-        logging.debug('RezzMe.ui.tray: activated')
+        logging.debug('ui.tray: activated')
         self._reloadMenu()
 
     def _resetWindow(self):
@@ -193,18 +193,18 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self.comboBoxBookmarks.addItems(sorted(self._bookmarks.Displays))
 
         if self._defaultBookmarks: 
-            logging.debug('RezzMe.ui.RezzMeTrayEdit: adding menu entries')
+            logging.debug('ui.RezzMeTrayEdit: adding menu entries')
             self.comboBoxBookmarks.addItems(sorted(self._defaultBookmarks.Displays))
 
     def _reloadMenu(self):
         self._menu.clear()
         self._bookmarks.Reload()
-        logging.debug('RezzMe.ui.tray._reloadMenu: reloading menu')
+        logging.debug('ui.tray._reloadMenu: reloading menu')
 
         menu = {}
         for bookmark in self._bookmarks.Bookmarks:
             menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
-            logging.debug('RezzMe.ui.tray._reloadMenu: adding bookmark %s', bookmark.SafeUri)
+            logging.debug('ui.tray._reloadMenu: adding bookmark %s', bookmark.SafeUri)
 
         for entry in sorted(menu.keys()):
             self._menu.addAction(entry, menu[entry])
@@ -215,7 +215,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             menu = {}
             for bookmark in self._defaultBookmarks.Bookmarks:
                 menu[bookmark.Display] = lambda bookmark = bookmark: self._action(bookmark)
-                logging.debug('RezzMe.ui.tray._reloadMenu: adding default bookmark %s', bookmark)
+                logging.debug('ui.tray._reloadMenu: adding default bookmark %s', bookmark)
 
             for entry in sorted(menu.keys()): 
                 self._menu.addAction(entry, menu[entry])
@@ -228,13 +228,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         self._trayIcon.setToolTip('RezzMe: Your trusted companion for virtual worlds [~ %d bookmarks]' % len(self._bookmarks.Bookmarks))
 
-        logging.debug('RezzMe.ui.tray._reloadMenu: menu (re)set')
+        logging.debug('ui.tray._reloadMenu: menu (re)set')
 
     def _activate(self):
         self.showNormal()
 
     def _action(self, bookmark):
-        logging.debug('RezzMe.ui.tray._action: selected %s', bookmark.SafeUri)
+        logging.debug('ui.tray._action: selected %s', bookmark.SafeUri)
         self._desktopServices.openUrl(PyQt4.QtCore.QUrl(bookmark.FullUri))
         
 
@@ -369,7 +369,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonAdd_clicked(self):
         bookmark = self._updateRezzMeUri(updateGui = False)
-        logging.debug('RezzMe.ui.tray.edit.on_pushButtonAdd_clicked: bookmark %s', bookmark)
+        logging.debug('ui.tray.edit.on_pushButtonAdd_clicked: bookmark %s', bookmark)
         self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, tag = self._tag))
         self._bookmarks.Save()
         self._resetWindow()
@@ -381,7 +381,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         oldBookmark = self._bookmarks.FindBestMatch(display = old)
         newBookmark = RezzMe.uri.Uri(uri = new, tag = self._tag)
-        logging.debug('RezzMe.ui.tray.edit.on_pushButtonChange_clicked: old %s -> new %s', oldBookmark, newBookmark)
+        logging.debug('ui.tray.edit.on_pushButtonChange_clicked: old %s -> new %s', oldBookmark, newBookmark)
 
         if oldBookmark:
             self._bookmarks.Change(oldBookmark, newBookmark)
@@ -393,14 +393,14 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         bookmark = unicode(self.comboBoxBookmarks.currentText())
         bookmark = self._bookmarks.FindBestMatch(display = bookmark)
 
-        logging.debug('RezzMe.ui.tray.edit.on_pushButtonDelete_clicked: bookmark %s', bookmark)
+        logging.debug('ui.tray.edit.on_pushButtonDelete_clicked: bookmark %s', bookmark)
         if bookmark:
             self._bookmarks.Delete(bookmark)
         self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonCancel_clicked(self):
-        logging.debug('RezzMe.ui.tray.edit.on_pushButtonCancel_clicked')
+        logging.debug('ui.tray.edit.on_pushButtonCancel_clicked')
 
 
     @PyQt4.QtCore.pyqtSignature('QString')
@@ -409,7 +409,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         display = unicode(display)
         bookmark = self._bookmarks.FindBestMatch(display = display)
-        logging.debug('RezzMe.ui.tray.edit.on_comboBoxBookmarks_activated: %s', bookmark)
+        logging.debug('ui.tray.edit.on_comboBoxBookmarks_activated: %s', bookmark)
 
         if not bookmark:
             bookmark = self._defaultBookmarks.FindBestMatch(display = display)

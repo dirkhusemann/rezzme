@@ -35,17 +35,17 @@ import sys
 def InstallProtocolHandlers():
     if not sys.platform == 'linux2':
         return
-    logging.debug('RezzMe.config.desktop: installing rezzme: protocol handlers for linux')
+    logging.debug('config.desktop: installing rezzme: protocol handlers for linux')
     gconftool2 = subprocess.Popen(['which', 'gconftool-2'], stdout = subprocess.PIPE)
     gconftool2 = gconftool2.communicate()[0].rstrip('\n')
 
     if gconftool2:
-        logging.debug('RezzMe.config.desktop: setting up GNOME protocol handler for rezzme:// URIs')
+        logging.debug('config.desktop: setting up GNOME protocol handler for rezzme:// URIs')
         os.system('%s -t string -s /desktop/gnome/url-handlers/rezzme/command "/usr/bin/rezzme.py %%s"' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzme/needs_terminal false' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzme/enabled true' % gconftool2)
 
-        logging.debug('RezzMe.config.desktop: setting up GNOME protocol handler for rezzmes:// URIs')
+        logging.debug('config.desktop: setting up GNOME protocol handler for rezzmes:// URIs')
         os.system('%s -t string -s /desktop/gnome/url-handlers/rezzmes/command "/usr/bin/rezzme.py %%s"' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/needs_terminal false' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)

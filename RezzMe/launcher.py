@@ -49,16 +49,16 @@ class ClientLauncher(object):
         self._clients = None
         self._configFile = RezzMe.utils.ExpandUser('~/.rezzme.clients')
 
-        logging.debug('RezzMe.launcher.Clients: determining available clients on %s', sys.platform)
+        logging.debug('launcher.Clients: determining available clients on %s', sys.platform)
         self._platformLauncher = PlatformLauncher.PlatformLauncher()
         self._clients = self._platformLauncher.Clients
         for c in self._clients:
-            logging.info('RezzMe.launcher.Clients: found %s client at %s', c,self._clients[c])
+            logging.info('launcher.Clients: found %s client at %s', c,self._clients[c])
 
         # add in user specified clients
         self._loadUserClients()
         for c in self._clients:
-            logging.info('RezzMe.launcher.Clients: %s client at %s', c, self._clients[c])
+            logging.info('launcher.Clients: %s client at %s', c, self._clients[c])
 
     def _gClients(self):
         return self._clients.keys()
@@ -69,7 +69,7 @@ class ClientLauncher(object):
            '''
 
         if not clientTag in self._clients:
-            raise RezzMe.exceptions.RezzMeException('RezzMe.launcher: no client for for %s' % clientTag)
+            raise RezzMe.exceptions.RezzMeException('launcher: no client for for %s' % clientTag)
 
         self._platformLauncher.Launch(avatar, password, gridInfo, clientTag, self._clients[clientTag], location)
         
@@ -84,7 +84,7 @@ class ClientLauncher(object):
         for tag in config.sections():
             if config.has_option(tag, 'path'):
                 self._clients[tag] = config.get(tag, 'path')
-                logging.debug('RezzMe.launcher._loadUserClients: adding %s - %s', tag, self._clients[tag])
+                logging.debug('launcher._loadUserClients: adding %s - %s', tag, self._clients[tag])
 
 
     def GetClient(self, msg = None):
@@ -96,7 +96,7 @@ class ClientLauncher(object):
         if not tag in self._clients:
             self._clients[tag] = client
         self.SaveClients()
-        logging.debug('RezzMe.launcher.GetClient: %s - %s', tag, client)
+        logging.debug('launcher.GetClient: %s - %s', tag, client)
         return (tag, client)
 
     def AddClient(self, tag, path):

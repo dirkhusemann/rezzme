@@ -52,10 +52,10 @@ class Parser(ConfigParser.RawConfigParser):
             c = codecs.open(self._file, 'r', 'utf8')
             ConfigParser.RawConfigParser.readfp(self, c)
         except IOError:
-            logging.error('RezzMe.config.parser.Parser: cannot load config file %s', self._file)
+            logging.error('config.parser.Parser: cannot load config file %s', self._file)
             self._markConfigFileAsBroken()
         except ConfigParser.MissingSectionHeaderError:
-            logging.info('RezzMe.config.parser.Parser: encountered old style config file %s', self._file)
+            logging.info('config.parser.Parser: encountered old style config file %s', self._file)
             c.close()
             self._markConfigFileAsBroken()
 
@@ -67,7 +67,7 @@ class Parser(ConfigParser.RawConfigParser):
 
     def save(self, configFile = None):
         if not configFile and not self._file:
-            raise IOError('RezzMe.config.parser.Parser: missing config file name')
+            raise IOError('config.parser.Parser: missing config file name')
         if not configFile: configFile = self._file
 
         if os.path.exists(configFile):

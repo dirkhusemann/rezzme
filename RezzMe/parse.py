@@ -64,7 +64,7 @@ def ParseUri(uri):
     uri = uri.lstrip().rstrip()
     match = reURI.match(uri)
     if not match or not match.group('scheme') or not match.group('host'):
-        logging.warning('RezzMe.parser.ParseUri: wonky URI: %s --- skipping it', uri)
+        logging.warning('parser.ParseUri: wonky URI: %s --- skipping it', uri)
         return (None, None, None, None, None, None)
 
     scheme = match.group('scheme')
@@ -104,7 +104,7 @@ def ParsePath(path):
         matchXYZ = reLOCXYZ.match(path)
         match = reLOC.match(path)
     except:
-        logging.error('RezzMe.parser.ParsePath: stumbled badly over %s', path)
+        logging.error('parser.ParsePath: stumbled badly over %s', path)
         raise
     
     if matchXYZ:

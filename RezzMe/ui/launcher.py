@@ -61,7 +61,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         # sanity check
         if not uri: 
-            logging.error('RezzMe.ui.RezzMeLauncher: uri not provided')
+            logging.error('ui.RezzMeLauncher: uri not provided')
             raise RezzMe.exceptions.RezzMeException('uri not provided')
 
         # init: base and app
@@ -71,7 +71,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         self._launcher = launcher
         
         # init: attributes
-        logging.debug('RezzMe.ui.RezzMeLauncher:__init__: uri %s', uri.SafeUri)
+        logging.debug('ui.RezzMeLauncher:__init__: uri %s', uri.SafeUri)
         self._uri = uri
         self._gridInfo = gridInfo
         self._cfg = cfg
@@ -87,8 +87,8 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             self._uri.Client = self._clients[0]
         self._updateClients()
         
-        logging.debug('RezzMe.ui.launcher: client selection: %s', ' '.join(self._clients))
-        logging.debug('RezzMe.ui.launcher: instantiating object, uri %s', uri.SafeUri)
+        logging.debug('ui.launcher: client selection: %s', ' '.join(self._clients))
+        logging.debug('ui.launcher: instantiating object, uri %s', uri.SafeUri)
 
 
         # init: invariant GUI elements
@@ -101,7 +101,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             if 'authgridname' in gridInfo:
                 self._tooltips['userid'] = 'enter your %s user ID here' % gridInfo['authgridname']
                 self._tooltips['password'] = 'enter your %s password here' % gridInfo['authgridname']
-                logging.debug('RezzMe.ui.launcher: authgridname = %s', gridInfo['authgridname'])
+                logging.debug('ui.launcher: authgridname = %s', gridInfo['authgridname'])
             else:
                 self._tooltips['userid'] = 'enter your %s user ID here' % gridInfo['gridname']
                 self._tooltips['password'] = 'enter your %s password here' % gridInfo['gridname']
@@ -147,7 +147,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
     # dialog core: UI logic contained in here
     def _updateLabels(self):
         if not self._authenticator or (self._authenticator and self._override):
-            logging.debug('RezzMe.ui.launcher: avatar mode')
+            logging.debug('ui.launcher: avatar mode')
             self.labelUser.setText('avatar &name:')
             self.lineEditUser.setToolTip('enter your avatar name here')
             self.labelUser2.setText('&avatar name:')
@@ -173,7 +173,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             if self._uri.Avatar:
                 self.lineEditUser.setText(self._uri.Avatar)
                 self.lineEditUser2.setText(self._uri.Avatar)
-                logging.debug('RezzMe.ui.launcher: avatar %s', self._uri.Avatar)
+                logging.debug('ui.launcher: avatar %s', self._uri.Avatar)
 
                 if self.tabWidget.currentIndex() == 0:
                     self.lineEditPassword.setFocus()
@@ -205,7 +205,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
 
         else:
 
-            logging.debug('RezzMe.ui.launcher: user mode')
+            logging.debug('ui.launcher: user mode')
             self.labelUser.setText('&user name:')
             self.lineEditUser.setToolTip(self._tooltips['userid'])
             self.labelUser2.setText('&user name:')

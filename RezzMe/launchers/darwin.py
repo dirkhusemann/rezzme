@@ -70,6 +70,6 @@ def Launch(avatar, password, gridInfo, location, clientName):
     cmdLine = '%s %s' % (clientPaths[clientName], ' '.join(clientArgs))
     logLine = '%s %s' % (clientPaths[clientName], ' '.join(logArgs))
 
-    logging.debug('RezzMe.launchers.darwin.Launch: command line: >%s<', logLine)
+    logging.debug('launchers.darwin.Launch: command line: >%s<', logLine)
     os.system(cmdLine)
-    logging.debug('RezzMe.launchers.darwin.Launch: done')
+    logging.debug('launchers.darwin.Launch: done')
