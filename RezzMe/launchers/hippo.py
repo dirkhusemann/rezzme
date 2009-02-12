@@ -72,8 +72,8 @@ def HippoGridInfoFix(gridInfo, userGridXml, defaultGridXml):
 
     if os.path.exists(userGridXml):
         logging.debug('launchers.hippo: found %s', userGridXml)
-        with codecs.open(userGridXml, 'r', 'utf8') as xml:
-            hippoGridInfo = xml.etree.ElementTree.parse(xml).getroot()
+        with codecs.open(userGridXml, 'r', 'utf8') as xmlGridInfo:
+            hippoGridInfo = xml.etree.ElementTree.parse(xmlGridInfo).getroot()
     else:
         logging.debug('launchers.hippo: hippo grid info not found at %s, creating it', userGridXml)
         hippoGridInfo = xml.etree.ElementTree.fromstring('<llsd><array></array></llsd>')
