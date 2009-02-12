@@ -289,7 +289,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         avatar = self._update('avatar', avatar)
         region = self._update('region', region)
 
-        if region: self._uri['region'] = urllib.quote(region)
+        if region: self._uri['region'] = urllib.quote(region.encode('utf8'), '')
         if x: self._uri['x'] = x
         if y: self._uri['y'] = y
         if z: self._uri['z'] = z
@@ -322,22 +322,22 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         else:
             self.lineEditGridHost.setText('%(host)s' % self._uri)
         if 'region' in self._uri:
-            self.lineEditRegion.setText(urllib.unquote(self._uri['region'])) 
+            self.lineEditRegion.setText(urllib.unquote(self._uri['region']).decode('utf8')) 
 
-            self.lineEditX.setEnabled(True)
-            self.lineEditY.setEnabled(True)
-            self.lineEditZ.setEnabled(True)
+            # self.lineEditX.setEnabled(True)
+            # self.lineEditY.setEnabled(True)
+            # self.lineEditZ.setEnabled(True)
 
             if 'x' in self._uri: self.lineEditX.setText(str(self._uri['x'])) 
             if 'y' in self._uri: self.lineEditY.setText(str(self._uri['y'])) 
             if 'z' in self._uri: self.lineEditZ.setText(str(self._uri['z'])) 
             if 'avatar' in self._uri: self.lineEditAvatarName.setText(self._uri['avatar'])
 
-        else:
+        # else:
 
-            self.lineEditX.setEnabled(False)
-            self.lineEditY.setEnabled(False)
-            self.lineEditZ.setEnabled(False)
+        #     self.lineEditX.setEnabled(False)
+        #     self.lineEditY.setEnabled(False)
+        #     self.lineEditZ.setEnabled(False)
 
         self.labelRezzMe.setText(rezzme)
 
