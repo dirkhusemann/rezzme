@@ -195,9 +195,13 @@ def ConnectToGrid(app, uri):
             uri.Password = None
             uri.Avatar = None
 
+            # delete the old bookmark, add the new one, then drop the
+            # bookmarks object to avoid it picking up the password and
+            # avatar
             bookmarks.Delete(oldUri)
-            bookmarks.Add(uri)
+            bookmarks.Add(Uri)
             bookmarks.Save()
+            bookmarks = None
 
             uri.Avatar = avatar
             uri.Password = password
