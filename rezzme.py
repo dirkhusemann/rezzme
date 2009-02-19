@@ -48,6 +48,8 @@ and, it also understands avatar names and passwords:
 import os
 import sys
 
+logHandler = None
+
 try:
     import logging
     import logging.handlers
@@ -68,11 +70,11 @@ try:
         if logfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
             logfile = '%s/%s' % (os.environ['USERPROFILE'], logfile[2:])
 
-        rotatingHandler = logging.handlers.RotatingFileHandler(logfile, 'a', logsize)
-        rotatingHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
-                                                       '%a, %d %b %Y %H:%M:%S'))
-
-        logging.getLogger().addHandler(rotatingHandler)
+        logHandler = logging.handlers.RotatingFileHandler(logfile, 'a', logsize)
+        logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
+                                                  '%a, %d %b %Y %H:%M:%S'))
+   
+        logging.getLogger().addHandler(logHandler)
         logging.getLogger().setLevel(level)
 
     else:
@@ -260,6 +262,11 @@ if __name__ == '__main__':
     try:
         
         if onMacOSX:
+            # change log format
+            logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [mac] %(message)s',
+                                                      '%a, %d %b %Y %H:%M:%S'))
+
+
             logging.debug('rezzme.main: onMacOSX: installing MacOS AppleEvent handler')
             aeHandler = MacOSXAppleEventHandler()
             logging.debug('rezzme.main: onMacOSX: instantiating rezzme system tray')
@@ -275,10 +282,14 @@ if __name__ == '__main__':
         else:
 
             if not args:
+                logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [systray] %(message)s',
+                                                          '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked without command line arguments, starting rezzme system tray')
                 tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
+                logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [proto] %(message)s',
+                                                          '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked with command line arguments: %s', ' '.join(args))
                 logging.debug('rezzme.main: starting launcher GUI')
                 RezzMeUri(app = app, args = args)
