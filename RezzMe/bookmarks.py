@@ -62,13 +62,14 @@ class Bookmarks(object):
         logging.debug('bookmarks.Bookmarks: instantiating object: path %s', self._path)
         self._load()
 
+        self._dirty = False
         
     def __del__(self):
         '''destructor.
 
            saves bookmarks to ~/.rezzme.bookmarks
            '''
-        if self._path:
+        if self._path and self._dirty:
             self.Save()
         self._bookmarks = None
         
@@ -135,6 +136,7 @@ class Bookmarks(object):
                     
             bookmarks.save(self._path)
             logging.debug('bookmarks.Save: saved bookmarks to %s', self._path)
+            self._dirty = False
 
         except IOError, e:
             logging.error('bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
@@ -147,8 +149,8 @@ class Bookmarks(object):
             # logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri, self._bookmarks.index(uri))
             logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
             del self._bookmarks[self._bookmarks.index(uri)]
-            self.Save()
-
+            self._dirty = True
+            
     def Change(self, old, new):
         logging.debug('bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
         self.Delete(old)
@@ -161,6 +163,7 @@ class Bookmarks(object):
             logging.debug('bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', uri.SafeUri)
             del self._bookmarks[self._bookmarks.index(uri)]
         self._bookmarks += [uri]
+        self._dirty = True
 
     def FindBestMatch(self, uri = None, display = None):
         if uri: 
