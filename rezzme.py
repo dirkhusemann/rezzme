@@ -267,7 +267,7 @@ if __name__ == '__main__':
         
         if onMacOSX:
             # change log format
-            logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [mac] %(message)s',
+            logHandler.setFormatter(logging.Formatter('%(asctime)s [mac] %(levelname)-8s %(message)s',
                                                       '%a, %d %b %Y %H:%M:%S'))
 
 
@@ -286,13 +286,13 @@ if __name__ == '__main__':
         else:
 
             if not args:
-                logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [systray] %(message)s',
+                logHandler.setFormatter(logging.Formatter('%(asctime)s [systray] %(levelname)-8s %(message)s',
                                                           '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked without command line arguments, starting rezzme system tray')
                 tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
-                logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s [proto] %(message)s',
+                logHandler.setFormatter(logging.Formatter('%(asctime)s [proto] %(levelname)-8s %(message)s',
                                                           '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked with command line arguments: %s', ' '.join(args))
                 logging.debug('rezzme.main: starting launcher GUI')
