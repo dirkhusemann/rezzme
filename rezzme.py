@@ -155,16 +155,17 @@ def ConnectToGrid(app, uri):
         if any(bookmark.Credentials): 
             logging.debug('rezzme.ConnectToGrid: obtained credentials')
             uri.Credentials = bookmark.Credentials
-            updateBookmarks = True
+            # updateBookmarks = True
         if bookmark.UserId:
             logging.debug('rezzme.ConnectToGrid: using user ID "%s" from bookmarks', bookmark.UserId)
             uri.UserId = bookmark.UserId
-            updateBookmarks = True
+            # updateBookmarks = True
         uri.Client = bookmark.Client
         uri.Extensions = bookmark.Extensions
         # update display value if bookmark was pointing to the same place
         if uri.PlainUri == bookmark.PlainUri:
             uri.Display = bookmark.Display
+            updateBookmarks = True
         
 
     logging.debug('rezzme.ConnectToGrid: starting launcher GUI')
@@ -186,7 +187,8 @@ def ConnectToGrid(app, uri):
             
         logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
         # logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri)
-        if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
+        # user mode: update the bookmark if the user wants us to or if the bookmark was an exact match
+        if not ui.IsAvatar and (ui.BookmarkIt or updateBookmarks):
 
             logging.debug('rezzme.ConnectToGrid: saving userId')
             # don't save the password in 'bound' mode, it's temporary
