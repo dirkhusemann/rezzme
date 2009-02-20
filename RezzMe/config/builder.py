@@ -32,10 +32,11 @@ from __future__ import with_statement
 import codecs
 import ConfigParser
 import os
+import RezzMe.config.parser
 
 def buildCfg(name):
     
-    config = ConfigParser.RawConfigParser()
+    config = RezzMe.config.parser.Parser()
     sealed = False
 
     if os.path.exists('%s.cfg' % name):

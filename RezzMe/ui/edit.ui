@@ -265,7 +265,7 @@
         </font>
        </property>
        <property name="text" >
-        <string>&amp;Tag</string>
+        <string>D&amp;isplay</string>
        </property>
        <property name="buddy" >
         <cstring>lineEditTag</cstring>

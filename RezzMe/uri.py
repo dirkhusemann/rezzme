@@ -214,15 +214,6 @@ class Uri(object):
         self._sync()
     Password = property(fget = _password, fset = _spassword, doc = 'password')
 
-    def _tag(self):
-        return self._keyValue('tag')
-    def _stag(self, value):
-        if value is None and 'tag' in self._dict:
-            del self._dict['tag']
-        else:
-            self._dict['tag'] = value
-    Tag = property(fget = _tag, fset = _stag, doc ='short descriptive label of the target grid')
-
     def _userId(self):
         return self._keyValue('userID')
     def _suserId(self, value):
@@ -281,7 +272,7 @@ class Uri(object):
         if self.Region and all(self.XYZ):
             return 'secondlife://%s/%s' % (self.Region, '/'.join([str(x) for x in self.XYZ])) # map(lambda x: str(x), self.XYZ)))
         elif self.Region:
-            return 'secondlife://%s/' % self.Region
+            return 'secondlife://%s' % self.Region
     Location = property(fget = _location, doc = 'location with in the target grid as a secondlife:// slurl')
 
     def _path(self):

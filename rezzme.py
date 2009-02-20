@@ -161,9 +161,11 @@ def ConnectToGrid(app, uri):
             uri.UserId = bookmark.UserId
             updateBookmarks = True
         uri.Client = bookmark.Client
-        uri.Display = bookmark.Display
-        uri.Tag = bookmark.Tag
         uri.Extensions = bookmark.Extensions
+        # update display value if bookmark was pointing to the same place
+        if uri.PlainUri == bookmark.PlainUri:
+            uri.Display = bookmark.Display
+        
 
     logging.debug('rezzme.ConnectToGrid: starting launcher GUI')
     launcher = RezzMe.launcher.ClientLauncher()
@@ -180,8 +182,8 @@ def ConnectToGrid(app, uri):
 
     logging.debug('rezzme.ConnectToGrid: launcher returned %s', ui.OK)
     if ui.OK:
-        # get a copy of the old URI
         uri = ui.Uri
+            
         logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri.SafeUri)
         # logging.debug('rezzme.ConnectToGrid: uri returned: %s', uri)
         if not ui.IsAvatar and (ui.BookmarkIt or bookmark):
@@ -199,8 +201,7 @@ def ConnectToGrid(app, uri):
             # bookmarks object to avoid it picking up the password and
             # avatar
             bookmarks.Delete(oldUri)
-            bookmarks.Add(uri)
-            bookmarks.Save()
+            bookmarks.Add(uri, save = True)
             bookmarks = None
 
             uri.Avatar = avatar
@@ -210,8 +211,7 @@ def ConnectToGrid(app, uri):
 
             logging.debug('rezzme.ConnectToGrid: saving/updating avatar name/password')
             bookmarks.Delete(oldUri)
-            bookmarks.Add(uri)
-            bookmarks.Save()
+            bookmarks.Add(uri, save = True)
 
     else:
         return

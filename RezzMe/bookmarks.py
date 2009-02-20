@@ -35,11 +35,6 @@ import RezzMe.parse
 import RezzMe.uri
 import RezzMe.utils
 
-defaults = { 
-    'rezzmes://login.agni.lindenlab.com/cgi-bin/login.cgi': 'SecondLife main grid',
-    'rezzme://login.aditi.lindenlab.com/cgi-bin/login.cgi': 'SecondLife BETA grid',
-    'rezzme://www.osgrid.org:8002/': 'OSgrid'}
-
 class Bookmarks(object):
     '''Deal with rezzme:// bookmarks.
        '''
@@ -62,17 +57,13 @@ class Bookmarks(object):
         logging.debug('bookmarks.Bookmarks: instantiating object: path %s', self._path)
         self._load()
 
-        self._dirty = False
-        
     def __del__(self):
         '''destructor.
 
-           saves bookmarks to ~/.rezzme.bookmarks
            '''
-        if self._path and self._dirty:
-            self.Save()
         self._bookmarks = None
         
+
     def _load(self):
         if not self._path: 
             logging.debug('bookmarks.Bookmarks._load: path is empty')
@@ -136,34 +127,43 @@ class Bookmarks(object):
                     
             bookmarks.save(self._path)
             logging.debug('bookmarks.Save: saved bookmarks to %s', self._path)
-            self._dirty = False
 
         except IOError, e:
             logging.error('bookmarks.Bookmarks.Save: failed to save bookmarks: %s', e, exc_info = True)
 
 
-    def Delete(self, uri):
+    def Delete(self, uri, save = False):
         logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri.SafeUri)
         # logging.debug('bookmarks.Bookmarks.Delete: uri %s', uri)
-        if uri in self._bookmarks: 
-            # logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri, self._bookmarks.index(uri))
-            logging.debug('bookmarks.Bookmarks.Delete: deleting uri %s @ %d', uri.SafeUri, self._bookmarks.index(uri))
-            del self._bookmarks[self._bookmarks.index(uri)]
-            self._dirty = True
+        bookmarks = []
+        for b in self._bookmarks:
+            if b.SafeUri != uri.SafeUri:
+                bookmarks += [b]
+            else:
+                logging.debug('bookmarks.Bookmarks.Delete: found & deleting uri %s', uri.SafeUri)
+        self._bookmarks = bookmarks
+
+        if save:
+            self.Save()
             
-    def Change(self, old, new):
+    def Change(self, old, new, save = False):
         logging.debug('bookmarks.Bookmarks.Change: old uri %s -> new uri %s', old.SafeUri, new.SafeUri)
         self.Delete(old)
         self.Add(new)
 
-    def Add(self, uri):
+        if save:
+            self.Save()
+
+    def Add(self, uri, save = False):
         logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri.SafeUri)
         # logging.debug('bookmarks.Bookmarks.Add: new uri %s', uri)
         if uri in self._bookmarks:
             logging.debug('bookmarks.Bookmarks.Add: new uri %s already exists, deleting it', uri.SafeUri)
             del self._bookmarks[self._bookmarks.index(uri)]
         self._bookmarks += [uri]
-        self._dirty = True
+
+        if save:
+            self.Save()
 
     def FindBestMatch(self, uri = None, display = None):
         if uri: 
@@ -193,12 +193,17 @@ class Bookmarks(object):
                 # no avatar specified: let's see whether we can find a match
                 for u in self._bookmarks:
                     logging.debug('bookmarks.Bookmarks.FindBestMatch(no avatar): looking at %s', u.SafeUri)
-                    if u.BaseUri.startswith(uri.BaseUri):
-                        if u.UserId:
-                            best = u
-                            break
+                    if uri.Host == u.Host and uri.Port == u.Port and uri.Region == u.Region:
+                        # host, port, region match: perfect, done
+                        best = u
+                        break
 
-                        if not best:
+                    if uri.Host == u.Host and uri.Port == u.Port:
+                        # host, port match: let's keep it in mind and continue looking
+                        if best:
+                            if not best.UserId and u.UserId:
+                                best = u
+                        else:
                             best = u
 
             if best:

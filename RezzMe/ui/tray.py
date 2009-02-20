@@ -131,7 +131,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._bookmarks = bookmarks
         self._defaultBookmarks = defaults
         self._uri = {}
-        self._tag = None
+        self._display = None
 
         self._app = app
         self._cfg = cfg
@@ -151,7 +151,6 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
             self.pushButtonDelete.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
             self.pushButtonCancel.setFocusPolicy(PyQt4.QtCore.Qt.NoFocus)
 
-        self._reloadComboBox()
         self._trayIcon.show()
 
     def __del__(self):
@@ -168,12 +167,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._defaultBookmarks = RezzMe.bookmarks.Bookmarks()
 
         if self._cfg and 'default rezzmes' in self._cfg:
-            for tag in self._cfg['default rezzmes']:
-                self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = self._cfg['default rezzmes'][tag], tag = tag))
-                logging.debug('ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][tag])
+            for display in self._cfg['default rezzmes']:
+                self._defaultBookmarks.Add(RezzMe.uri.Uri(uri = self._cfg['default rezzmes'][display], display = display))
+                logging.debug('ui.tray: adding default bookmark: %s', self._cfg['default rezzmes'][display])
 
         self._trayIcon.setContextMenu(self._menu)
         self._reloadMenu()
+        self._reloadComboBox()
         self._done = False
 
         PyQt4.QtCore.QObject.connect(self._trayIcon, PyQt4.QtCore.SIGNAL("activated(QSystemTrayIcon::ActivationReason)"), self._iconActivated)
@@ -201,7 +201,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self.lineEditAvatarName.clear()
         self.lineEditTag.clear()
 
-        self._tag = None
+        self._display = None
         self._uri = {}
 
     def _reloadComboBox(self):
@@ -262,13 +262,13 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         self._done = True
         self._app.quit()
 
-    def _update(self, tag, value):
+    def _update(self, display, value):
         if value is RezzMeTrayWindow.Empty:
-            if tag in self._uri:
-                del self._uri[tag]
+            if display in self._uri:
+                del self._uri[display]
             return None
         elif value:
-            self._uri[tag] = value
+            self._uri[display] = value
             return value
 
 
@@ -392,19 +392,18 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_lineEditTag_editingFinished(self):
-        tag = unicode(self.lineEditTag.text()).strip()
-        logging.debug('ui.tray.py: tag editing finished: %s', tag)
-        if tag:
-            self._tag = tag
+        display = unicode(self.lineEditTag.text()).strip()
+        logging.debug('ui.tray.py: display editing finished: %s', display)
+        if display:
+            self._display = display
         else:
-            self._tag = None
+            self._display = None
 
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonAdd_clicked(self):
         bookmark = self._updateRezzMeUri(updateGui = False)
         logging.debug('ui.tray.edit.on_pushButtonAdd_clicked: bookmark %s', bookmark)
-        self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, tag = self._tag))
-        self._bookmarks.Save()
+        self._bookmarks.Add(RezzMe.uri.Uri(uri = bookmark, display = self._display), save = True)
         self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
@@ -413,12 +412,15 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         new = self._updateRezzMeUri(updateGui = False)
 
         oldBookmark = self._bookmarks.FindBestMatch(display = old)
-        newBookmark = RezzMe.uri.Uri(uri = new, tag = self._tag)
+        newBookmark = RezzMe.uri.Uri(uri = new, display = self._display)
         logging.debug('ui.tray.edit.on_pushButtonChange_clicked: old %s -> new %s', oldBookmark, newBookmark)
 
         if oldBookmark:
-            self._bookmarks.Change(oldBookmark, newBookmark)
-            self._bookmarks.Save()
+            newBookmark.Extensions = oldBookmark.Extensions
+            newBookmark.Client = oldBookmark.Client
+            if oldBookmark.UserId:
+                newBookmark.UserId = oldBookmark.UserId
+            self._bookmarks.Change(oldBookmark, newBookmark, save = True)
         self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
@@ -428,7 +430,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
 
         logging.debug('ui.tray.edit.on_pushButtonDelete_clicked: bookmark %s', bookmark)
         if bookmark:
-            self._bookmarks.Delete(bookmark)
+            self._bookmarks.Delete(bookmark, save = True)
         self._resetWindow()
 
     @PyQt4.QtCore.pyqtSignature('')
@@ -440,6 +442,7 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
     @PyQt4.QtCore.pyqtSignature('QString')
     def on_comboBoxBookmarks_activated(self, display):
         self.pushButtonChange.setEnabled(True)
+        self.pushButtonDelete.setEnabled(True)
 
         display = unicode(display)
         bookmark = self._bookmarks.FindBestMatch(display = display)
@@ -448,14 +451,15 @@ class RezzMeTrayWindow(PyQt4.QtGui.QDialog, RezzMe.ui.edit.Ui_RezzMeTrayEdit):
         if not bookmark:
             bookmark = self._defaultBookmarks.FindBestMatch(display = display)
             self.pushButtonChange.setEnabled(False)
+            self.pushButtonDelete.setEnabled(False)
 
         self._uri = bookmark.Dict
         self._updateRezzMeUri()
 
-        tag = bookmark.Tag
-        if tag: self.lineEditTag.setText(tag)
+        display = bookmark.Display
+        if display: self.lineEditTag.setText(display)
         else: self.lineEditTag.clear()
-        self._tag = tag
+        self._display = display
 
 
     @PyQt4.QtCore.pyqtSignature('bool')

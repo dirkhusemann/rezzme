@@ -65,6 +65,10 @@ class Parser(ConfigParser.RawConfigParser):
         os.rename(self._file, '%s.broken' % self._file)
 
 
+    def optionxform(self, optionstr):
+        return optionstr
+
+
     def save(self, configFile = None):
         if not configFile and not self._file:
             raise IOError('config.parser.Parser: missing config file name')
