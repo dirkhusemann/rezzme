@@ -86,9 +86,9 @@ class PlatformLauncher(object):
         clientArgs += ['-multiple']
 
         keys = gridInfo.keys()
-        if 'vivox' in keys:
-            clientArgs += ['--set', 'VivoxDebugVoiceAccountServerURI', gridInfo['vivox']]
-            clientArgs += ['--set', 'VivoxDebugSIPURIHostName', gridInfo['vivox']]
+        # if 'vivox' in keys:
+        #     clientArgs += ['--set', 'VivoxDebugVoiceAccountServerURI', gridInfo['vivox']]
+        #     clientArgs += ['--set', 'VivoxDebugSIPURIHostName', gridInfo['vivox']]
         if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
         if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
