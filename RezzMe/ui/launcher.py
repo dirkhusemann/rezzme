@@ -285,7 +285,10 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         keys['avatar'] = self._uri.Avatar
         keys['userid'] = self._userID
         keys['grid'] = urllib.quote(self._uri.BaseHttpUri, '')
-        keys['region'] = urllib.quote(self._uri.Region)
+        if self._uri.Region:
+            keys['region'] = urllib.quote(self._uri.Region)
+        else:
+            keys['region'] = ''
         keys['host'] = urllib.quote(self._uri.Host)
         keys['port'] = urllib.quote(self._uri.Port)
 
