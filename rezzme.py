@@ -303,6 +303,7 @@ if __name__ == '__main__':
                 tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
+                logging.info('rezzme.main: switching to proto handler logfile')
                 logging.getLogger().removeHandler(logHandler)
                 logging.getLogger().addHandler(protologHandler)
                 protologHandler.setFormatter(logging.Formatter('%(asctime)s [proto] %(levelname)-8s %(message)s',
