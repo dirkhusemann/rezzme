@@ -105,6 +105,15 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         with codecs.open(logFile, 'r', 'utf8') as log:
             logContent = log.read()
 
+        logFile = RezzMe.utils.ExpandUser('~/.rezzme-proto.log')
+        if os.path.exists(logFile):
+            logContent += '\n\n==================================================\n'
+            logContent += '    protocol handler log\n'
+            logContent += '==================================================\n'
+            
+            with codecs.open(logFile, 'r', 'utf8') as log:
+                logContent += log.read()
+
         msg = "From: %(user)s\r\nTo: %(developer)s\r\nSubject: RezzMe Log File\r\n\r\n%(log)s " % dict(user = fromAddress,
                                                                                                        developer = toAddress,
                                                                                                        log = logContent)
