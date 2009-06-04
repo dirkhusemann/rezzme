@@ -82,7 +82,7 @@ class PlatformLauncher(object):
     def Launch(self, avatar, password, gridInfo, clientName, client, location):
 
         clientArgs = [ ]
-        clientArgs += ['-loginuri', '"%s"' % gridInfo['login']]
+        clientArgs += ['-loginuri', gridInfo['login']]
         clientArgs += ['-multiple']
 
         keys = gridInfo.keys()
