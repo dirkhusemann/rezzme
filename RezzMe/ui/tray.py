@@ -104,7 +104,7 @@ class RezzMeTrayAbout(PyQt4.QtGui.QDialog, RezzMe.ui.about.Ui_About):
         logContent = None
         with codecs.open(logFile, 'r', 'utf8') as log:
             logContent = log.read()
-            
+
         msg = "From: %(user)s\r\nTo: %(developer)s\r\nSubject: RezzMe Log File\r\n\r\n%(log)s " % dict(user = fromAddress,
                                                                                                        developer = toAddress,
                                                                                                        log = logContent)

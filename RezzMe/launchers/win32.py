@@ -43,32 +43,38 @@ class PlatformLauncher(object):
 
         self._clients = {}
 
-        # try for hippo opensim viewer first
-        try:
-            logging.debug('launchers.win32: checking for hippo client')
-            hovk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 'Software\\OpenSim\\Hippo OpenSim Viewer')
+        winKeys = dict(hippo        = 'Software\\OpenSim\\Hippo OpenSim Viewer',
+                       secondlife   = 'Software\\Linden Research, Inc.\\SecondLife',
+                       secondlifeRC = 'Software\\Linden Research, Inc.\\SecondLifeReleaseCandidate')
+            
+        for k in winKeys:
+            path = winKeys[k]
+            
+            try:
+                logging.debug('launchers.win32: checking for %s client via registry key %s', k, path)
+                clk = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, path)
 
-            if hovk:
-                hovp = _winreg.QueryValueEx(hovk, None)[0]
-                hove = _winreg.QueryValueEx(hovk, 'Exe')[0]
-                hippoExe = '%s\\%s' % (hovp, hove)
+                if clk:
+                    clp = _winreg.QueryValueEx(clk, None)[0]
+                    cle = _winreg.QueryValueEx(clk, 'Exe')[0]
+                    clientExe = '%s\\%s' % (clp, cle)
 
-                self._clients['hippo'] = hippoExe
-                logging.debug('launchers.win32: found hippo client at %s', hippoExe)
-        except:
-            pass
+                    self._clients[k] = clientExe
+                    logging.debug('launchers.win32: found %s client at %s', k, clientExe)
+                except :
+                    pass
 
-        try:
-            logging.debug('launchers.win32: checking for secondlife client')
-            slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
-            if slk:
-                slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
-
-                self._clients['secondlife'] = slp
-                logging.debug('launchers.win32: found secondlife client at %s', slp)
-        except:
-            pass
-
+#        try:
+#            logging.debug('launchers.win32: checking for secondlife client')
+#            slk = _winreg.OpenKey(_winreg.HKEY_CLASSES_ROOT, '\\secondlife\\shell\\open\\command')
+#            if slk:
+#                slp = _winreg.QueryValueEx(slk, None)[0].split('"')[1]
+#
+#                self._clients['secondlife'] = slp
+#                logging.debug('launchers.win32: found secondlife client at %s', slp)
+#        except:
+#            pass
+#
 
     def _gClients(self):
         return self._clients
@@ -86,9 +92,6 @@ class PlatformLauncher(object):
         clientArgs += ['-multiple']
 
         keys = gridInfo.keys()
-        # if 'vivox' in keys:
-        #     clientArgs += ['--set', 'VivoxDebugVoiceAccountServerURI', gridInfo['vivox']]
-        #     clientArgs += ['--set', 'VivoxDebugSIPURIHostName', gridInfo['vivox']]
         if 'welcome' in keys: clientArgs += ['-loginpage', gridInfo['welcome']]
         if 'economy' in keys: clientArgs += ['-helperuri', gridInfo['economy']]
 
