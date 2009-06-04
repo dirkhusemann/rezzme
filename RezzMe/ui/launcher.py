@@ -287,6 +287,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
         keys['grid'] = urllib.quote(self._uri.BaseHttpUri, '')
 
         authUri = self._authenticator % keys
+        logging.debug('ui.launcher: authUri %s', authUri)
 
         # we need an auth handler
         httpPasswordManager = urllib2.HTTPPasswordMgrWithDefaultRealm()
