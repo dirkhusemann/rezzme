@@ -63,7 +63,7 @@ try:
         level = logging.CRITICAL
 
     logfile = cfg['debug']['logfile'] if 'logfile' in cfg['debug'] else '~/.rezzme.log'
-    protologfile cfg['debug']['protologfile'] if 'protologfile' in cfg['debug'] else '~/.rezzme-proto.log'
+    protologfile = cfg['debug']['protologfile'] if 'protologfile' in cfg['debug'] else '~/.rezzme-proto.log'
     logsize = cfg['debug']['logsize'] if 'logsize' in cfg['debug'] else 1000 * 100
 
     if logfile:
