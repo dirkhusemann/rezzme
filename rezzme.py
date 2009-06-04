@@ -304,8 +304,8 @@ if __name__ == '__main__':
             else:
                 logging.getLogger().removeHandler(logHandler)
                 logging.getLogger().addHandler(protologHandler)
-                logHandler.setFormatter(logging.Formatter('%(asctime)s [proto] %(levelname)-8s %(message)s',
-                                                          '%a, %d %b %Y %H:%M:%S'))
+                protologHandler.setFormatter(logging.Formatter('%(asctime)s [proto] %(levelname)-8s %(message)s',
+                                                               '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked with command line arguments: %s', ' '.join(args))
                 logging.debug('rezzme.main: starting launcher GUI')
                 RezzMeUri(app = app, args = args)
