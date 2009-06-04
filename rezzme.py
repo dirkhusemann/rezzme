@@ -63,16 +63,23 @@ try:
         level = logging.CRITICAL
 
     logfile = cfg['debug']['logfile'] if 'logfile' in cfg['debug'] else '~/.rezzme.log'
+    protologfile cfg['debug']['protologfile'] if 'protologfile' in cfg['debug'] else '~/.rezzme-proto.log'
     logsize = cfg['debug']['logsize'] if 'logsize' in cfg['debug'] else 1000 * 100
 
     if logfile:
         logfile = os.path.expanduser(logfile)
+        protologfile = os.path.expanduser(logfile)
         if logfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
             logfile = '%s/%s' % (os.environ['USERPROFILE'], logfile[2:])
+        if protologfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
+            protologfile = '%s/%s' % (os.environ['USERPROFILE'], protologfile[2:])
 
         logHandler = logging.handlers.RotatingFileHandler(logfile, 'a', logsize)
         logHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
                                                   '%a, %d %b %Y %H:%M:%S'))
+        protologHandler = logging.handlers.RotatingFileHandler(protologfile, 'a', logsize)
+        protologHandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
+                                                       '%a, %d %b %Y %H:%M:%S'))
    
         logging.getLogger().addHandler(logHandler)
         logging.getLogger().setLevel(level)
@@ -119,12 +126,6 @@ onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
 
-# slightly generous banner makes it easier to find start of trace in log file :-)
-logging.info('                                        ')
-logging.info('========================================')
-logging.info('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
-logging.info('========================================')
-logging.info('                                        ')
 
 if onMacOSX: 
     import aemreceive.sfba as AE
@@ -255,6 +256,13 @@ class MacOSXAppleEventHandler(PyQt4.QtCore.QObject):
 
 
 if __name__ == '__main__':
+    # slightly generous banner makes it easier to find start of trace in log file :-)
+    logging.info('                                        ')
+    logging.info('========================================')
+    logging.info('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
+    logging.info('========================================')
+    logging.info('                                        ')
+
     # set the socket timeout
     socket.setdefaulttimeout(timeout)
 
@@ -294,6 +302,8 @@ if __name__ == '__main__':
                 tray = RezzMe.ui.tray.RezzMeTrayWindow(parent = None, app = app, cfg = cfg)
                 while not tray.Done: app.exec_()
             else:
+                logging.getLogger().removeHandler(logHandler)
+                logging.getLogger().addHandler(protologHandler)
                 logHandler.setFormatter(logging.Formatter('%(asctime)s [proto] %(levelname)-8s %(message)s',
                                                           '%a, %d %b %Y %H:%M:%S'))
                 logging.debug('rezzme.main: invoked with command line arguments: %s', ' '.join(args))
