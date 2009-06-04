@@ -49,6 +49,7 @@ import os
 import sys
 
 logHandler = None
+protologHandler = None
 
 try:
     import logging
