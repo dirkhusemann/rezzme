@@ -69,7 +69,7 @@ try:
 
     if logfile:
         logfile = os.path.expanduser(logfile)
-        protologfile = os.path.expanduser(logfile)
+        protologfile = os.path.expanduser(protologfile)
         if logfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
             logfile = '%s/%s' % (os.environ['USERPROFILE'], logfile[2:])
         if protologfile.startswith('~/') and sys.platform == 'win32' and 'USERPROFILE' in os.environ:
