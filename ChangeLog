@@ -1,0 +1,1174 @@
+commit 0456d1221a82bf8191870592235d8e9bf3174ae3
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 16:07:39 2009 +0000
+
+    ~ updated ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@127 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 24de6a4fce639349ae6e549ef3dc64a5f9a7c602
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 16:02:51 2009 +0000
+
+    + ChangeLog via about...
+    + Send diagnostics via about...
+    + rotating rezzme log
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@126 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 6503beb3e822768d0ced5c4842d810e5d67cf5b4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 08:38:23 2009 +0000
+
+    ~ fix: log shows passwords
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@125 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 316e90276d19f8631160c60b35b8a8630b85c3fe
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 07:42:12 2009 +0000
+
+    ~ updated changelog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@124 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 167488819de2465ec5931f2a69749bbcdda5f913
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 07:41:34 2009 +0000
+
+    ~ pruning setup.py (linux/gnome)
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@123 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 96b9e5b4da3ca914e3aa7b86c13d45b70e6ab305
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Jan 13 07:29:16 2009 +0000
+
+    + adding desktop services (for linux GNOME only, thx gconftool-2)
+    + upping version to 4.0.18
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@122 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit f6fcb9daa249744e85aebbedc2e83bd8fc230517
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Jan 12 13:06:41 2009 +0000
+
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@121 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit c3f646c93fc790795e606f07eaeb4fd4ed48c76f
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Jan 12 13:06:00 2009 +0000
+
+    ~ fixing linden lab gridInfo bypass
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@120 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 3fb57f9c1cdb9e4caf0a86014b4b7e352c32345a
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Jan 7 17:32:44 2009 +0000
+
+    ~ workaround for windows
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@119 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 030821c570eb8490e066541cf99b0f52d524edde
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Jan 7 15:58:45 2009 +0000
+
+    ~ updating changelog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@118 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7bde99420b9a51030fea4b129be8af82c9d5adb4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Jan 7 15:57:39 2009 +0000
+
+    ~ fix: non-existing exception ref in RezzMe.config.parser causes
+      rezzme crash when encountering old style bookmark
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@117 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 92d676f6f0944994f3df7c7d311ed3617f994bbf
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Jan 7 13:05:43 2009 +0000
+
+    adding URI scheme description
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@116 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7de7f03e4346e3364e2ecc4ed6f90dd09b0705c1
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 17 19:24:12 2008 +0000
+
+    updated ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@115 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit d39d83570e00c10bbbd393b91a090e63f9911981
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 17 19:19:44 2008 +0000
+
+    fix: confusing avatars when there are two bookmarks for the same grid
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@114 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit bb31923e6eda946b4450b70087da5cd63bc4c262
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 17 11:41:22 2008 +0000
+
+    updated changelog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@113 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 079afc8ba5dbd2c61bb23a92d61824956b067f66
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 17 11:40:30 2008 +0000
+
+    fixing tabbing orders in bookmark editor
+    fixing focus setting in launcher dialog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@112 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 3c29d596858717435b5388fa0e80a02eaceafebd
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 16 21:05:49 2008 +0000
+
+    fixing EmptyInput treatment
+    fixing tab order
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@111 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit b3c8674d3c8aa919958f6149b416902213016e25
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 16 20:48:02 2008 +0000
+
+    fix: reverting to normal distutils
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@110 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 95ff1a551cce93bd9390c585fc314ea852af844b
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 16:07:11 2008 +0000
+
+    updated ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@109 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit a993b997f2dd3b6a6ec79b947278839bdf9858ec
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 16:06:44 2008 +0000
+
+    upping version
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@108 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 2aaecc9fc11ff03611969309c48a7bf0050d893e
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 16:05:53 2008 +0000
+
+    fix: delete doesn't
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@107 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit fc8dd51886dd7b5dde88892f0b7ccb2508a61ef1
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 15:10:18 2008 +0000
+
+    fix: (windows) need to delete backup file before renaming original to
+    backup file
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@106 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit f551ecca846fc23cf1dc203087650b93cebd2cfc
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 15:02:46 2008 +0000
+
+    fix: combo box and menu not in sync
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@105 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 138588191f332b410000a1dfb3d8ba24c74ef7c4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 14:40:59 2008 +0000
+
+    cleaning up
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@104 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 07caf4e32d57b10e3805f714bde390c2fea0e560
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 13:43:01 2008 +0000
+
+    updated ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@103 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit d56a40ab4868eb34d07b5404da098ee7dfb0bebe
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 13:42:26 2008 +0000
+
+    updating to version 4.0.13
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@102 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit e39911c55cd9d677312738ae24f212fb4bd80ede
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 13:42:04 2008 +0000
+
+    fixing bookmark matching
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@101 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 87d13dbebd1339c30c80174abd15dddd6c207fca
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 13:41:14 2008 +0000
+
+    fixing bookmark matching
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@100 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 312e25f7dd2039688e820d63ff135e7ddbaa6111
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 13:40:39 2008 +0000
+
+    fixing bookmark matching
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@99 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit cbd755cf17e9753ed27b812ecf6f833460d38860
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 12 12:27:33 2008 +0000
+
+    further progress on cleaning up URI handling and bookmarking them
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@98 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 2fa8a8509b187bf4b8840a741a4257b69661f7a1
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 10 13:42:35 2008 +0000
+
+    cleaning up Uri internals
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@97 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit d4ff74f202f05b5911f39daca55d24910f92aa61
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 10 13:40:57 2008 +0000
+
+    - dropping .rezzme.credentials and merging that functionality into bookmarks
+    - fix: when avatar name supplied in rezzme URI advanced tab is not
+      shown when the grid is authenticated
+    - shortcut for avatar name field was colliding with shortcut for
+      advanced tab
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@96 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 49662c8904daf2643d65dda5a7eedeca1f7f64b4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 10 13:38:50 2008 +0000
+
+    dropping .rezzme.credentials and merging that functionality into bookmarks
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@95 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 872837b9dc6394161141f504a58678a52c5f1623
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 10 11:53:42 2008 +0000
+
+    changing bookmarks file format to config file format
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@94 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 1148273377e3ad3c60c1dc094379fdf904b5295e
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Dec 8 15:40:12 2008 +0000
+
+    ~ fixing missing menu reload after bookmark editing
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@93 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 461e2407b0ecc08635d8250e872f5529de4acd34
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Dec 5 16:47:11 2008 +0000
+
+    + fixing windows startup problem (subprocess is your friend)
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@92 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ebbe5b5499c0ed45a27bc4d37c90f84461fdbaa6
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 3 12:43:42 2008 +0000
+
+    updating changelog
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@91 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit c8238dab129fa0ec5d003500ae63e3cdba5c3e40
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Dec 3 12:42:55 2008 +0000
+
+    more fixes to address space in region name problem
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@90 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit e5119e028448440e07b43c96bdb2e1a79aec773b
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 2 11:10:16 2008 +0000
+
+    fix: missing import sys
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@89 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 33cee6d7979a43d16cc62933260d6dad4bf22865
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 2 09:04:36 2008 +0000
+
+    + upped version
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@88 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit d956c1961e5671881c77790b2b57bc5e98c495ce
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 2 08:53:56 2008 +0000
+
+    - dropping local modification
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@87 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 5378b4551bb3679d5b0a7fb8d66483d555bdcdb2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 2 08:53:39 2008 +0000
+
+    - fixing space in region name problem
+    - fixing missing password sync
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@86 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit bfea8e7d7701860127f82ccff5ffeaa92f5fd5a5
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Dec 2 08:53:32 2008 +0000
+
+    - fixing space in region name problem
+    - fixing missing password sync
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@85 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit a02bd43b6fa6d4fe04f6cc0b6658c8bd77eae92c
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Dec 1 14:43:35 2008 +0000
+
+    fixing system tray menu bug: menu does not go away
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@84 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 28deecbd550c2064ee896d2d370ba7742baf0518
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Nov 18 13:14:32 2008 +0000
+
+    ~ logging version info and platform to log file
+    + upped version to 4.0.5
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@83 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 883ad93c67f206961b0f9f4821bfa7314c27138a
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Nov 14 12:15:11 2008 +0000
+
+    fix: rezzme.desktop used wrong rezzme program name
+    fix: advanced tab logic was screwed
+    fix: starting without pre-existing .rezzme.* files borked login logic
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@82 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 21dc71ebb6a9cffc5ffed6387f9758ceb4f18f06
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Nov 11 18:55:42 2008 +0000
+
+    ~ ignoring generated MANIFEST.in
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@81 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ed462c58f1e3b8123994b3e8e27dd189dac0e199
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Nov 11 18:21:08 2008 +0000
+
+    - adding kde4 support for kubuntu intrepid ipex
+    - adding linux rezzme.desktop support (now showing up in KDE menu)
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@80 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 79a6a6bdde107afb87849f292174670be339c354
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 15:21:58 2008 +0000
+
+    ignoring generated clientselector.py
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@79 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 162266ea73b34cd24b46e6615caa27d95e87817c
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 14:21:08 2008 +0000
+
+    dropping clientselector.py (auto-generated)
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@78 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ec0a6516ff6333d4c4784dedd2f9da0d242f6cf0
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 14:16:52 2008 +0000
+
+    trying to be smarter about hippo detection
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@77 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 6c16ea9bfd4b0234af5c870ad141ede554f80060
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 13:43:55 2008 +0000
+
+    win32 fixes
+    ui fixes
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@76 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit c70ac63e65000568d549b94bff4b90772c73651f
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 13:14:38 2008 +0000
+
+    win32 fixes
+    ui fixes
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@75 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 5a4e2b5b680950551f9fd98ca6798c510a748292
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 13:00:09 2008 +0000
+
+    win32 fixes
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@74 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 6fed3f3b6ed3309aeac39d6bdcc28ddcb19cd28d
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:50:37 2008 +0000
+
+    fixing win32 related issues
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@73 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ef7d5cbf2bdcd90156fa86c4de0480e910a91adb
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:47:57 2008 +0000
+
+    fix: missing import
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@72 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 06c534e8b2f7a6620c4fa1967a63ed9843173a9a
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:24:39 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@71 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 937ee1247836d20da36102b3086f3088db7d5222
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:20:46 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@70 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ead9d512585039a512238340919af01b534871bf
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:18:37 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@69 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 8cf41bd73547dbc24e5816905b3a2cd90e13f344
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:05:16 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@68 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 92b574ea109c47ff336492dc59ae8b28927955c9
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 12:02:33 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@67 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7fa290e00931764e15ebecd1f9e432c17d46acb2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 10:30:15 2008 +0000
+
+    adding support for 16x16 system tray icons
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@66 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ab4b6b0d21cfecef70c48505d5e3509cc5a8b04b
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 10:10:20 2008 +0000
+
+    adding additional customization hooks
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@65 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit a8fa38dfb3ac2332e07f56ac0637bfa16b0bb304
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Nov 3 09:54:32 2008 +0000
+
+    bug fixes: clients would not be saved
+    enhancement: use client selection UI to locate virtual world client,
+    if none found in the usual places
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@64 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 929ca8d31dd9634909533e989ce4de5fa33a0be6
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Oct 31 08:02:51 2008 +0000
+
+    adapting win32 launcher to follow linux2 lead
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@63 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit be12e215e153f6797acc9a5e2e139feb5e69536e
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Oct 30 14:03:52 2008 +0000
+
+    adding support to allow adding of additional secondlife clients
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@62 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 5ba2e90d871636bf4b5c3db7e976ed31d1b0f48e
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Oct 28 20:05:53 2008 +0000
+
+    redesign of the user interface: tabbed UI, easy login tab, advanced
+    login tab
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@61 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7fb482cb28674ba25a730758e90be05c9395f480
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 12:14:43 2008 +0000
+
+    updated changelog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@60 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 0cb6b244fdaeb8ebd2fc2778a83a6a6013b11f62
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:41:13 2008 +0000
+
+    updated changelog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@59 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 95b9ecb5e9df6b21b9abd2ce35e9194d81d02c61
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:40:53 2008 +0000
+
+    running on linux and windows (it seems)
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@58 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7301bb8df4cc4f6080ae56158fbfc3784d3875c0
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:34:56 2008 +0000
+
+    fix: application data path was still wrong.
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@57 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 4e91668584c832a6f27e15d5b7c345a350c6b4ea
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:28:04 2008 +0000
+
+    fix: win32 clientPaths: take2
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@56 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 681fbfb6f627fcbc0c6125db782d429eb1139fe2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:17:34 2008 +0000
+
+    fix: client not defined in win32.py
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@55 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 9eafac411833e20f20cac26098175fc29c7819e2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:07:45 2008 +0000
+
+    updated ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@54 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 6c2ab983a6a2be1633fc858a352d2afc1e09e00d
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 11:07:16 2008 +0000
+
+    RezzMeException: didn't have a __str__() method causing rather terse
+    exceptions to be raised and caught.
+    
+    also, we were not dealing correctly with a virgin hippo install:
+    grid_info.xml might not exist, in which case we need to find
+    default_grids.xml from hippo package directory. also, the path to
+    grid_info.xml on windows was completely wrong.
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@53 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit d35432039c44acb0b11131fa7b6b4d9a5573489d
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 08:19:34 2008 +0000
+
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@52 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7895414795bed97a29a03ca9157b156f5abc694f
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Oct 1 08:15:23 2008 +0000
+
+    adding ChangeLog and AUTHORS plus make target to update ChangeLog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@51 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit cb3d0efa032d162146bc690aafe734b3f18ca4c7
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 11:55:33 2008 +0000
+
+    version 3.1.2
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@50 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 7683fec7bd5a58483f9c391cb394569090b5f1e4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 11:55:07 2008 +0000
+
+    ~ fix: rezzme:// uri with location only (no X/Y/Z) would not work
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@49 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ca895c2b75839f103921a536240b4f9feed6e722
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 11:54:31 2008 +0000
+
+    ~ fix: font size of status field would shrink
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@48 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 92cbf87ed43c2e07898b03720e0bfd3fef680353
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 11:48:36 2008 +0000
+
+    ~ fix: temp password finds its way into log file
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@47 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ad67005a712bc2ff59497a2e9d06dc7b346c005d
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 10:14:59 2008 +0000
+
+    ~ fix: indentation
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@46 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 0b9b5649d6ee85548279561fe1dfafd6c8c57bf0
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 10:11:29 2008 +0000
+
+    ~ fix: except statement in win32 launcher too early, sigh
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@45 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 9045d36a5450137d0b69b1317fed3f465cc35794
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 30 09:52:53 2008 +0000
+
+    ~ fixing bug in win32 launcher (assumed hippo viewer would be present)
+    
+    ~ better exception handling
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@44 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 6f9f15e28f70a1d3751f5d6dfc501377daf49066
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 17:17:34 2008 +0000
+
+    allow user to select virtual world client
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@43 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ed6cd476bbb18314dad3e1fc78dd0df9d486deb8
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 15:40:58 2008 +0000
+
+    explizit pathnames
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@42 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 84c94598f407f5fa5e2f4a2ff35ed57d4d4eb248
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 15:35:16 2008 +0000
+
+    logging found clients
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@41 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit aef7b3652191f689be71c1ce5056ff136a927a67
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 15:33:32 2008 +0000
+
+    preparing code base to allow user selection of clients
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@40 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 682a2d81056df2fa8a472a86da5318462f5664ad
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 13:46:10 2008 +0000
+
+    fix UI problem with non-null password but disabled OK button
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@39 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit a5b7705e33acb4df93b501a7abab02a99e4b7226
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 13:00:18 2008 +0000
+
+    using ElementTree.getroot() to make code symmetrical
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@38 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit c3d628f430104c1dd9388dfbead30f67aae74ec4
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 12:47:10 2008 +0000
+
+    adding additional fake grid info element for linden lab grids
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@37 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 1d840f394004e638203dbfc4fd6af2feecc28855
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Mon Sep 29 11:11:45 2008 +0000
+
+    dropping use of lxml (windows exe doesn't seem to grok that, sigh),
+    switching back to normal xml.etree.ElementTree
+    
+    fixing windows registry code for hippoviewer
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@36 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 31ea9b2fdde0aea9b980cc3dae11478b382939ac
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 17:20:08 2008 +0000
+
+    first stab at adding hippo support to windows launcher
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@35 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 8e2b63b702040d9ac648f08cb08268902eadd7eb
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 15:48:41 2008 +0000
+
+    fix: slurl has to come last
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@34 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit b98df5b3de3afef8606ff988753b0aa83c6a0db9
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 15:26:15 2008 +0000
+
+    version increase due to hippo support on linux
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@33 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 1bf1693b9a17ad37bb00fa2039ac277a78f437c3
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 15:22:47 2008 +0000
+
+    refactored hippo grid info mutilation code out into
+    RezzMe.launchers.hippo so that win32 can profit from it as well.
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@32 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit dcc73ecd694b404da3edac35d4e03b4e8df828c9
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 14:37:57 2008 +0000
+
+    support for logging to sys.stderr
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@31 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit e4d7c3d37f82650c15201ec449ee6ffd66526654
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 14:37:34 2008 +0000
+
+    support for locating and using hippo
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@30 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 86c3b00ad9c134746dc11fe1d1f72330fc03b5c6
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 26 14:36:29 2008 +0000
+
+    refactor makefile slightly to facilitate debugging
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@29 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit eff9cd6ad604fd564a3b5f66d8440fbe6ef96ff9
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 25 08:19:47 2008 +0000
+
+    ~ version 3.0.5 to reflect logging support
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@28 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit a41cf7187b3a2d0f40be3c9aaf33f7cfa6c1d37c
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 25 07:47:01 2008 +0000
+
+    + adding generous logging support all over the place: activate by
+      placing
+    
+    	[debug]
+    	level = DEBUG
+    
+      in rezzme-site.cfg
+    
+    - dropped RezzMe.system as that is not used anymore
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@27 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 3737d09cd49243cdcca91a9c9ffc0a88f37f7804
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 24 15:19:09 2008 +0000
+
+    ~ fix: removing auto-delete flags for pyqt objects
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@26 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 5e6a8e585caa0c129a2a8392d268ce6df79bdd5c
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Tue Sep 23 16:27:46 2008 +0000
+
+    ~ fix: rezzme.cfg and rezzme-site.cfg code was not surviving install
+      on linux
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@25 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 968d1c5299c5f0023637db22efc9a8c34f50c273
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 16:45:20 2008 +0000
+
+    + svn:ignore on deploy-winzip.py
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@24 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 0cc4b457b47581b9d24b78c04095afbf0e22864a
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 16:08:49 2008 +0000
+
+    - svn:ignore on rezzme.cfg
+    + rezzme.cfg
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@23 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 4daca9530bf038cebb5a0e594b40d65fbbc350e9
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 15:52:27 2008 +0000
+
+    ~ fixing various bookmark bugs
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@22 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit b3708c98bade1c88967045fed9aa58c09495e070
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 15:24:39 2008 +0000
+
+    ~ adding presets to config
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@21 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 217e8aab7ff06b7ddad6cb6492def833ba53b4a5
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 15:01:17 2008 +0000
+
+    - dropping old rezzme.cfg.example
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@20 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 85058a4f7d1f016f1113d434c6112b070070a6f6
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 15:00:50 2008 +0000
+
+    ~ switching cfg file searching
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@19 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 5b61dcef6fa29084d5071badcdc23abc5e8e2c0f
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Fri Sep 19 15:00:27 2008 +0000
+
+    ~ switching cfg file searching
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@18 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 84496d1bdcd182a0c8e1adf8e6ed0ef363d8659d
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 10:56:59 2008 +0000
+
+    ~ fix: about depends on rezzme.cfg
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@17 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 74103889b0693bcb684412ae8889063b446252ac
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 10:28:25 2008 +0000
+
+    ~ fix: obtaining credentials for known grid screws up location
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@16 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 3ecf2b51b0021508d3c918943a5472f14f03a15c
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 10:27:46 2008 +0000
+
+    - dropping dead code
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@15 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 9211ec290ce5e29b7a6892b7d5e0369d46fa1464
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 10:26:21 2008 +0000
+
+    ~ fix: oops, forgot to apply tooltips hash
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@14 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 8781526bd7a350d07333a8f78ab6bb5012532748
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 10:25:17 2008 +0000
+
+    ~ fix: oops, forgot to apply tooltips hash
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@13 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 74ab8132f772f10a4220e24ddd1596fb1ca73b7e
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 09:50:49 2008 +0000
+
+    ~ hmph: another IBM-ism hiding
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@12 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 2f59e7fee4ab234647bbbc727e0768476715d6c2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 09:43:08 2008 +0000
+
+    ~ fix: expand about
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@11 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 3170b6bcc1c5e3759d8fc13278fd615be1869a9a
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 09:39:37 2008 +0000
+
+    ~ changing build process
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@10 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 41f610ed4398618138e0ff88d2647a292b437334
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 18 09:19:52 2008 +0000
+
+    + about dialog
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@9 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit b90b5840426cd9862ef0cee995e4a3653549d5af
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 16:15:35 2008 +0000
+
+    + ignore auto-generated files
+    + testing for pre-reqs now
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@8 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 9e36446320837b7ea807036cb2905e19799676be
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 15:38:55 2008 +0000
+
+    removing auto-generated files
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@7 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit ad3f817ed3ac58e4f1b3ff691a303052047cd1e1
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 15:35:32 2008 +0000
+
+    renaming rezzme.cfg to rezzme.cfg.example
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@6 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit bc312ece66b2804f02610fe8e4cb781da0f8faf2
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 15:01:54 2008 +0000
+
+    ~ fix: launcher dialog is auto-destroyed
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@5 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 425b03bca8e61a8b19140fd2c1a3df148c032fd0
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 14:46:04 2008 +0000
+
+    updated rezzme.cfg
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@4 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 05f85fa06b882208168d479ab29be0e2f52dfbc8
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 14:43:01 2008 +0000
+
+    updated README.
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@3 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 35b76f77fc820650dfe87a30318a1c1d37fb02b3
+Author: drscofield <drscofield@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Wed Sep 17 14:40:19 2008 +0000
+
+    initial check in
+    
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@2 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
+
+commit 8d66413c62af3f16a8c68d6c15f0af380566fe8e
+Author: root <root@7bc2bfa8-0109-4806-b14c-dc71ee9d10d6>
+Date:   Thu Sep 4 11:45:06 2008 +0000
+
+    Initial Repository Skeleton
+    
+    git-svn-id: http://forge.opensimulator.org/svn/rezzme/trunk@1 7bc2bfa8-0109-4806-b14c-dc71ee9d10d6
