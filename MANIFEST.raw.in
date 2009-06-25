@@ -1,8 +1,0 @@
-include ez_setup.py
-include rezzme-sealed.cfg
-include RezzMe/ui/*.ui
-include rezzme.protocol rezzmes.protocol rezzme.desktop
-include %(icon_32)s
-exclude deploy.py
-exclude rezzme.raw.qrc
-exclude rezzme.cfg
