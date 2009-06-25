@@ -3,7 +3,6 @@
 
 #define MyAppName "%(name)s"
 #define MyAppVerName "%(name)s %(version)s"
-#define MyAppPublisher "%(publisher)s"
 #define MyAppURL "%(url)s"
 #define MyAppExeName "%(name)s.exe"
 
@@ -14,8 +13,6 @@
 AppId={{E279FAC7-0713-4CCC-8844-7AEE77BA9476}
 AppName={#MyAppName}
 AppVerName={#MyAppVerName}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\%(name)s

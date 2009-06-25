@@ -92,7 +92,6 @@ if onWindows:
         'source': os.getcwd(),
         'name': cfg['package']['name'],
         'version': cfg['package']['version'],
-        'publisher': cfg['package']['publisher'],
         'url': cfg['package']['url'],
         'protocol': cfg['package']['protocol'],
         }
