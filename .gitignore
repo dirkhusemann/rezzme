@@ -4,6 +4,8 @@
 ChangeLog.html
 MANIFEST
 MANIFEST.in
+README.html
+INSTALL.html
 RezzMe/config/config.py
 RezzMe/ui/about.py
 RezzMe/ui/clientselector.py
