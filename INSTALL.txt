@@ -110,3 +110,29 @@ you will end up with a nice installer executable.
 installing: windows
 ===================
 
+installation on windows is _easy_, very easy. just click on the
+installer executable and follow the instructions. make sure you have
+the option ticked that will place a rezzme icon on your desktop.
+
+oh! and if you are upgrading rezzme: __quit your running rezzme system
+tray icon before doing the installation of the new rezzme__ --- that
+will save you a windows reboot!
+
+
+building: mac osx
+=================
+
+having gone through the challenge of installing pyqt4 on your mac,
+building rezzme is a breeze:
+
+    % make clean build
+
+that will create a `rezzme-VERSION.dmg` image file which you can distribute
+but also use to install rezzme.
+
+installing: mac osx
+===================
+
+mount the `rezzme-VERSION.dmg` image file and drag and drop the rezzme
+application to your applications folder. done.
+
