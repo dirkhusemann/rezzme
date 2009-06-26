@@ -1,0 +1,63 @@
+_[draft document --- work in progress]_
+
+pre-requisites
+==============
+
+rezzme is a PyQt4 based utility written in python. as such you need to
+have the following pre-requisites installed:
+
+* PyQt4 runtime, development libraries (>= PyQt4 4.3.3), and development tools
+  - on ubuntu that is an `apt-get install python-qt4-dev pyqt4-dev-tools` away
+
+* (windows) [py2exe](http://www.py2exe.org/)
+* (windows) inno setup tools
+* (mac osx) [py2app](http://svn.pythonmac.org/py2app/py2app/trunk/doc/index.html)
+
+make sure you install these packages (and their dependencies).
+
+next, you will need get the __rezzme source__ package (unless you already have it):
+
+    % svn checkout http://forge.opensimulator.org/svn/rezzme
+
+this instruction will checkout the latest available version of the
+rezzme code base into the (newly create) `rezzme` directory.
+
+if you later want to update to the latest available version, just go
+into your `rezzme` directory and issue the following command:
+
+    % svn update
+
+that should retrieve all changes since the last update and give you
+the latest available version.
+
+building: linux
+===============
+
+once you have installed the pre-requisites, building the rezzme
+package is just a matter of invoking:
+
+    % make clean build
+
+that will create a tar file in the `dist` directory,
+`rezzme-VERSION.tar.bz2` (where VERSION is something like 7.0.4, for
+example). this is the distributable rezzme package for linux (we are
+working on debian packages and RPMs).
+
+
+installation: linux
+===================
+
+installation on linux is quite simple:
+
+    % cp rezzme-VERSION.tar.bz2 /tmp
+    % cd /tmp
+    % tar xvf rezzme-VERSION.tar.bz2
+    % cd rezzme-VERSION
+    % sudo python setup.py install
+
+the last step will provide you with some further informations about
+the install process.
+
+
+building: windows
+=================
