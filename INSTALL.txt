@@ -1,0 +1,138 @@
+_[draft document --- work in progress]_
+
+pre-requisites
+==============
+
+rezzme is a PyQt4 based utility written in python. as such you need to
+have the following pre-requisites installed:
+
+* python (>=2.4)
+
+  - (ubuntu/debian) if python is not already installed as part of your
+    linux install, do 
+
+        apt-get install python
+
+  - (windows) use the windows installer from the [python download
+    site](http://www.python.org/download/) 
+
+  - (mac osx) python is already installed on your mac...but...that's
+    not going to work: see the instructions in the next section for
+    what to do.
+
+* PyQt4 runtime, development libraries (>= PyQt4 4.3.3), and development tools
+
+  - (ubuntu/debian) this is just an 
+
+        apt-get install python-qt4-dev pyqt4-dev-tools
+
+  - (windows) use the windows installer from [the riverbank download
+    page](http://www.riverbankcomputing.com/software/pyqt/download)
+
+  - (mac osx) ok. things are a tad more complex on mac osx. well, did
+    i say "tad"? scratch that, things are a lot more complicated on
+    mac osx (yeah, and you thought mac osx was easy, me too...) it's
+    so complex that the [folks at arstechnica wrote a nice
+    tutorial][arstechnica] --- i suggest you hop over to [their
+    page][arstechnica] and follow the setup instructions. you should
+    also get `py2app` as part of the deal.
+
+[arstechnica]: http://arstechnica.com/open-source/guides/2009/03/how-to-deploying-pyqt-applications-on-windows-and-mac-os-x.ars/2
+
+* (windows) [py2exe](http://www.py2exe.org/)
+
+* (windows) [inno setup tools](http://www.istool.org/) and [inno setup](http://www.jrsoftware.org/isinfo.php)
+
+make sure you install these packages (and their dependencies).
+
+next, you will need get the __rezzme source__ package (unless you already have it):
+
+    % svn checkout http://forge.opensimulator.org/svn/rezzme
+
+this instruction will checkout the latest available version of the
+rezzme code base into the (newly create) `rezzme` directory.
+
+if you later want to update to the latest available version, just go
+into your `rezzme` directory and issue the following command:
+
+    % svn update
+
+that should retrieve all changes since the last update and give you
+the latest available version.
+
+building: linux
+===============
+
+once you have installed the pre-requisites, building the rezzme
+package is just a matter of invoking:
+
+    % make clean build
+
+that will create a tar file in the `dist` directory,
+`rezzme-VERSION.tar.bz2` (where VERSION is something like 7.0.4, for
+example). this is the distributable rezzme package for linux (we are
+working on debian packages and RPMs).
+
+
+installation: linux
+===================
+
+installation on linux is quite simple:
+
+    % cp rezzme-VERSION.tar.bz2 /tmp
+    % cd /tmp
+    % tar xvf rezzme-VERSION.tar.bz2
+    % cd rezzme-VERSION
+    % sudo python setup.py install
+
+the last step will provide you with some further informations about
+the install process.
+
+
+building: windows
+=================
+
+building on windows is almost as easy as building on linux, we start
+again with
+
+    % make clean build
+
+you'll notice that after a bit of mucking around the make process will
+eventually (sooner if you've got a faster machine than i have) start
+_inno setup tool_ for you: just type <CTRL><F9> to kick of the setup
+installer compilation. at the end of the compilation _inno setup tool_
+will ask you whether you want to test the installer: i usually give it
+a go, just to check whether everything works out as expected.
+
+you will end up with a nice installer executable. 
+
+
+installing: windows
+===================
+
+installation on windows is _easy_, very easy. just click on the
+installer executable and follow the instructions. make sure you have
+the option ticked that will place a rezzme icon on your desktop.
+
+oh! and if you are upgrading rezzme: __quit your running rezzme system
+tray icon before doing the installation of the new rezzme__ --- that
+will save you a windows reboot!
+
+
+building: mac osx
+=================
+
+having gone through the challenge of installing pyqt4 on your mac,
+building rezzme is a breeze:
+
+    % make clean build
+
+that will create a `rezzme-VERSION.dmg` image file which you can distribute
+but also use to install rezzme.
+
+installing: mac osx
+===================
+
+mount the `rezzme-VERSION.dmg` image file and drag and drop the rezzme
+application to your applications folder. done.
+
