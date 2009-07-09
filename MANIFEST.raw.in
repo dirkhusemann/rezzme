@@ -1,5 +1,7 @@
 include INSTALL.txt
 include Makefile
+include ChangeLog.pre.html
+include ChangeLog.post.html
 include rezzme-sealed.cfg
 include RezzMe/ui/*.ui
 include rezzme.protocol rezzmes.protocol rezzme.desktop
