@@ -344,7 +344,7 @@ class RezzMeLauncher(PyQt4.QtGui.QDialog, RezzMe.ui.rezzme.Ui_RezzMe):
             
         except urllib2.URLError, ue:
             logging.info('ui.launcher: authentication failed: %s', str(ue));
-            status  = "it's your lucky day: you've encountered an unknown bug"
+            status  = "hmm, you've encountered an unknown bug"
             if getattr(ue, 'code', None):
                 # error codes on which the user can retry
                 if ue.code == 500:
