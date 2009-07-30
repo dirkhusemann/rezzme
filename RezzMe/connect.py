@@ -114,8 +114,8 @@ def Connect(app, uri, cfg):
                             regioninfoXml = xml.etree.ElementTree.parse(urllib2.urlopen(regionInfoUri)).getroot()
                         except Exception, e:
                             logging.info('Connect: cannot connect to target virtual world: %s via %s: %s', self.uri, regionInfoUri, str(e))
-                            self.progress("connectivity test failed, keep fingers crossed!", 3)
-                            # raise RezzMe.exceptions.RezzMeException('Oops: cannot connect to virtual world %s' % uri)
+                            # self.progress("connectivity test failed, keep fingers crossed!", 3)
+                            raise RezzMe.exceptions.RezzMeException('Oops: cannot connect to virtual world %s' % uri)
                     else:
                         logging.info('Connect: secondlife platform: skipping connectivity test')
                         self.progress('skipping reachability check (non-opensim grid)', 3)
