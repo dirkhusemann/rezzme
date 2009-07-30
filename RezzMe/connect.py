@@ -101,7 +101,7 @@ def Connect(app, uri, cfg):
                     if self.canceled: return
 
                     # check whether target server is reachable
-                    if self.gridInfo['platform'].lower() == 'opensim':
+                    if self.gridInfo['platform'].lower() == 'opensim' and self.gridInfo['regioninfoavailable']:
                         regionInfoUri = ''
                         try:
                             regionInfoUri = '%sadmin/regioninfo/' % (self.gridInfo['login'])

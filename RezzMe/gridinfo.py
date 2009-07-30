@@ -110,6 +110,10 @@ def GetGridInfo(uri):
         gridInfo['gridnick'] = 'grid'
         logging.info('gridinfo.GetGridInfo: curing missing "gridnick" key with %s', gridInfo['gridnick'])
 
+    if not 'regioninfoavailable' in gridKeys:
+        gridInfo['regioninfoavailable'] = False
+    else:
+        gridInfo['regioninfoavailable'] = (gridInfo['regioninfoavailable'].lower() == 'true')
 
     # construct the grid key: login server plus region only
     gridKey = gridInfo['login'].rstrip('/')
