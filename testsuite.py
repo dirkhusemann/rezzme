@@ -36,6 +36,7 @@ import RezzMe.exceptions
 import RezzMe.parse
 import RezzMe.uri
 import RezzMe.bookmarks
+import RezzMe.version
 import RezzMe.tests.gridinfo
 
 # setup a test suite
@@ -47,6 +48,7 @@ def suite():
     s.addTest(doctest.DocTestSuite(RezzMe.uri))
     s.addTest(doctest.DocTestSuite(RezzMe.bookmarks))
     s.addTest(doctest.DocTestSuite(RezzMe.utils))
+    s.addTest(doctest.DocTestSuite(RezzMe.version))
     s.addTest(unittest.TestLoader().loadTestsFromTestCase(RezzMe.tests.gridinfo.GridInfoTestCase))
 
     return s

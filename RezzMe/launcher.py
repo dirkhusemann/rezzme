@@ -66,6 +66,10 @@ class ClientLauncher(object):
         '''launch platform specific virtual world client.
            '''
 
+        # fix ' character appearing in irish names
+        if "'" in avatar:
+            avatar = avatar.replace("'", "\\'")
+
         if not clientTag in self._clients:
             raise RezzMe.exceptions.RezzMeException('launcher: no client for for %s' % clientTag)
 

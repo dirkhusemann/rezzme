@@ -9,6 +9,37 @@ import sys
 from distutils.core import setup
 
 import RezzMe.config.builder
+import RezzMe.version
+
+def incrementVersion(versionFile, version):
+    (major, minor, rel) = version.split('.')
+    rel = int(rel) + 1
+    version = '%d.%d.%d' % (int(major), int(minor), rel)
+
+    if os.path.exists(versionFile):
+        if os.path.exists('%s~' % versionFile):
+            os.unlink('%s~' % versionFile)
+        os.rename(versionFile, '%s~' % versionFile)
+
+    versionFile = open(versionFile, 'w')
+    versionFile.write("""
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+
+'''Package version.
+
+   You can access this via RezzMe.version.Version:
+
+       >>> import RezzMe.version
+       >>> RezzMe.version.Version
+       '%(version)s'
+   '''
+
+Version = '%(version)s'
+""" % dict(version = version))
+    versionFile.close()
+        
+
 
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
@@ -128,6 +159,8 @@ setup(name = cfg['package']['name'],
       packages = packages, 
       package_data = package_data,
       **extra_options)
+
+incrementVersion('RezzMe/version.py', RezzMe.version.Version)
 
             
 # post setup install/py2app

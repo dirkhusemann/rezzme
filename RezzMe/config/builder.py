@@ -31,6 +31,7 @@ import codecs
 import ConfigParser
 import os
 import RezzMe.config.parser
+import RezzMe.version
 
 def buildCfg(name):
     
@@ -48,6 +49,7 @@ def buildCfg(name):
     # using the following presets
     cfg = {
         'package': {
+            'version'   : RezzMe.version.Version,
             'name'      : 'rezzme',
             'author'    : 'dirk husemann',
             'email'     : 'hud@zurich.ibm.com',
