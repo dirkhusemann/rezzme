@@ -8,11 +8,14 @@ GIT2CL = git log > ChangeLog
 PYTHONPATH = $(shell pwd)
 
 
-.PHONY: clean build deploy all changelog
+.PHONY: clean build deploy all changelog newversion
 
 -include Makefile.local
 
 all: build deploy changelog
+
+newversion:
+	python ./setup.py newversion
 
 clean:
 	rm -rf dist build dist_win32 dist-win32
