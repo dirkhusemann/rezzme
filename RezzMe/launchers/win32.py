@@ -89,6 +89,10 @@ class PlatformLauncher(object):
     
     def Launch(self, avatar, password, gridInfo, clientName, client, location, purge):
 
+        # fix ' character appearing in irish names
+        if "'" in avatar:
+            avatar = avatar.replace("'", "\\'")
+
         clientArgs = [ ]
         clientArgs += ['-loginuri', gridInfo['login']]
         clientArgs += ['-multiple']

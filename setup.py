@@ -80,6 +80,9 @@ command = None
 platform = sys.platform
 if sys.argv.count > 1: command = sys.argv[1]
 
+if command == 'newversion':
+    incrementVersion('RezzMe/version.py', RezzMe.version.Version)
+    sys.exit(0)
 
 
 # platform specific tweaks
@@ -160,7 +163,6 @@ setup(name = cfg['package']['name'],
       package_data = package_data,
       **extra_options)
 
-incrementVersion('RezzMe/version.py', RezzMe.version.Version)
 
             
 # post setup install/py2app
