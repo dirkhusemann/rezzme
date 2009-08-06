@@ -38,6 +38,8 @@ def incrementVersion(versionFile, version):
 Version = '%(version)s'
 """ % dict(version = version))
     versionFile.close()
+
+    print 'new version: %s' % version
         
 
 
