@@ -108,6 +108,11 @@ class ClientLauncher(object):
         logging.debug('launcher.GetClient: %s - %s', tag, client)
         return (tag, client)
 
+    def VerifyClient(self, path):
+        if not 'VerifyClient' in dir(self._platformLauncher):
+            return path
+        return self._platformLauncher.VerifyClient(path)
+
     def AddClient(self, tag, path):
         self._clients[tag] = path
 

@@ -62,6 +62,8 @@ class RezzMeClientSelector(PyQt4.QtGui.QDialog, RezzMe.ui.clientselector.Ui_Clie
     @PyQt4.QtCore.pyqtSignature('')
     def on_pushButtonOK_clicked(self):
         self.on_lineEditClientTag_editingFinished()
+        self._clientPath = self._launcher.VerifyClient(self._clientPath)
+        
         if not self._clientPath or not self._clientTag:
             return None
 

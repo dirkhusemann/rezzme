@@ -32,6 +32,7 @@ import logging
 import os
 import subprocess
 import urllib
+import xml.etree.ElementTree
 
 import RezzMe.exceptions
 import RezzMe.launchers.hippo
@@ -61,6 +62,27 @@ class PlatformLauncher(object):
     def _gClientPattern(self):
         return 'client executable (*)'
     ClientPattern = property(fget = _gClientPattern)
+
+    def VerifyClient(self, path):
+        if not os.path.exists(path): return None
+
+        infoPlistPath = '%s/Contents/Info.plist' % path
+        if not os.path.exists(infoPlistPath): return None
+
+        executable = None
+        try:
+            infoPlist = xml.etree.ElementTree.parse(open(infoPlistPath, 'r'))
+            kv = infoPlist.findall('/dict/*')
+            kv = ['%s:%s' % (k.tag, k.text) for k in kv]
+            executable = kv[kv.index('key:CFBundleExecutable') + 1].split(':')[1]
+        except:
+            return None
+
+        execPath = '%s/Contents/MacOS/%s' % (path, executable)
+        if os.path.exists(execPath): 
+            return execPath
+
+        return None
 
     def Launch(self, avatar, password, gridInfo, clientName, client, location, purge):
         
