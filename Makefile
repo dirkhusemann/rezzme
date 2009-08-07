@@ -37,6 +37,7 @@ test: build
 
 deploy:
 	python ./deploy.py
+	python ./setup.py newversion
 
 RezzMe/config/config.py: rezzme.cfg RezzMe/version.py
 	python ./config.py RezzMe/config/config.py
