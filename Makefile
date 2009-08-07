@@ -38,19 +38,19 @@ test: build
 deploy:
 	python ./deploy.py
 
-RezzMe/config/config.py: rezzme.cfg 
+RezzMe/config/config.py: rezzme.cfg RezzMe/version.py
 	python ./config.py RezzMe/config/config.py
 
-about.html : about.raw.html rezzme.cfg
+about.html : about.raw.html rezzme.cfg RezzMe/version.py
 	${EXPAND} $< $@
 
-rezzme.desktop : rezzme.raw.desktop rezzme.cfg
+rezzme.desktop : rezzme.raw.desktop rezzme.cfg RezzMe/version.py
 	${EXPAND} $< $@
 
-rezzme.qrc : rezzme.raw.qrc rezzme.cfg
+rezzme.qrc : rezzme.raw.qrc rezzme.cfg RezzMe/version.py 
 	${EXPAND} $< $@
 
-MANIFEST.in : MANIFEST.raw.in rezzme.cfg
+MANIFEST.in : MANIFEST.raw.in rezzme.cfg RezzMe/version.py
 	${EXPAND} $< $@
 
 resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in
