@@ -80,6 +80,10 @@ class PlatformLauncher(object):
 
     def Launch(self, avatar, password, gridInfo, clientName, client, location, purge):
         
+        avatar = urllib.unquote(avatar)
+        if "'" in avatar:
+            avatar = avatar.replace("'", "\\'")
+
         clientArgs = [ ]
         clientArgs += ['-loginuri', gridInfo['login']]
         clientArgs += ['-multiple']
