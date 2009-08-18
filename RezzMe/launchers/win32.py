@@ -90,6 +90,7 @@ class PlatformLauncher(object):
     def Launch(self, avatar, password, gridInfo, clientName, client, location, purge):
 
         # fix ' character appearing in irish names
+        avatar = urllib.unquote(avatar)
         if "'" in avatar:
             avatar = avatar.replace("'", "\\'")
 
@@ -109,7 +110,7 @@ class PlatformLauncher(object):
         logArgs = clientArgs[:]
         if avatar and password:
             clientArgs += ['-login']
-            clientArgs += urllib.unquote(avatar).split()
+            clientArgs += avatar.split()
             logArgs = clientArgs[:]
 
             clientArgs += [password]
