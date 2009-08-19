@@ -32,7 +32,7 @@ import subprocess
 import os
 import sys
 
-import RezzMe.config.builder
+import RezzMe.config.config
 
 def InstallProtocolHandlers():
     if sys.platform == 'linux2':
@@ -57,7 +57,7 @@ def LinuxInstallProtocolHandlers():
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)
 
 def MacOSXInstallLaunchdSupport():
-    cfg = RezzMe.config.builder.buildCfg('rezzme')
+    cfg = RezzMe.config.config.config()
 
     rezzmePath = sys.argv[0]
     if not os.path.exists(rezzmePath):

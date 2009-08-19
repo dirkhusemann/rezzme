@@ -90,7 +90,7 @@ try:
                             format   = '%(asctime)s %(levelname)-8s %(message)s',
                             datefmt  = '%a, %d %b %Y %H:%M:%S')
 except BaseException, e:
-    print >>sys.stderr, 'failed to do early-initialization: %s', str(e)
+    print >>sys.stderr, 'failed to do early-initialization: %s' % str(e)
     sys.exit(1)
 
 # late initialization: the rest
@@ -155,7 +155,7 @@ if __name__ == '__main__':
         # the rezzme:// URIs via the GURL GURL AppleEvent from the OS
         if onMacOSX:
 
-            # on MacOSX we need to be able to recieve AppleEvents
+            # on MacOSX we need to be able to receive AppleEvents
             import aemreceive.sfba as AppleEvents
 
             # the MacOSXAppleEventHandler derives from QObject so that
