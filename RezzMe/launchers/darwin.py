@@ -86,6 +86,8 @@ class PlatformLauncher(object):
 
     def Launch(self, avatar, password, gridInfo, clientName, client, location, purge):
         
+        avatar = urllib.unquote(avatar)
+
         clientArgs = [ ]
         clientArgs += ['-loginuri', gridInfo['login']]
         clientArgs += ['-multiple']
@@ -100,7 +102,7 @@ class PlatformLauncher(object):
         logArgs = clientArgs[:]
         if avatar and password:
             clientArgs += ['-login']
-            clientArgs += map(lambda x: "%s" % x, urllib.unquote(avatar).split())
+            clientArgs += map(lambda x: "%s" % x, avatar.split())
             logArgs = clientArgs[:]
 
             clientArgs += [password]
