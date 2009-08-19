@@ -36,7 +36,6 @@ import urllib
 import xml.etree.ElementTree
 
 import RezzMe.exceptions
-import RezzMe.config.builder
 import RezzMe.launchers.hippo
 
 import PyQt4.QtCore
