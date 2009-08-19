@@ -92,7 +92,7 @@ def MacOSXInstallLaunchdSupport():
         </array>
         <key>RunAtLoad</key>
         <true/>
-        <key>KeepAliver</key>
+        <key>KeepAlive</key>
         <false/>
         <key>OnDemand</key>
         <false/>
