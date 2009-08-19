@@ -116,11 +116,6 @@ if onMacOSX:
                     'CFBundleShortVersionString' : cfg['package']['version'],
                     'LSUIElement': '1',
                     'NSAppleScriptEnabled' : True,
-                    'Label': 'rezzme-%s'% cfg['package']['version'],
-                    'ProgramArguments': ['rezzme'],
-                    'KeepAlive': False,
-                    'RunAtLoad': True,
-                    'OnDemand': False,
                     }
                 }
             }
