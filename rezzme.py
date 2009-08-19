@@ -145,7 +145,7 @@ if __name__ == '__main__':
     # need an QApplication context to signal errors
     app = RezzMeQApplication(sys.argv)
 
-    RezzMe.config.desktop.InstallProtocolHandlers()
+    RezzMe.config.desktop.InstallProtocolHandlers(cfg)
 
     args = sys.argv[1:]
     tray = None

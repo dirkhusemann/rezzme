@@ -32,15 +32,13 @@ import subprocess
 import os
 import sys
 
-import RezzMe.config.config
-
-def InstallProtocolHandlers():
+def InstallProtocolHandlers(cfg):
     if sys.platform == 'linux2':
-        LinuxInstallProtocolHandlers()
+        LinuxInstallProtocolHandlers(cfg)
     elif sys.platform == 'darwin':
-        MacOSXInstallLaunchdSupport()
+        MacOSXInstallLaunchdSupport(cfg)
 
-def LinuxInstallProtocolHandlers():
+def LinuxInstallProtocolHandlers(cfg):
     logging.debug('config.desktop: installing rezzme: protocol handlers for linux')
     gconftool2 = subprocess.Popen(['which', 'gconftool-2'], stdout = subprocess.PIPE)
     gconftool2 = gconftool2.communicate()[0].rstrip('\n')
@@ -56,8 +54,7 @@ def LinuxInstallProtocolHandlers():
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/needs_terminal false' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)
 
-def MacOSXInstallLaunchdSupport():
-    cfg = RezzMe.config.config.config()
+def MacOSXInstallLaunchdSupport(cfg):
 
     rezzmePath = sys.argv[0]
     if not os.path.exists(rezzmePath):
