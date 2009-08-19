@@ -135,6 +135,7 @@ if __name__ == '__main__':
     logging.info('                                        ')
     logging.info('========================================')
     logging.info('rezzme.py version %s on %s' %( cfg['package']['version'], sys.platform))
+    logging.info('started from %s' % sys.argv[0])
     logging.info('========================================')
     logging.info('                                        ')
 
