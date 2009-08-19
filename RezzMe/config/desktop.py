@@ -55,10 +55,15 @@ def LinuxInstallProtocolHandlers(cfg):
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)
 
 def MacOSXInstallLaunchdSupport(cfg):
+    tail = 'Resources/rezzme.py'
 
+    # get rezzme path: argv[0] minus .py
     rezzmePath = sys.argv[0]
-    if not os.path.exists(rezzmePath):
-        logging.info('config.desktop: funny, cannot find rezzme at %s', rezzmePath)
+    if rezzmePath.endswith(tail):
+        rezzmePath = rezzmePath[:-len(tail)] + 'MacOS/rezzme'
+    else:
+        logging.error('config.desktop: unknown application bundle structure: %s',
+                      sys.argv[0])
         return
 
     if not os.path.exists(os.path.expanduser('~/Library/LaunchAgents')):
@@ -99,4 +104,5 @@ def MacOSXInstallLaunchdSupport(cfg):
     except Exception, e:
         logging.info("config.desktop: couldn't create launchd agent: %s" % e)
 
-            
+    logging.info('config.desktop: created launchd user-agent config in %s', 
+                 os.path.expanduser('~/Library/LaunchAgents/rezzme.plist'))
