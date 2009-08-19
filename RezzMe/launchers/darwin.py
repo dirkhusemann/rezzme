@@ -31,10 +31,12 @@
 import logging
 import os
 import subprocess
+import sys
 import urllib
 import xml.etree.ElementTree
 
 import RezzMe.exceptions
+import RezzMe.config.builder
 import RezzMe.launchers.hippo
 
 import PyQt4.QtCore
@@ -62,6 +64,7 @@ class PlatformLauncher(object):
     def _gClientPattern(self):
         return 'client executable (*)'
     ClientPattern = property(fget = _gClientPattern)
+
 
     def VerifyClient(self, path):
         if not os.path.exists(path): return None

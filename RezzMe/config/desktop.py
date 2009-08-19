@@ -33,8 +33,12 @@ import os
 import sys
 
 def InstallProtocolHandlers():
-    if not sys.platform == 'linux2':
-        return
+    if sys.platform == 'linux2':
+        LinuxInstallProtocolHandlers()
+    elif sys.platform == 'darwin':
+        MacOSXInstallLaunchdSupport()
+
+def LinuxInstallProtocolHandlers():
     logging.debug('config.desktop: installing rezzme: protocol handlers for linux')
     gconftool2 = subprocess.Popen(['which', 'gconftool-2'], stdout = subprocess.PIPE)
     gconftool2 = gconftool2.communicate()[0].rstrip('\n')
@@ -49,3 +53,51 @@ def InstallProtocolHandlers():
         os.system('%s -t string -s /desktop/gnome/url-handlers/rezzmes/command "/usr/bin/rezzme.py %%s"' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/needs_terminal false' % gconftool2)
         os.system('%s -t bool -s /desktop/gnome/url-handlers/rezzmes/enabled true' % gconftool2)
+
+def MacOSXInstallLaunchdSupport():
+    cfg = RezzMe.config.builder.buildCfg('rezzme')
+
+    rezzmePath = sys.argv[0]
+    if not os.path.exists(rezzmePath):
+        logging.info('config.desktop: funny, cannot find rezzme at %s', rezzmePath)
+        return
+
+    if not os.path.exists(os.path.expanduser('~/Library/LaunchAgents')):
+        try:
+            os.makedirs(os.path.expanduser('~/Library/LaunchAgents'))
+        except:
+            pass
+    if not os.path.exists(os.path.expanduser('~/Library/LaunchAgents')):
+        logging.info('config.desktop: funny, cannot create %s',
+                     os.path.expanduser('~/Library/LaunchAgents'))
+        return
+
+    if os.path.exists(os.path.expanduser('~/Library/LaunchAgents/rezzme.plist')):
+        os.unlink(os.path.expanduser('~/Library/LaunchAgents/rezzme.plist'))
+
+    try:
+        plist = open(os.path.expanduser('~/Library/LaunchAgents/rezzme.plist'), 'w')
+        plist.write('''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>rezzme-%s</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>%s</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAliver</key>
+        <false/>
+        <key>OnDemand</key>
+        <false/>
+</dict>
+</plist>''' % (cfg['package']['version'], rezzmePath))
+        plist.close()
+    except Exception, e:
+        logging.info("config.desktop: couldn't create launchd agent: %s" % e)
+
+            
