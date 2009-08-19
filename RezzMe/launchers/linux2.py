@@ -98,7 +98,7 @@ class PlatformLauncher(object):
         logArgs = clientArgs[:]
         if avatar and password:
             clientArgs += ['-login']
-            clientArgs += map(lambda x: '"%s"' % x, avatar.split())
+            clientArgs += map(lambda x: "%s" % x, avatar.split())
             logArgs = clientArgs[:]
             
             clientArgs += [password]
