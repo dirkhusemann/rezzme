@@ -32,6 +32,8 @@ import subprocess
 import os
 import sys
 
+import RezzMe.config.builder
+
 def InstallProtocolHandlers():
     if sys.platform == 'linux2':
         LinuxInstallProtocolHandlers()
