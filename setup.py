@@ -118,9 +118,9 @@ if onMacOSX:
                     'NSAppleScriptEnabled' : True,
                     'Label': 'rezzme-%s'% cfg['package']['version'],
                     'ProgramArguments': ['rezzme'],
-                    'KeepAlive': True,
+                    'KeepAlive': False,
                     'RunAtLoad': True,
-	            'OnDemand': False,
+                    'OnDemand': False,
                     }
                 }
             }
