@@ -120,6 +120,7 @@ if onMacOSX:
                     'ProgramArguments': ['rezzme'],
                     'KeepAlive': True,
                     'RunAtLoad': True,
+	            'OnDemand': False,
                     }
                 }
             }
