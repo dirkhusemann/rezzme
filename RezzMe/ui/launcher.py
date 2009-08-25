@@ -42,8 +42,6 @@ import RezzMe.parse
 import RezzMe.ui.rezzme
 import RezzMe.ui.client
 
-from PyQt4.QtCore import SIGNAL
-
 onMacOSX = sys.platform == 'darwin'
 onLinux = sys.platform == 'linux2'
 onWindows = sys.platform == 'win32'
