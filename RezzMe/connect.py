@@ -273,7 +273,7 @@ def Connect(app, uri, cfg):
             if ui.IsNewbie:
                 # newbie alert: send them to AppearanceUri to select an outfit
                 PyQt4.QtGui.QMessageBox.information(None, 'RezzMe',
-                                                    'It seems like this is the first time you visit the virtual world. '
+                                                    'It seems like this is the first time you are visiting the virtual world. '
                                                     'Your browser should open with a web page in just a moment. '
                                                     'You can select an outfit for your avatar on that web page '
                                                     'and then continue on your way in-world.',
@@ -281,7 +281,7 @@ def Connect(app, uri, cfg):
             else:
                 # newbie alert: send them to AppearanceUri to select an outfit
                 PyQt4.QtGui.QMessageBox.information(None, 'RezzMe',
-                                                    'You indicated that you wanted to obtain a new outfit for your avatar. '
+                                                    'You indicated that you want to obtain a new outfit for your avatar. '
                                                     'Your browser should open with a web page in just a moment. '
                                                     'You can select an outfit for your avatar on that web page '
                                                     'and then continue on your way in-world.',
