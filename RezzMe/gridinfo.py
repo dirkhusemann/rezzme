@@ -38,6 +38,11 @@ fakeGridInfo = {
         'gridname': 'LindenLab SecondLife(tm) main grid',
         'gridnick': 'secondlife',
         'platform': 'secondlife'},
+    'rezzme://secondlife.com/': {
+        'login': 'https://login.agni.lindenlab.com/cgi-bin/login.cgi',
+        'gridname': 'LindenLab SecondLife(tm) main grid',
+        'gridnick': 'secondlife',
+        'platform': 'secondlife'},
     'rezzme://aditi.lindenlab.com/': {
         'login': 'https://login.aditi.lindenlab.com/cgi-bin/login.cgi',
         'gridname': 'LindenLab SecondLife(tm) BETA grid',
