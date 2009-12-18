@@ -1,3 +1,15 @@
+rezzme (7.0.21-1ubuntu2) karmic; urgency=low
+
+  * including manual page
+
+ -- Dirk Husemann (debian packaging) <hud@zurich.ibm.com>  Fri, 18 Dec 2009 16:50:17 +0100
+
+rezzme (7.0.21-1ubuntu1) karmic; urgency=low
+
+  * fixing postinst failure if thunderbird is not present
+
+ -- Dirk Husemann (debian packaging) <hud@zurich.ibm.com>  Fri, 18 Dec 2009 16:10:13 +0100
+
 rezzme (7.0.21-1) unstable; urgency=low
 
   * Initial release

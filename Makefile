@@ -78,3 +78,4 @@ deb:	clean build
 	@cp -a debian packaging/rezzme-$(shell cat VERSION)
 	@(cd packaging/rezzme-$(shell cat VERSION); \
 		debuild)
+	@cp packaging/rezzme_$(shell cat VERSION)*.deb dist

@@ -2,7 +2,7 @@ Source: rezzme
 Section: web
 Priority: optional
 Maintainer: Dirk Husemann (debian packaging) <hud@zurich.ibm.com>
-Build-Depends: debhelper (>= 7), cdbs (>= 0.4.49), python-all-dev, python-qt4-dev
+Build-Depends: debhelper (>= 7), cdbs (>= 0.4.49), python-all-dev, python-qt4-dev, perl
 Standards-Version: 3.8.3
 Homepage: http://forge.opensimulator.org/gf/project/rezzme
 

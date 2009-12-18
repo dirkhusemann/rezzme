@@ -1,0 +1,89 @@
+=head1 NAME
+
+rezzme - rezzme:// URI protocol handler and virtual world client launcher
+
+=head1 SYNOPSIS
+
+rezzme.py rezzme://some.host.com:9000/region%20name/
+rezzme.py
+
+=head1 DESCRIPTION
+
+rezzme.py is a rezzme:// URI protocol handler and virtual world client
+launcher. rezzme:// URIs allow us to specify a location in a virtual
+world in pretty much the same way that we use HTTP URIs to specify
+locations in the world wide web. 
+
+Each rezzme:// URI follows the scheme suggested by RFC 2396 and can
+either
+
+=over 8
+
+=item B<address just a grid:>
+
+      rezzme://opensim.zurich.ibm.com:9000/
+
+=item B<address a grid and a region on that grid:>
+
+      rezzme://opensim.zurich.ibm.com:9000/zurela
+
+=item B<address a grid, a region, and an X/Y/Z location in that region:>
+
+      rezzme://opensim.zurich.ibm.com:9000/zurela/128/34/23
+
+=item B<address a grid and include the avatar’s name:>
+
+      rezzme://Dr%20Scofield@opensim.zurich.ibm.com:9000/zurela
+
+=item B<address a grid and include the avatar’s name and password:>
+
+      rezzme://Dr%20Scofield:S3CR3T@opensim.zurich.ibm.com:9000/zurela
+
+=back
+
+=head1 OPTIONS
+
+You can invoke rezzme.py B<with a rezzme:// URI> and also B<without a rezzme:// URI>:
+
+=over 8
+
+=item B<with rezzme:// URI:>
+
+rezzme.py will parse the URI and then contact the target virtual
+world, retrieve meta data (GridInfo), authenticate the user, and, on
+successful authentication, start the virtual world client (i.e., in
+most cases the SecondLife(tm) client), and take the user in-world.
+
+The launcher dialog features two tabs: the general login tab and an
+advanced tab. Via the advanced tab you can override the avatar to use
+for logging into to an authenticated virtual world but you can also
+bookmark the rezzme:// URI, have your client cache cleaned out before
+logging, and request a new avatar outfit (for those virtual worlds
+that support this).
+
+=item B<without rezzme:// URI>
+
+When invoked without a rezzme:// URI, rezzme.py will start a system
+tray icon. By right-clicking on that system tray icon you can access
+bookmarked rezzme:// URIs, edit them, and display version information
+via the "about" menu entry.
+
+=back
+
+=head1 BUGS
+
+In the (un-)likely event that you encounter a bug, please file a bug
+ticket at rezzme's OpenSim Forge bug tracker
+(http://forge.opensimulator.org/gf/project/rezzme/tracker/). Including
+C<$HOME/.rezzme.log> and C<$HOME/.rezzme-proto.log > will in most
+cases help diagnosing what went wrong.
+
+=head1 AUTHORS
+
+B<rezzme> was written by Dirk Husemann <hud@zurich.ibm.com> and
+contributed to OpenSim by IBM Research - Zurich.
+
+B<rezzme> is released under the OpenSim BSD license, a copy of which
+is available in C</usr/share/doc/rezzme/copyright>.
+
+=cut

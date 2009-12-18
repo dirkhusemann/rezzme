@@ -21,6 +21,9 @@ set -e
 case "$1" in
     configure)
 	for f in /etc/firefox* /etc/thunderbird* ; do
+
+	    [ -d $f/pref ] || continue
+
 	    cat > $f/pref/rezzmeurl.js <<EOF
 // enable rezzme:// URI handler
 pref("network.protocol-handler.app.rezzme","/usr/bin/rezzme.py");

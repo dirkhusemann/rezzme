@@ -7,11 +7,7 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-
-
-
-
+export DH_VERBOSE=1
 
 configure: configure-stamp
 configure-stamp:
@@ -23,6 +19,7 @@ build: build-stamp
 build-stamp: configure-stamp  
 	dh_testdir
 	$(MAKE) build
+	pod2man --release=$(VERSION) --center="rezzme" debian/rezzme.pod > rezzme.1
 	touch $@
 
 clean: 
@@ -39,6 +36,7 @@ install: build
 	dh_installdirs
 
 	$(MAKE) DESTDIR=$(CURDIR)/debian/rezzme install
+	find $(CURDIR)/debian/rezzme -type f -name "*.pyc" -exec rm -f {} \;
 
 
 # Build architecture-independent files here.
