@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 import os
+import optparse
 import pprint
 import re
 import sys
@@ -80,7 +81,22 @@ package_data = { 'RezzMe.config': ['*.cfg'],
 
 command = None
 platform = sys.platform
-if sys.argv.count > 1: command = sys.argv[1]
+root = '/'
+
+if sys.argv.count > 1:
+    command = sys.argv[1]
+
+    parser = optparse.OptionParser()
+    parser.add_option('--root', dest = 'root')
+    parser.add_option('--install-layout', dest = 'layout')
+    parser.add_option('--format', dest = 'layout')
+    (options, args) = parser.parse_args(sys.argv[2:])
+
+    if options.root:
+        root = options.root
+
+print 'using install root %s' % root
+
 
 if command == 'newversion':
     incrementVersion('RezzMe/version.py', RezzMe.version.Version)
@@ -89,6 +105,7 @@ if command == 'newversion':
 
 # platform specific tweaks
 if onMacOSX:
+
     import py2app
 
     icon = cfg['package']['icon_mac']
@@ -122,6 +139,7 @@ if onMacOSX:
         }
     
 elif platform == 'win32':
+
     import py2exe
     import pkg_resources
     pkg_resources.require("setuptools")
@@ -149,6 +167,7 @@ elif platform == 'win32':
         }
 
 else:
+
      extra_options = {
          'scripts': [application]
          }
@@ -172,35 +191,45 @@ setup(name = cfg['package']['name'],
 if not command: sys.exit(0)
 
 if command == 'install' and platform == 'linux2':
+
     cfg = RezzMe.config.builder.buildCfg('rezzme-sealed')
 
-    for s in ['/usr/share/services', '/usr/share/kde4/services']:
-        if os.path.exists(s):
-            print 'setting up rezzme.py as KDE protocol handler for rezzme(s):// URIs via %s' % s
-            os.system('cp rezzme.protocol %s/rezzme.protocol' % s)
-            os.system('cp rezzmes.protocol %s/rezzmes.protocol' % s)
+    for s in ['share/services', 'share/kde4/services']:
 
-            print '''
-    i tried to install rezzme.protocol as a KDE service into %s
-    on your system to configure KDE for the rezzme:// protocol.
-    ''' % s
+        s = '%s/%s' % (root, s)
+        if not os.path.exists(s):
+            os.system('mkdir -p %s' % s)
+
+        print 'setting up rezzme.py as KDE protocol handler for rezzme(s):// URIs via %s' % s
+        os.system('cp rezzme.protocol %s/rezzme.protocol' % s)
+        os.system('cp rezzmes.protocol %s/rezzmes.protocol' % s)
 
 
-    if os.path.exists('/usr/share/applications'):
-        print 'copying rezzme.desktop to /usr/share/applications'
-        os.system('cp rezzme.desktop /usr/share/applications')
-        if not os.path.exists('/usr/share/icons/hicolor/32x32/apps'):
-            os.system('mkdir -p /usr/share/icons/hicolor/32x32/apps')
-        print 'copying %s to /usr/share/icons/hicolor/32x32/apps' % cfg['package']['icon_32']
-        os.system('cp %s /usr/share/icons/hicolor/32x32/apps' % cfg['package']['icon_32'])
+    for s in ['share/applications']:
+
+        s = '%s/%s' % (root, s)
+        if not os.path.exists(s):
+            os.system('mkdir -p %s' % s)
+
+        print 'copying rezzme.desktop to %s' % s
+        os.system('cp rezzme.desktop %s' % s)
+
+    
+    for s in ['share/icons/hicolor/32x32/apps', 'share/pixmaps']:
+
+        s = '%s/%s' % (root, s)
+        if not os.path.exists(s):
+            os.system('mkdir -p %s' % s)
+        print 'copying %s to %s' % (cfg['package']['icon_32'], s)
+        os.system('cp %s %s' % (cfg['package']['icon_32'], s))
         
 
     print '''
 you might need to add the following config entries to
 firefox's and thundebird's configurations:
 
-    network.protocol-handler.app.rezzme    "/usr/bin/rezzme.py"
-    network.protocol-handler.app.rezzmes   "/usr/bin/rezzme.py"
+    network.protocol-handler.app.rezzme    "%(root)s/bin/rezzme.py"
+    network.protocol-handler.app.rezzmes   "%(root)s/bin/rezzme.py"
 
 the easiest way to do this is via about:config (a very good add-on
 for both firefox and thunderbird to deal with about:config is "Mr
@@ -210,6 +239,6 @@ Tech Toolkit" available at
 
 alternatively you could do this via the prefs.js file of firefox
 and thunderbird.
-'''
+''' % dict(root = root)
 
     sys.exit(0)

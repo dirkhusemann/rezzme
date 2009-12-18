@@ -23,3 +23,6 @@ dist
 dist-win32
 build
 rezzme-site.cfg
+packaging/*
+VERSION
+rezzme-sealed-sealed.cfg

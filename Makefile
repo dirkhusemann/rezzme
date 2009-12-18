@@ -6,7 +6,7 @@ EXPAND  = python ./expand.py
 GIT2CL = git log > ChangeLog
 
 PYTHONPATH = $(shell pwd)
-
+DESTDIR = /
 
 .PHONY: clean build deploy all changelog newversion
 
@@ -32,6 +32,9 @@ build: changelog resources rezzme.ico RezzMe/config/config.py
 	make -C RezzMe/ui all
 	python ./build.py
 
+install: 
+	python setup.py install --install-layout=deb --root=$(DESTDIR)
+
 test: build
 	PYTHONPATH=${PYTHONPATH} python testsuite.py
 
@@ -53,7 +56,10 @@ rezzme.qrc : rezzme.raw.qrc rezzme.cfg RezzMe/version.py
 MANIFEST.in : MANIFEST.raw.in rezzme.cfg RezzMe/version.py
 	${EXPAND} $< $@
 
-resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in
+VERSION: VERSION.raw
+	${EXPAND} $< $@
+
+resources: rezzme.png about.html rezzme.qrc rezzme.desktop MANIFEST.in VERSION
 	${PYRCC} -o RezzMe/resources.py rezzme.qrc
 
 changelog: 
@@ -61,3 +67,14 @@ changelog:
 	@cat ChangeLog.pre.html > ChangeLog.html
 	@git log >> ChangeLog.html
 	@cat ChangeLog.post.html >> ChangeLog.html
+
+deb:	clean build
+	@echo "building debian packages"
+	@rm -rf packaging
+	@mkdir packaging
+	@(cd packaging; \
+		tar xvf ../dist/rezzme-$(shell cat VERSION).tar.gz; \
+		cp ../dist/rezzme-$(shell cat VERSION).tar.gz rezzme_$(shell cat VERSION | sed -e 's/-/_/g').orig.tar.gz)
+	@cp -a debian packaging/rezzme-$(shell cat VERSION)
+	@(cd packaging/rezzme-$(shell cat VERSION); \
+		debuild)

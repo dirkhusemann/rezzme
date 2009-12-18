@@ -1,0 +1,3 @@
+?package(rezzme):needs="X11" section="Applications/Network"\
+  title="rezzme" command="/usr/bin/rezzme.py" \
+  icon=/usr/share/pixmaps/rezzme.png

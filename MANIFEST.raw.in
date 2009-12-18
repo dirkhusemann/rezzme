@@ -1,11 +1,20 @@
+include about.raw.html
+include expand.py
+include config.py
+include build.py
 include INSTALL.txt
+include MANIFEST.raw.in
+include VERSION.raw
 include Makefile
 include ChangeLog.pre.html
 include ChangeLog.post.html
 include rezzme-sealed.cfg
+include rezzme.cfg
+include rezzme.ico
 include RezzMe/ui/*.ui
+include RezzMe/ui/Makefile
 include rezzme.protocol rezzmes.protocol rezzme.desktop
 include %(icon_32)s
+include rezzme.raw.qrc
+include rezzme.raw.desktop
 exclude deploy.py
-exclude rezzme.raw.qrc
-exclude rezzme.cfg
