@@ -1,3 +1,9 @@
+rezzme (7.0.26) karmic; urgency=low
+
+  * + version increment
+
+ -- Dirk Husemann (debian packaging) <hud@zurich.ibm.com>  Mon, 21 Dec 2009 11:31:52 +0100
+
 rezzme (7.0.25) karmic; urgency=low
 
   * - dropping pkg_resources requirement
