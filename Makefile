@@ -16,6 +16,8 @@ all: build deploy changelog
 
 newversion:
 	python ./setup.py newversion
+	rm -f VERSION
+	${MAKE} deb-newversion
 
 clean:
 	rm -rf dist build dist_win32 dist-win32
@@ -67,6 +69,10 @@ changelog:
 	@cat ChangeLog.pre.html > ChangeLog.html
 	@git log >> ChangeLog.html
 	@cat ChangeLog.post.html >> ChangeLog.html
+
+deb-newversion: VERSION
+	git tag debian/$(shell cat VERSION)
+	git-dch --new-version=$(shell cat VERSION) --release
 
 deb:	clean build
 	@echo "building debian packages"

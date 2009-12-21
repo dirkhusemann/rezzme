@@ -2,13 +2,13 @@ Source: rezzme
 Section: web
 Priority: optional
 Maintainer: Dirk Husemann (debian packaging) <hud@zurich.ibm.com>
-Build-Depends: debhelper (>= 7), cdbs (>= 0.4.49), python-all-dev, python-qt4-dev, perl
+Build-Depends: debhelper (>= 7), cdbs (>= 0.4.49), python-all-dev, python-qt4-dev, perl, git-buildpackage
 Standards-Version: 3.8.3
 Homepage: http://forge.opensimulator.org/gf/project/rezzme
 
 Package: rezzme
 Architecture: all
-Depends: python (>=2.4), python-qt4
+Depends: python (>=2.4), python-qt4, gconf2
 Recommends: firefox
 Description: Protocol handler and system tray utility for rezzme:// URIs
  RezzMe is a protocol handler and system tray utility for rezzme://
