@@ -141,8 +141,8 @@ if onMacOSX:
 elif platform == 'win32':
 
     import py2exe
-    import pkg_resources
-    pkg_resources.require("setuptools")
+    # import pkg_resources
+    # pkg_resources.require("setuptools")
 
     reIcon = re.compile(r'(?P<name>.*)\.png$', re.IGNORECASE)
     icon = cfg['package']['icon_32']
