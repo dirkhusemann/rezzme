@@ -1,3 +1,10 @@
+rezzme (7.0.28) karmic; urgency=low
+
+  * ~ version increment
+  * ~ adding debian preinst script to clean out possibly lurkling rezzme
+
+ -- Dirk Husemann (debian packaging) <hud@zurich.ibm.com>  Mon, 21 Dec 2009 15:42:10 +0100
+
 rezzme (7.0.26) karmic; urgency=low
 
   * + version increment
