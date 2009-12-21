@@ -6,6 +6,7 @@ EXPAND  = python ./expand.py
 GIT2CL = git log > ChangeLog
 
 PYTHONPATH = $(shell pwd)
+PYTHON = python
 DESTDIR = /
 
 .PHONY: clean build deploy all changelog newversion
@@ -15,7 +16,7 @@ DESTDIR = /
 all: build deploy changelog
 
 newversion:
-	python ./setup.py newversion
+	${PYTHON} ./setup.py newversion
 	rm -f VERSION
 	${MAKE} deb-newversion
 
@@ -32,19 +33,19 @@ clean:
 
 build: changelog resources rezzme.ico RezzMe/config/config.py 
 	make -C RezzMe/ui all
-	python ./build.py
+	${PYTHON} ./build.py
 
 install: 
-	python setup.py install --install-layout=deb --root=$(DESTDIR)
+	${PYTHON} setup.py install --install-layout=deb --root=$(DESTDIR)
 
 test: build
-	PYTHONPATH=${PYTHONPATH} python testsuite.py
+	PYTHONPATH=${PYTHONPATH} ${PYTHON} testsuite.py
 
 deploy:
-	python ./deploy.py
+	${PYTHON} ./deploy.py
 
 RezzMe/config/config.py: rezzme.cfg RezzMe/version.py
-	python ./config.py RezzMe/config/config.py
+	${PYTHON} ./config.py RezzMe/config/config.py
 
 about.html : about.raw.html rezzme.cfg RezzMe/version.py
 	${EXPAND} $< $@
@@ -71,7 +72,7 @@ changelog:
 	@cat ChangeLog.post.html >> ChangeLog.html
 
 deb-newversion: VERSION
-	git tag debian/$(shell cat VERSION)
+	git tag -f debian/$(shell cat VERSION)
 	git-dch --new-version=$(shell cat VERSION) --release
 
 deb:	clean build

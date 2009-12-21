@@ -57,14 +57,14 @@ and run me again.
 '''
     sys.exit(1)
 
-try:
-    import PyQt4.QtCore
-except:
-    print '''
-oops...you need to install PyQt4 first otherwise rezzme will not
-work at all.
-'''
-    sys.exit(2)
+# try:
+#     import PyQt4.QtCore
+# except:
+#     print '''
+# oops...you need to install PyQt4 first otherwise rezzme will not
+# work at all.
+# '''
+#     sys.exit(2)
 
 # basic setup driven by rezzme.cfg and rezzme-site.cfg
 
