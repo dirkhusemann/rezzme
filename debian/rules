@@ -19,7 +19,7 @@ build: build-stamp
 build-stamp: configure-stamp  
 	dh_testdir
 	$(MAKE) build
-	pod2man --release=$(VERSION) --center="rezzme" debian/rezzme.pod > rezzme.1
+	pod2man --release=$(VERSION) --center="rezzme" rezzme.pod > rezzme.1
 	touch $@
 
 clean: 

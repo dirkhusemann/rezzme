@@ -3,6 +3,7 @@ include expand.py
 include config.py
 include build.py
 include INSTALL.txt
+include LICENSE.txt
 include MANIFEST.raw.in
 include VERSION.raw
 include Makefile
@@ -17,4 +18,5 @@ include rezzme.protocol rezzmes.protocol rezzme.desktop
 include %(icon_32)s
 include rezzme.raw.qrc
 include rezzme.raw.desktop
+include rezzme.pod
 exclude deploy.py

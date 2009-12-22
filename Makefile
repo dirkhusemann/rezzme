@@ -86,3 +86,24 @@ deb:	clean build
 	@(cd packaging/rezzme-$(shell cat VERSION); \
 		debuild)
 	@cp packaging/rezzme_$(shell cat VERSION)*.deb dist
+	@echo "finished debian package:"
+	@ls -l dist/*.deb
+
+
+rpm:	clean build
+	@echo "building RPM package"
+	@rm -rf packaging
+	@mkdir -p packaging/BUILD
+	@mkdir -p packaging/SOURCES
+	@mkdir -p packaging/SPECS
+	@mkdir -p packaging/RPMS
+	@mkdir -p packaging/SRPMS
+	@cp dist/rezzme-$(shell cat VERSION).tar.gz packaging/SOURCES
+	@cp rpm/RedHat-README.txt packaging/SOURCES/rezzme-redhat-readme.txt
+	@${EXPAND} rpm/rezzme.raw.spec packaging/SPECS/rezzme.spec
+	@rpmbuild --define '_topdir $(shell pwd)/packaging' -bb $(shell pwd)/packaging/SPECS/rezzme.spec
+	@cp packaging/RPMS/noarch/rezzme-7.0.29-1.noarch.rpm dist
+	@echo "finished RPM package:"
+	@ls -l dist/*.rpm
+
+packages: deb rpm
