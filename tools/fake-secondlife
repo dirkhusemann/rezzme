@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export SL_CMD='echo '
+export SL_OPT="`cat gridargs.dat` $@"
+
+# Run the program
+eval ${SL_CMD} ${SL_OPT} >/tmp/fake-secondlife.$$ 2>&1 || LL_RUN_ERR=runerr

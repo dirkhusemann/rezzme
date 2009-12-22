@@ -76,7 +76,7 @@ deb-newversion: VERSION
 	git-dch --new-version=$(shell cat VERSION) --release
 
 deb:	clean build
-	@echo "building debian packages"
+	@echo "building debian package"
 	@rm -rf packaging
 	@mkdir packaging
 	@(cd packaging; \

@@ -194,7 +194,7 @@ if command == 'install' and platform == 'linux2':
 
     cfg = RezzMe.config.builder.buildCfg('rezzme-sealed')
 
-    for s in ['share/services', 'share/kde4/services']:
+    for s in ['usr/share/services', 'usr/share/kde4/services']:
 
         s = '%s/%s' % (root, s)
         if not os.path.exists(s):
@@ -205,7 +205,7 @@ if command == 'install' and platform == 'linux2':
         os.system('cp rezzmes.protocol %s/rezzmes.protocol' % s)
 
 
-    for s in ['share/applications']:
+    for s in ['usr/share/applications']:
 
         s = '%s/%s' % (root, s)
         if not os.path.exists(s):
@@ -215,7 +215,7 @@ if command == 'install' and platform == 'linux2':
         os.system('cp rezzme.desktop %s' % s)
 
     
-    for s in ['share/icons/hicolor/32x32/apps', 'share/pixmaps']:
+    for s in ['usr/share/icons/hicolor/32x32/apps', 'usr/share/pixmaps']:
 
         s = '%s/%s' % (root, s)
         if not os.path.exists(s):
@@ -223,22 +223,4 @@ if command == 'install' and platform == 'linux2':
         print 'copying %s to %s' % (cfg['package']['icon_32'], s)
         os.system('cp %s %s' % (cfg['package']['icon_32'], s))
         
-
-    print '''
-you might need to add the following config entries to
-firefox's and thundebird's configurations:
-
-    network.protocol-handler.app.rezzme    "%(root)s/bin/rezzme.py"
-    network.protocol-handler.app.rezzmes   "%(root)s/bin/rezzme.py"
-
-the easiest way to do this is via about:config (a very good add-on
-for both firefox and thunderbird to deal with about:config is "Mr
-Tech Toolkit" available at
-
-    https://addons.mozilla.org/en-US/firefox/addon/421
-
-alternatively you could do this via the prefs.js file of firefox
-and thunderbird.
-''' % dict(root = root)
-
     sys.exit(0)

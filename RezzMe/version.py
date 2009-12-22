@@ -8,7 +8,7 @@
 
        >>> import RezzMe.version
        >>> RezzMe.version.Version
-       '7.0.28'
+       '7.0.29'
    '''
 
-Version = '7.0.28'
+Version = '7.0.29'
