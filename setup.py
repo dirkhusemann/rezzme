@@ -155,9 +155,7 @@ elif platform == 'win32':
                      'icon_resources': [(1, icon)]}],
         'options': {
             'py2exe': {
-                'includes': ['sip', 
-                             'RezzMe.launchers.win32',
-                             'setuptools'],
+                'includes': ['sip', 'RezzMe.launchers.win32'],
                 'dist_dir': 'dist-win32',
                 'bundle_files': 1,
                 'optimize': 2,
